@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Idiot Flow · Acid Bourse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --ink: #100e14;
+    --ink2: #1a1622;
+    --ink3: #241f2e;
+    --cream: #f3ead7;
+    --cream2: #e8dcc4;
+    --fog: #a89bb8;
+    --acid: #d6ff3c;
+    --acid-dim: rgba(214, 255, 60, 0.12);
+    --violet: #8b5cf6;
+    --violet-dim: rgba(139, 92, 246, 0.15);
+    --mint: #3ef0c2;          /* LONG — not traffic green */
+    --mint-dim: rgba(62, 240, 194, 0.12);
+    --hot: #ff4d9a;           /* SHORT — hot magenta, not red */
+    --hot-dim: rgba(255, 77, 154, 0.12);
+    --amber: #ffb020;
+    --line: rgba(243, 234, 215, 0.12);
+    --line2: rgba(243, 234, 215, 0.22);
+    --display: "Bricolage Grotesque", system-ui, sans-serif;
+    --serif: "Newsreader", Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--cream);
+    font-family: var(--serif);
+    background:
+      radial-gradient(ellipse 90% 60% at 100% -10%, rgba(139, 92, 246, 0.22), transparent 55%),
+      radial-gradient(ellipse 70% 50% at -10% 30%, rgba(214, 255, 60, 0.08), transparent 50%),
+      radial-gradient(ellipse 50% 40% at 70% 100%, rgba(255, 77, 154, 0.08), transparent 50%),
+      var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* paper grain */
+  body::before {
+    content: "";
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    opacity: 0.04;
+    z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .shell { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; padding: 0 22px 56px; }
+
+  /* ── masthead ── */
+  .masthead {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 20px;
+    padding: 36px 0 22px;
+    border-bottom: 3px solid var(--cream);
+    margin-bottom: 8px;
+  }
+  .kicker {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--acid);
+    margin: 0 0 10px;
+  }
+  .masthead h1 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    margin: 0;
+    text-transform: uppercase;
+  }
+  .masthead h1 em {
+    font-style: normal;
+    color: var(--acid);
+    display: inline-block;
+    transform: rotate(-2deg);
+  }
+  .deck {
+    margin: 14px 0 0;
+    max-width: 36rem;
+    font-size: 1.08rem;
+    line-height: 1.45;
+    color: var(--fog);
+    font-weight: 400;
+  }
+  .deck strong { color: var(--cream); font-weight: 600; }
+
+  .stamp {
+    align-self: start;
+    border: 2px solid var(--acid);
+    color: var(--acid);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 14px 16px;
+    transform: rotate(4deg);
+    background: var(--acid-dim);
+    text-align: center;
+    line-height: 1.5;
+    min-width: 120px;
+  }
+  .stamp b {
+    display: block;
+    font-family: var(--display);
+    font-size: 1.6rem;
+    letter-spacing: -0.03em;
+    color: var(--cream);
+    margin-top: 2px;
+  }
+
+  /* ── ticker meta ── */
+  .ticker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border-bottom: 1px solid var(--line2);
+    margin-bottom: 28px;
+    font-family: var(--mono);
+    font-size: 0.74rem;
+  }
+  .tick {
+    padding: 12px 16px;
+    border-right: 1px solid var(--line);
+    color: var(--fog);
+  }
+  .tick:last-child { border-right: none; }
+  .tick b { color: var(--cream); font-weight: 600; }
+  .tick.hi b { color: var(--acid); }
+  .tick.warn b { color: var(--amber); }
+  .tick.hot b { color: var(--hot); }
+  .tick.mint b { color: var(--mint); }
+
+  .lede {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--fog);
+    margin: -8px 0 32px;
+    padding-left: 14px;
+    border-left: 3px solid var(--violet);
+    max-width: 48rem;
+    line-height: 1.5;
+  }
+
+  /* ── sections ── */
+  section { margin-bottom: 40px; }
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .sec-head h2 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 0.95rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--cream);
+  }
+  .sec-head h2 span {
+    color: var(--violet);
+    font-weight: 600;
+  }
+  .sec-note {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--fog);
+    letter-spacing: 0.06em;
+  }
+
+  /* ── potato tickets ── */
+  .potato-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .ticket {
+    position: relative;
+    background:
+      linear-gradient(145deg, var(--ink3) 0%, var(--ink2) 100%);
+    border: 1px solid var(--line2);
+    border-radius: 4px 18px 4px 18px;
+    padding: 18px 18px 16px;
+    overflow: hidden;
+    transition: transform 0.18s ease, border-color 0.18s ease;
+  }
+  .ticket:hover {
+    transform: translateY(-3px) rotate(-0.3deg);
+    border-color: var(--acid);
+  }
+  .ticket::after {
+    content: "";
+    position: absolute;
+    top: 0; right: 0;
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: 0 28px 28px 0;
+    border-color: transparent var(--ink) transparent transparent;
+    filter: drop-shadow(-1px 1px 0 var(--line2));
+  }
+  .ticket.LONG { box-shadow: inset 4px 0 0 var(--mint); }
+  .ticket.SHORT { box-shadow: inset 4px 0 0 var(--hot); }
+
+  .ticket-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .sym {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 1.35rem;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+  .pill {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--line2);
+    color: var(--fog);
+  }
+  .pill.LONG { color: var(--mint); border-color: rgba(62,240,194,0.4); background: var(--mint-dim); }
+  .pill.SHORT { color: var(--hot); border-color: rgba(255,77,154,0.4); background: var(--hot-dim); }
+  .pill.ready {
+    color: var(--acid);
+    border-color: rgba(214,255,60,0.45);
+    background: var(--acid-dim);
+  }
+  .pill.filtered {
+    color: var(--amber);
+    border-color: rgba(255,176,32,0.4);
+    background: rgba(255,176,32,0.1);
+  }
+
+  .str-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .str-num {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 3rem;
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    color: var(--acid);
+  }
+  .str-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fog);
+  }
+  .str-label small {
+    display: block;
+    margin-top: 4px;
+    letter-spacing: 0.04em;
+    color: var(--cream2);
+    font-size: 0.72rem;
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 12px;
+    margin: 14px 0 10px;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--fog);
+  }
+  .metrics b {
+    color: var(--cream);
+    font-weight: 600;
+  }
+  .pos { color: var(--mint) !important; }
+  .neg { color: var(--hot) !important; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; margin: 8px 0; }
+  .tag {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.04em;
+    padding: 3px 7px;
+    border-radius: 2px;
+    background: var(--violet-dim);
+    color: #c4b5fd;
+    border: 1px solid rgba(139, 92, 246, 0.25);
+  }
+
+  .reason {
+    font-family: var(--serif);
+    font-size: 0.86rem;
+    font-style: italic;
+    color: var(--fog);
+    line-height: 1.4;
+    margin-top: 8px;
+  }
+
+  .spark {
+    width: 100%;
+    height: 72px;
+    margin-top: 12px;
+    display: block;
+    border-radius: 2px;
+    background: rgba(0,0,0,0.25);
+  }
+
+  /* ── controls ── */
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 14px;
+    padding: 12px;
+    background: var(--ink2);
+    border: 1px dashed var(--line2);
+    border-radius: 2px;
+  }
+  select, input, button {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    background: var(--ink);
+    border: 1px solid var(--line2);
+    color: var(--cream);
+    border-radius: 2px;
+    padding: 9px 11px;
+  }
+  select:focus, input:focus, button:focus {
+    outline: 2px solid var(--acid);
+    outline-offset: 1px;
+  }
+  button {
+    cursor: pointer;
+    background: var(--acid);
+    color: var(--ink);
+    border-color: var(--acid);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  button:hover { filter: brightness(1.08); }
+
+  /* ── board table ── */
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--line2);
+    border-radius: 2px;
+    background: linear-gradient(180deg, var(--ink2), var(--ink));
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--mono);
+    font-size: 0.74rem;
+  }
+  th {
+    text-align: left;
+    padding: 12px 10px;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--acid);
+    background: rgba(214, 255, 60, 0.06);
+    border-bottom: 2px solid var(--acid);
+    position: sticky;
+    top: 0;
+    font-weight: 600;
+  }
+  td {
+    padding: 11px 10px;
+    border-bottom: 1px solid var(--line);
+    color: var(--cream2);
+    white-space: nowrap;
+  }
+  tr:hover td {
+    background: rgba(139, 92, 246, 0.08);
+  }
+  td.sym {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: -0.02em;
+    color: var(--cream);
+  }
+  td.str {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--acid);
+  }
+
+  /* ── footer manifesto ── */
+  .manifesto {
+    margin-top: 8px;
+    padding: 22px 24px;
+    background: var(--cream);
+    color: var(--ink);
+    border-radius: 2px 24px 2px 2px;
+    position: relative;
+  }
+  .manifesto::before {
+    content: "FIELD NOTES";
+    position: absolute;
+    top: -10px;
+    left: 18px;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    background: var(--violet);
+    color: var(--cream);
+    padding: 3px 10px;
+  }
+  .manifesto h3 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin: 4px 0 12px;
+  }
+  .manifesto p {
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin: 0 0 8px;
+    color: #2a2433;
+  }
+  .manifesto .mint { color: #0d8f72; font-weight: 600; font-style: normal; }
+  .manifesto .hot { color: #c2185b; font-weight: 600; font-style: normal; }
+
+  footer {
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fog);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  footer span { color: var(--acid); }
+
+  .empty {
+    padding: 28px;
+    border: 1px dashed var(--line2);
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--fog);
+    background: var(--ink2);
+  }
+
+  @media (max-width: 720px) {
+    .masthead { grid-template-columns: 1fr; }
+    .stamp { transform: none; justify-self: start; }
+    .str-num { font-size: 2.4rem; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="masthead">
+    <div>
+      <p class="kicker">RJ · Trading for Dickheads · Edition 03</p>
+      <h1>Idiot <em>Flow</em><br/>Bourse</h1>
+      <p class="deck">
+        Mechanical board-path projector. When the tile looks better, idiots bid.
+        When it sours, they dump. <strong>We know the tile before they do.</strong>
+      </p>
+    </div>
+    <div class="stamp">
+      Live scan
+      <b>1</b>
+      ready
+    </div>
+  </header>
+
+  <div class="ticker">
+    <div class="tick">venue <b>binance-spot</b></div>
+    <div class="tick">mode <b>adaptive</b></div>
+    <div class="tick">as of <b>2026-07-23 20:47:47 UTC</b></div>
+    <div class="tick hi">ready <b>1</b></div>
+    <div class="tick">classic-raw <b>7</b></div>
+    <div class="tick">ideas <b>7</b></div>
+    <div class="tick warn">regime <b>broad-short-board</b></div>
+  </div>
+  <p class="lede">Many boards set to look worse — expect retail dump pressure across alts.</p>
+
+  <section>
+    <div class="sec-head">
+      <h2>Potato <span>//</span> mouse book</h2>
+      <div class="sec-note">adaptive ready · fall back to near-misses</div>
+    </div>
+    <div class="potato-grid" id="potato"></div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Full <span>//</span> board</h2>
+      <div class="sec-note">filter · sort · stare</div>
+    </div>
+    <div class="controls">
+      <select id="sideFilter">
+        <option value="ALL">All sides</option>
+        <option value="LONG">Longs only</option>
+        <option value="SHORT">Shorts only</option>
+      </select>
+      <select id="stateFilter">
+        <option value="ALL">All states</option>
+        <option value="READY" selected>READY only</option>
+        <option value="FILTERED">FILTERED OUT</option>
+        <option value="PATH">PATH / other</option>
+      </select>
+      <select id="sortBy">
+        <option value="score">Sort: score</option>
+        <option value="strength">Sort: pine strength</option>
+        <option value="delta">Sort: |Δpp|</option>
+        <option value="outz">Sort: outgoing z</option>
+        <option value="att">Sort: attention</option>
+        <option value="vol">Sort: volume</option>
+      </select>
+      <input id="minStr" type="number" value="0" step="1" placeholder="min strength"/>
+      <input id="minVol" type="number" value="0" step="10000" placeholder="min vol"/>
+      <button id="apply">Apply</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Score</th><th>Str</th><th>State</th><th>Symbol</th><th>Side</th>
+            <th>Δpp</th><th>Out%</th><th>zOut</th><th>zEdge</th><th>Att</th><th>RVOL</th>
+            <th>Board</th><th>Vol</th><th>Path</th><th>Tags</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="manifesto">
+      <h3>How to read this like a potato</h3>
+      <p>
+        <span class="mint">LONG</span> when a red extreme rolls off and the board is set to look better.
+        <span class="hot">SHORT</span> when a green extreme rolls off and the board sours.
+      </p>
+      <p>
+        <b>READY</b> cleared the Pine adaptive gates. <b>FILTERED OUT</b> is classic raw that failed
+        shock / edge / attention / RVOL / trend — almost, not free money.
+      </p>
+      <p>
+        Prefer the potato tickets. Hold through the cliff hour. Fees murder hourly flips.
+        Not financial advice — just a mean little mirror of the 24h tile.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <div>Idiot Flow Bourse · Acid ledger · re-run <span>scanner.py --html</span></div>
+    <div>pine adaptive · board path · no prophets</div>
+  </footer>
+</div>
+
+<script id="payload" type="application/json">{"meta":{"generated_at":"2026-07-23 20:47:47 UTC","venue":"binance-spot","elapsed_s":9.92,"n_ideas":7,"n_adaptive":1,"n_classic_raw":7,"herd":{"bias":"broad-short-board","long_share":0.0,"short_share":1.0,"n":1,"n_adaptive":1,"note":"Many boards set to look worse \u2014 expect retail dump pressure across alts."},"top_score":50.66,"median_score":24.16,"venue_label":"Binance spot USDT","horizon":12,"mode":"adaptive"},"ideas":[{"symbol":"PEPEUSDT","venue":"binance-spot","side":"SHORT","price":2.79e-06,"next_drift_pp":-1.346,"roll_move_pct":1.045,"roll_volume":216165.0,"roll_open_time":"2026-07-22 21:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":-2.4476,"ref_price":2.86e-06,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":-3.7931,"ref_price":2.9e-06,"step_drift_pp":-1.3456},{"hours_ahead":2,"displayed_24h_pct":-3.125,"ref_price":2.88e-06,"step_drift_pp":0.6681},{"hours_ahead":3,"displayed_24h_pct":-3.4602,"ref_price":2.89e-06,"step_drift_pp":-0.3352},{"hours_ahead":4,"displayed_24h_pct":-3.4602,"ref_price":2.89e-06,"step_drift_pp":0.0},{"hours_ahead":5,"displayed_24h_pct":-3.125,"ref_price":2.88e-06,"step_drift_pp":0.3352},{"hours_ahead":6,"displayed_24h_pct":-2.4476,"ref_price":2.86e-06,"step_drift_pp":0.6774},{"hours_ahead":7,"displayed_24h_pct":-2.1053,"ref_price":2.85e-06,"step_drift_pp":0.3423},{"hours_ahead":8,"displayed_24h_pct":-1.7606,"ref_price":2.84e-06,"step_drift_pp":0.3447},{"hours_ahead":9,"displayed_24h_pct":-2.1053,"ref_price":2.85e-06,"step_drift_pp":-0.3447},{"hours_ahead":10,"displayed_24h_pct":-2.1053,"ref_price":2.85e-06,"step_drift_pp":0.0},{"hours_ahead":11,"displayed_24h_pct":-1.7606,"ref_price":2.84e-06,"step_drift_pp":0.3447},{"hours_ahead":12,"displayed_24h_pct":-2.4476,"ref_price":2.86e-06,"step_drift_pp":-0.687}],"cliff_pp":-1.346,"cliff_hour":1,"path_end_drift_pp":0.0,"current_24h_pct":-2.448,"projected_24h_at_cliff":-3.793,"flat_next_24h_pct":-3.793,"known_roll_delta_pp":-1.346,"outgoing_return_pct":1.399,"outgoing_z":2.242,"roll_edge_z":2.157,"attention_rank":58.81,"rvol":0.882,"recent_trend_pct":-0.357,"strength_pine":62.93,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":true,"zero_cross":false,"setup_state":"SHORT READY","score":50.66,"liquidity_score":21.72,"magnet_score":0.0,"clean_score":26.0,"freshness_score":20,"cliff_score":9.64,"recent_1h_pct":0.722,"recent_4h_pct":0.0,"already_moved_with_flow":false,"reason":"[SHORT READY] Board -1.35pp next hour if flat (-2.4%\u2192-3.8%). Outgoing +1.40% (2.2z) edge 2.2z att 59p rvol 0.88x.","tags":["classic-raw","adaptive-pass","classic-green-extreme","imminent-cliff"]},{"symbol":"SAPIENUSDT","venue":"binance-spot","side":"SHORT","price":0.0786,"next_drift_pp":-1.52,"roll_move_pct":1.538,"roll_volume":291719.0,"roll_open_time":"2026-07-22 21:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":-6.872,"ref_price":0.0844,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":-8.3916,"ref_price":0.0858,"step_drift_pp":-1.5196},{"hours_ahead":2,"displayed_24h_pct":-6.317,"ref_price":0.0839,"step_drift_pp":2.0746},{"hours_ahead":3,"displayed_24h_pct":-4.8426,"ref_price":0.0826,"step_drift_pp":1.4744},{"hours_ahead":4,"displayed_24h_pct":-5.187,"ref_price":0.0829,"step_drift_pp":-0.3444},{"hours_ahead":5,"displayed_24h_pct":-5.7554,"ref_price":0.0834,"step_drift_pp":-0.5684},{"hours_ahead":6,"displayed_24h_pct":-3.912,"ref_price":0.0818,"step_drift_pp":1.8434},{"hours_ahead":7,"displayed_24h_pct":-2.4814,"ref_price":0.0806,"step_drift_pp":1.4306},{"hours_ahead":8,"displayed_24h_pct":-3.321,"ref_price":0.0813,"step_drift_pp":-0.8396},{"hours_ahead":9,"displayed_24h_pct":-2.6022,"ref_price":0.0807,"step_drift_pp":0.7188},{"hours_ahead":10,"displayed_24h_pct":-2.963,"ref_price":0.081,"step_drift_pp":-0.3607},{"hours_ahead":11,"displayed_24h_pct":-3.321,"ref_price":0.0813,"step_drift_pp":-0.3581},{"hours_ahead":12,"displayed_24h_pct":-1.627,"ref_price":0.0799,"step_drift_pp":1.694}],"cliff_pp":2.075,"cliff_hour":2,"path_end_drift_pp":5.245,"current_24h_pct":-6.872,"projected_24h_at_cliff":-6.317,"flat_next_24h_pct":-8.392,"known_roll_delta_pp":-1.52,"outgoing_return_pct":1.659,"outgoing_z":1.594,"roll_edge_z":1.46,"attention_rank":97.23,"rvol":0.145,"recent_trend_pct":-1.504,"strength_pine":54.85,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":false,"setup_state":"FILTERED OUT","score":26.14,"liquidity_score":24.09,"magnet_score":0.0,"clean_score":26.0,"freshness_score":18.89,"cliff_score":10.46,"recent_1h_pct":-0.38,"recent_4h_pct":-0.127,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board -1.52pp next hour if flat (-6.9%\u2192-8.4%). Outgoing +1.66% (1.6z) edge 1.5z att 97p rvol 0.15x.","tags":["classic-raw","classic-green-extreme","fail-rvol","imminent-cliff","multi-hour-grind","high-attention"]},{"symbol":"ETHUSDT","venue":"binance-spot","side":"SHORT","price":1884.75,"next_drift_pp":-0.605,"roll_move_pct":0.623,"roll_volume":9398244.0,"roll_open_time":"2026-07-22 21:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":-2.1803,"ref_price":1926.76,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":-2.7858,"ref_price":1938.76,"step_drift_pp":-0.6055},{"hours_ahead":2,"displayed_24h_pct":-2.7687,"ref_price":1938.42,"step_drift_pp":0.0171},{"hours_ahead":3,"displayed_24h_pct":-2.5591,"ref_price":1934.25,"step_drift_pp":0.2096},{"hours_ahead":4,"displayed_24h_pct":-2.4643,"ref_price":1932.37,"step_drift_pp":0.0948},{"hours_ahead":5,"displayed_24h_pct":-2.263,"ref_price":1928.39,"step_drift_pp":0.2013},{"hours_ahead":6,"displayed_24h_pct":-2.223,"ref_price":1927.6,"step_drift_pp":0.0401},{"hours_ahead":7,"displayed_24h_pct":-1.864,"ref_price":1920.55,"step_drift_pp":0.3589},{"hours_ahead":8,"displayed_24h_pct":-1.8226,"ref_price":1919.74,"step_drift_pp":0.0414},{"hours_ahead":9,"displayed_24h_pct":-1.9774,"ref_price":1922.77,"step_drift_pp":-0.1547},{"hours_ahead":10,"displayed_24h_pct":-2.1107,"ref_price":1925.39,"step_drift_pp":-0.1334},{"hours_ahead":11,"displayed_24h_pct":-1.613,"ref_price":1915.65,"step_drift_pp":0.4977},{"hours_ahead":12,"displayed_24h_pct":-2.1692,"ref_price":1926.54,"step_drift_pp":-0.5561}],"cliff_pp":-0.606,"cliff_hour":1,"path_end_drift_pp":0.011,"current_24h_pct":-2.18,"projected_24h_at_cliff":-2.786,"flat_next_24h_pct":-2.786,"known_roll_delta_pp":-0.605,"outgoing_return_pct":0.623,"outgoing_z":1.58,"roll_edge_z":1.536,"attention_rank":65.19,"rvol":0.709,"recent_trend_pct":-0.616,"strength_pine":49.33,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":false,"setup_state":"FILTERED OUT","score":25.29,"liquidity_score":32.5,"magnet_score":0.0,"clean_score":26.0,"freshness_score":19.79,"cliff_score":7.09,"recent_1h_pct":0.485,"recent_4h_pct":-0.169,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board -0.61pp next hour if flat (-2.2%\u2192-2.8%). Outgoing +0.62% (1.6z) edge 1.5z att 65p rvol 0.71x.","tags":["classic-raw","classic-green-extreme","fail-shock","imminent-cliff"]},{"symbol":"DOGEUSDT","venue":"binance-spot","side":"SHORT","price":0.06956,"next_drift_pp":-0.512,"roll_move_pct":0.523,"roll_volume":762494.0,"roll_open_time":"2026-07-22 21:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":-4.2269,"ref_price":0.07263,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":-4.7384,"ref_price":0.07302,"step_drift_pp":-0.5115},{"hours_ahead":2,"displayed_24h_pct":-4.7515,"ref_price":0.07303,"step_drift_pp":-0.013},{"hours_ahead":3,"displayed_24h_pct":-4.6993,"ref_price":0.07299,"step_drift_pp":0.0522},{"hours_ahead":4,"displayed_24h_pct":-4.6862,"ref_price":0.07298,"step_drift_pp":0.0131},{"hours_ahead":5,"displayed_24h_pct":-4.4505,"ref_price":0.0728,"step_drift_pp":0.2357},{"hours_ahead":6,"displayed_24h_pct":-4.3191,"ref_price":0.0727,"step_drift_pp":0.1314},{"hours_ahead":7,"displayed_24h_pct":-3.8695,"ref_price":0.07236,"step_drift_pp":0.4496},{"hours_ahead":8,"displayed_24h_pct":-4.1477,"ref_price":0.07257,"step_drift_pp":-0.2782},{"hours_ahead":9,"displayed_24h_pct":-4.0155,"ref_price":0.07247,"step_drift_pp":0.1323},{"hours_ahead":10,"displayed_24h_pct":-4.2401,"ref_price":0.07264,"step_drift_pp":-0.2246},{"hours_ahead":11,"displayed_24h_pct":-3.6832,"ref_price":0.07222,"step_drift_pp":0.5569},{"hours_ahead":12,"displayed_24h_pct":-3.9624,"ref_price":0.07243,"step_drift_pp":-0.2793}],"cliff_pp":0.557,"cliff_hour":11,"path_end_drift_pp":0.264,"current_24h_pct":-4.227,"projected_24h_at_cliff":-3.683,"flat_next_24h_pct":-4.738,"known_roll_delta_pp":-0.512,"outgoing_return_pct":0.537,"outgoing_z":1.393,"roll_edge_z":1.327,"attention_rank":95.28,"rvol":0.348,"recent_trend_pct":-0.982,"strength_pine":50.68,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":false,"setup_state":"FILTERED OUT","score":24.16,"liquidity_score":26.87,"magnet_score":0.0,"clean_score":26.0,"freshness_score":19.84,"cliff_score":0.47,"recent_1h_pct":0.448,"recent_4h_pct":-0.129,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board -0.51pp next hour if flat (-4.2%\u2192-4.7%). Outgoing +0.54% (1.4z) edge 1.3z att 95p rvol 0.35x.","tags":["classic-raw","classic-green-extreme","fail-shock","high-attention"]},{"symbol":"XLMUSDT","venue":"binance-spot","side":"SHORT","price":0.1832,"next_drift_pp":-0.728,"roll_move_pct":0.695,"roll_volume":222539.0,"roll_open_time":"2026-07-22 21:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":-2.0321,"ref_price":0.187,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":-2.7601,"ref_price":0.1884,"step_drift_pp":-0.728},{"hours_ahead":2,"displayed_24h_pct":-2.5532,"ref_price":0.188,"step_drift_pp":0.2069},{"hours_ahead":3,"displayed_24h_pct":-2.3454,"ref_price":0.1876,"step_drift_pp":0.2078},{"hours_ahead":4,"displayed_24h_pct":-2.0844,"ref_price":0.1871,"step_drift_pp":0.261},{"hours_ahead":5,"displayed_24h_pct":-1.8221,"ref_price":0.1866,"step_drift_pp":0.2624},{"hours_ahead":6,"displayed_24h_pct":-1.8747,"ref_price":0.1867,"step_drift_pp":-0.0526},{"hours_ahead":7,"displayed_24h_pct":-0.4889,"ref_price":0.1841,"step_drift_pp":1.3858},{"hours_ahead":8,"displayed_24h_pct":-0.7046,"ref_price":0.1845,"step_drift_pp":-0.2157},{"hours_ahead":9,"displayed_24h_pct":-0.7584,"ref_price":0.1846,"step_drift_pp":-0.0538},{"hours_ahead":10,"displayed_24h_pct":-0.7046,"ref_price":0.1845,"step_drift_pp":0.0538},{"hours_ahead":11,"displayed_24h_pct":-0.3264,"ref_price":0.1838,"step_drift_pp":0.3782},{"hours_ahead":12,"displayed_24h_pct":-0.7046,"ref_price":0.1845,"step_drift_pp":-0.3782}],"cliff_pp":1.386,"cliff_hour":7,"path_end_drift_pp":1.327,"current_24h_pct":-2.032,"projected_24h_at_cliff":-0.489,"flat_next_24h_pct":-2.76,"known_roll_delta_pp":-0.728,"outgoing_return_pct":0.749,"outgoing_z":1.455,"roll_edge_z":1.415,"attention_rank":46.19,"rvol":0.633,"recent_trend_pct":0.77,"strength_pine":42.65,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":false,"setup_state":"FILTERED OUT","score":21.04,"liquidity_score":22.67,"magnet_score":0.0,"clean_score":26.0,"freshness_score":20.39,"cliff_score":1.67,"recent_1h_pct":0.164,"recent_4h_pct":0.329,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board -0.73pp next hour if flat (-2.0%\u2192-2.8%). Outgoing +0.75% (1.5z) edge 1.4z att 46p rvol 0.63x.","tags":["classic-raw","classic-green-extreme","fail-shock"]},{"symbol":"TLMUSDT","venue":"binance-spot","side":"SHORT","price":0.001776,"next_drift_pp":-6.002,"roll_move_pct":6.433,"roll_volume":202686.0,"roll_open_time":"2026-07-22 21:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":0.1692,"ref_price":0.001773,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":-5.8324,"ref_price":0.001886,"step_drift_pp":-6.0017},{"hours_ahead":2,"displayed_24h_pct":-2.2026,"ref_price":0.001816,"step_drift_pp":3.6298},{"hours_ahead":3,"displayed_24h_pct":-1.3881,"ref_price":0.001801,"step_drift_pp":0.8145},{"hours_ahead":4,"displayed_24h_pct":-0.3367,"ref_price":0.001782,"step_drift_pp":1.0514},{"hours_ahead":5,"displayed_24h_pct":-1.0033,"ref_price":0.001794,"step_drift_pp":-0.6666},{"hours_ahead":6,"displayed_24h_pct":-0.5042,"ref_price":0.001785,"step_drift_pp":0.4991},{"hours_ahead":7,"displayed_24h_pct":-0.8375,"ref_price":0.001791,"step_drift_pp":-0.3333},{"hours_ahead":8,"displayed_24h_pct":-2.7915,"ref_price":0.001827,"step_drift_pp":-1.9539},{"hours_ahead":9,"displayed_24h_pct":-3.0568,"ref_price":0.001832,"step_drift_pp":-0.2653},{"hours_ahead":10,"displayed_24h_pct":-6.0317,"ref_price":0.00189,"step_drift_pp":-2.975},{"hours_ahead":11,"displayed_24h_pct":-4.1554,"ref_price":0.001853,"step_drift_pp":1.8763},{"hours_ahead":12,"displayed_24h_pct":-4.5674,"ref_price":0.001861,"step_drift_pp":-0.412}],"cliff_pp":-6.002,"cliff_hour":1,"path_end_drift_pp":-4.737,"current_24h_pct":0.169,"projected_24h_at_cliff":-5.832,"flat_next_24h_pct":-5.832,"known_roll_delta_pp":-6.002,"outgoing_return_pct":6.373,"outgoing_z":1.375,"roll_edge_z":1.295,"attention_rank":1.25,"rvol":0.419,"recent_trend_pct":-2.31,"strength_pine":31.27,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":true,"setup_state":"FILTERED OUT","score":19.32,"liquidity_score":20.7,"magnet_score":22,"clean_score":26.0,"freshness_score":18.47,"cliff_score":25.7,"recent_1h_pct":1.37,"recent_4h_pct":-1.224,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board -6.00pp next hour if flat (+0.2%\u2192-5.8%). Outgoing +6.37% (1.4z) edge 1.3z att 1p rvol 0.42x.","tags":["classic-raw","magnet +0%","magnet -5%","magnet -10%","magnet -15%","magnet -20%","sign-flip","classic-green-extreme","fail-attention","zero-cross","imminent-cliff"]},{"symbol":"HEMIUSDT","venue":"binance-spot","side":"SHORT","price":0.00484,"next_drift_pp":-1.876,"roll_move_pct":1.988,"roll_volume":80206.0,"roll_open_time":"2026-07-22 21:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":-3.7773,"ref_price":0.00503,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":-5.653,"ref_price":0.00513,"step_drift_pp":-1.8757},{"hours_ahead":2,"displayed_24h_pct":-4.9116,"ref_price":0.00509,"step_drift_pp":0.7414},{"hours_ahead":3,"displayed_24h_pct":-4.3478,"ref_price":0.00506,"step_drift_pp":0.5638},{"hours_ahead":4,"displayed_24h_pct":-3.3932,"ref_price":0.00501,"step_drift_pp":0.9546},{"hours_ahead":5,"displayed_24h_pct":-3.2,"ref_price":0.005,"step_drift_pp":0.1932},{"hours_ahead":6,"displayed_24h_pct":-2.4194,"ref_price":0.00496,"step_drift_pp":0.7806},{"hours_ahead":7,"displayed_24h_pct":-2.4194,"ref_price":0.00496,"step_drift_pp":0.0},{"hours_ahead":8,"displayed_24h_pct":-3.5857,"ref_price":0.00502,"step_drift_pp":-1.1663},{"hours_ahead":9,"displayed_24h_pct":-3.2,"ref_price":0.005,"step_drift_pp":0.3857},{"hours_ahead":10,"displayed_24h_pct":-3.7773,"ref_price":0.00503,"step_drift_pp":-0.5773},{"hours_ahead":11,"displayed_24h_pct":-3.7773,"ref_price":0.00503,"step_drift_pp":0.0},{"hours_ahead":12,"displayed_24h_pct":-3.9683,"ref_price":0.00504,"step_drift_pp":-0.1909}],"cliff_pp":-1.876,"cliff_hour":1,"path_end_drift_pp":-0.191,"current_24h_pct":-3.777,"projected_24h_at_cliff":-5.653,"flat_next_24h_pct":-5.653,"known_roll_delta_pp":-1.876,"outgoing_return_pct":1.988,"outgoing_z":0.681,"roll_edge_z":0.643,"attention_rank":64.22,"rvol":0.201,"recent_trend_pct":-7.985,"strength_pine":28.23,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":false,"setup_state":"FILTERED OUT","score":16.14,"liquidity_score":17.98,"magnet_score":6.35,"clean_score":26.0,"freshness_score":17.47,"cliff_score":11.47,"recent_1h_pct":1.044,"recent_4h_pct":-2.024,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board -1.88pp next hour if flat (-3.8%\u2192-5.7%). Outgoing +1.99% (0.7z) edge 0.6z att 64p rvol 0.20x.","tags":["classic-raw","magnet -5%","classic-green-extreme","fail-shock","fail-edge","fail-rvol","imminent-cliff"]}],"potato":[{"symbol":"PEPEUSDT","venue":"binance-spot","side":"SHORT","price":2.79e-06,"next_drift_pp":-1.346,"roll_move_pct":1.045,"roll_volume":216165.0,"roll_open_time":"2026-07-22 21:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":-2.4476,"ref_price":2.86e-06,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":-3.7931,"ref_price":2.9e-06,"step_drift_pp":-1.3456},{"hours_ahead":2,"displayed_24h_pct":-3.125,"ref_price":2.88e-06,"step_drift_pp":0.6681},{"hours_ahead":3,"displayed_24h_pct":-3.4602,"ref_price":2.89e-06,"step_drift_pp":-0.3352},{"hours_ahead":4,"displayed_24h_pct":-3.4602,"ref_price":2.89e-06,"step_drift_pp":0.0},{"hours_ahead":5,"displayed_24h_pct":-3.125,"ref_price":2.88e-06,"step_drift_pp":0.3352},{"hours_ahead":6,"displayed_24h_pct":-2.4476,"ref_price":2.86e-06,"step_drift_pp":0.6774},{"hours_ahead":7,"displayed_24h_pct":-2.1053,"ref_price":2.85e-06,"step_drift_pp":0.3423},{"hours_ahead":8,"displayed_24h_pct":-1.7606,"ref_price":2.84e-06,"step_drift_pp":0.3447},{"hours_ahead":9,"displayed_24h_pct":-2.1053,"ref_price":2.85e-06,"step_drift_pp":-0.3447},{"hours_ahead":10,"displayed_24h_pct":-2.1053,"ref_price":2.85e-06,"step_drift_pp":0.0},{"hours_ahead":11,"displayed_24h_pct":-1.7606,"ref_price":2.84e-06,"step_drift_pp":0.3447},{"hours_ahead":12,"displayed_24h_pct":-2.4476,"ref_price":2.86e-06,"step_drift_pp":-0.687}],"cliff_pp":-1.346,"cliff_hour":1,"path_end_drift_pp":0.0,"current_24h_pct":-2.448,"projected_24h_at_cliff":-3.793,"flat_next_24h_pct":-3.793,"known_roll_delta_pp":-1.346,"outgoing_return_pct":1.399,"outgoing_z":2.242,"roll_edge_z":2.157,"attention_rank":58.81,"rvol":0.882,"recent_trend_pct":-0.357,"strength_pine":62.93,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":true,"zero_cross":false,"setup_state":"SHORT READY","score":50.66,"liquidity_score":21.72,"magnet_score":0.0,"clean_score":26.0,"freshness_score":20,"cliff_score":9.64,"recent_1h_pct":0.722,"recent_4h_pct":0.0,"already_moved_with_flow":false,"reason":"[SHORT READY] Board -1.35pp next hour if flat (-2.4%\u2192-3.8%). Outgoing +1.40% (2.2z) edge 2.2z att 59p rvol 0.88x.","tags":["classic-raw","adaptive-pass","classic-green-extreme","imminent-cliff"]}]}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('payload').textContent);
+
+function fmt(n, d=2) {
+  if (n === undefined || n === null || Number.isNaN(n)) return '—';
+  return Number(n).toFixed(d);
+}
+function fmtVol(v) {
+  if (v >= 1e6) return (v/1e6).toFixed(2) + 'M';
+  if (v >= 1e3) return (v/1e3).toFixed(1) + 'k';
+  return String(Math.round(v||0));
+}
+function cls(n) { return n >= 0 ? 'pos' : 'neg'; }
+
+function sparkline(path, side) {
+  if (!path || path.length < 2) return '';
+  const w = 300, h = 72, pad = 6;
+  const ys = path.map(p => p.displayed_24h_pct);
+  const min = Math.min(...ys), max = Math.max(...ys);
+  const span = (max - min) || 1;
+  const pts = path.map((p, i) => {
+    const x = pad + (i / (path.length - 1)) * (w - pad*2);
+    const y = pad + (1 - (p.displayed_24h_pct - min) / span) * (h - pad*2);
+    return [x, y];
+  });
+  const d = pts.map((p,i) => (i? 'L':'M') + p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+  // area under path
+  const area = d + ` L${pts.at(-1)[0]},${h-pad} L${pts[0][0]},${h-pad} Z`;
+  const stroke = side === 'LONG' ? '#3ef0c2' : '#ff4d9a';
+  const fill = side === 'LONG' ? 'rgba(62,240,194,0.12)' : 'rgba(255,77,154,0.12)';
+  let zero = '';
+  if (min <= 0 && max >= 0) {
+    const y0 = pad + (1 - (0 - min) / span) * (h - pad*2);
+    zero = `<line x1="${pad}" y1="${y0}" x2="${w-pad}" y2="${y0}" stroke="rgba(243,234,215,0.2)" stroke-dasharray="4,4"/>`;
+  }
+  return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="g${side}" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="${stroke}" stop-opacity="0.35"/>
+        <stop offset="100%" stop-color="${stroke}" stop-opacity="1"/>
+      </linearGradient>
+    </defs>
+    ${zero}
+    <path d="${area}" fill="${fill}"/>
+    <path d="${d}" fill="none" stroke="url(#g${side})" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="${pts[0][0]}" cy="${pts[0][1]}" r="3" fill="#f3ead7" opacity="0.5"/>
+    <circle cx="${pts.at(-1)[0]}" cy="${pts.at(-1)[1]}" r="3.5" fill="${stroke}"/>
+  </svg>`;
+}
+
+function statePill(s) {
+  if (!s) return '';
+  if (s.includes('READY')) return `<span class="pill ready">${s}</span>`;
+  if (s.includes('FILTERED')) return `<span class="pill filtered">${s}</span>`;
+  return `<span class="pill">${s}</span>`;
+}
+
+function renderPotato() {
+  const el = document.getElementById('potato');
+  const list = DATA.potato || [];
+  if (!list.length) {
+    el.innerHTML = '<div class="empty">No potato tickets this print. Loosen filters or wait for a juicier roll window.</div>';
+    return;
+  }
+  el.innerHTML = list.map(i => `
+    <article class="ticket ${i.side}">
+      <div class="ticket-top">
+        <div class="sym">${i.symbol.replace('USDT','')}<span style="opacity:.35;font-size:.7em">/USDT</span></div>
+        <div class="pills">
+          ${statePill(i.setup_state)}
+          <span class="pill ${i.side}">${i.side}</span>
+        </div>
+      </div>
+      <div class="str-row">
+        <div class="str-num">${fmt(i.strength_pine,0)}</div>
+        <div class="str-label">pine strength
+          <small>score ${fmt(i.score,1)} · cliff ${fmt(i.cliff_pp)}@+${i.cliff_hour}h</small>
+        </div>
+      </div>
+      <div class="metrics">
+        <div>Δ next <b class="${cls(i.known_roll_delta_pp)}">${fmt(i.known_roll_delta_pp)}pp</b></div>
+        <div>outgoing <b class="${cls(i.outgoing_return_pct)}">${fmt(i.outgoing_return_pct)}%</b></div>
+        <div>z out/edge <b>${fmt(i.outgoing_z,2)} / ${fmt(i.roll_edge_z,2)}</b></div>
+        <div>att / rvol <b>${fmt(i.attention_rank,0)}p / ${fmt(i.rvol,2)}x</b></div>
+        <div>board <b>${fmt(i.current_24h_pct)} → ${fmt(i.flat_next_24h_pct)}</b></div>
+        <div>vol <b>${fmtVol(i.roll_volume)}</b></div>
+      </div>
+      <div class="tags">${(i.tags||[]).slice(0,7).map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      ${sparkline(i.path, i.side)}
+      <div class="reason">${i.reason||''}</div>
+    </article>
+  `).join('');
+}
+
+function filteredIdeas() {
+  const side = document.getElementById('sideFilter').value;
+  const state = document.getElementById('stateFilter').value;
+  const sortBy = document.getElementById('sortBy').value;
+  const minStr = Number(document.getElementById('minStr').value || 0);
+  const minVol = Number(document.getElementById('minVol').value || 0);
+  let rows = DATA.ideas.filter(i => {
+    if ((i.strength_pine||0) < minStr) return false;
+    if ((i.roll_volume||0) < minVol) return false;
+    if (side !== 'ALL' && i.side !== side) return false;
+    const st = i.setup_state || '';
+    if (state === 'READY' && !st.includes('READY')) return false;
+    if (state === 'FILTERED' && !st.includes('FILTERED')) return false;
+    if (state === 'PATH' && (st.includes('READY') || st.includes('FILTERED'))) return false;
+    return true;
+  });
+  const key = {
+    score: i => i.score,
+    strength: i => i.strength_pine||0,
+    delta: i => Math.abs(i.known_roll_delta_pp||0),
+    outz: i => i.outgoing_z||0,
+    att: i => i.attention_rank||0,
+    vol: i => i.roll_volume||0,
+  }[sortBy];
+  rows.sort((a,b) => {
+    const ap = a.adaptive_pass ? 1 : 0, bp = b.adaptive_pass ? 1 : 0;
+    if (bp !== ap) return bp - ap;
+    return key(b) - key(a);
+  });
+  return rows;
+}
+
+function renderTable() {
+  const rows = filteredIdeas();
+  const tb = document.getElementById('tbody');
+  if (!rows.length) {
+    tb.innerHTML = '<tr><td colspan="15" style="padding:24px;font-family:var(--serif);font-style:italic;color:var(--fog)">No rows match these filters.</td></tr>';
+    return;
+  }
+  tb.innerHTML = rows.map(i => `
+    <tr>
+      <td>${fmt(i.score,1)}</td>
+      <td class="str">${fmt(i.strength_pine,0)}</td>
+      <td>${statePill(i.setup_state)}</td>
+      <td class="sym">${i.symbol}</td>
+      <td><span class="pill ${i.side}">${i.side}</span></td>
+      <td class="${cls(i.known_roll_delta_pp)}">${fmt(i.known_roll_delta_pp)}</td>
+      <td class="${cls(i.outgoing_return_pct)}">${fmt(i.outgoing_return_pct)}</td>
+      <td>${fmt(i.outgoing_z,2)}</td>
+      <td>${fmt(i.roll_edge_z,2)}</td>
+      <td>${fmt(i.attention_rank,0)}</td>
+      <td>${fmt(i.rvol,2)}</td>
+      <td>${fmt(i.current_24h_pct)}→${fmt(i.flat_next_24h_pct)}</td>
+      <td>${fmtVol(i.roll_volume)}</td>
+      <td style="min-width:130px">${sparkline(i.path, i.side)}</td>
+      <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis">${(i.tags||[]).slice(0,3).join(' · ')}</td>
+    </tr>
+  `).join('');
+}
+
+document.getElementById('apply').onclick = renderTable;
+['sideFilter','stateFilter','sortBy','minStr','minVol'].forEach(id => {
+  document.getElementById(id).addEventListener('change', renderTable);
+});
+renderPotato();
+renderTable();
+</script>
+</body>
+</html>

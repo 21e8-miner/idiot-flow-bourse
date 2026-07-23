@@ -1,0 +1,501 @@
+//@version=6
+strategy(
+     "RJ 24H Roll-Off Adaptive",
+     shorttitle = "RJ Roll-Off",
+     overlay = true,
+     max_bars_back = 5000,
+     pyramiding = 0,
+     initial_capital = 100000,
+     default_qty_type = strategy.percent_of_equity,
+     default_qty_value = 100,
+     commission_type = strategy.commission.percent,
+     commission_value = 0.06,
+     slippage = 1,
+     process_orders_on_close = true,
+     calc_on_order_fills = true,
+     max_labels_count = 100,
+     max_lines_count = 20
+)
+
+// Implements the disclosed rolling-return effect.
+// On a 60-minute chart it matches the article's hourly construction.
+// On other intraday charts, all hour-based settings are converted to bars.
+// Non-intraday charts remain inactive instead of throwing a runtime error.
+
+// -----------------------------------------------------------------------------
+// Inputs
+// -----------------------------------------------------------------------------
+grpCore = "Core roll-off logic"
+rollHours = input.int(24, "Displayed return window (hours)", minval = 6, maxval = 72, group = grpCore)
+holdHours = input.int(1, "Holding period (hours)", minval = 1, maxval = 24, group = grpCore)
+cooldownHours = input.int(6, "Cooldown after entry (hours)", minval = 0, maxval = 168, group = grpCore)
+tradeLongs = input.bool(true, "Trade red-candle roll-offs", group = grpCore, inline = "dir")
+tradeShorts = input.bool(true, "Trade green-candle roll-offs", group = grpCore, inline = "dir")
+
+grpFilters = "Trade filters"
+minShockPct = input.float(0.75, "Minimum outgoing bar %", minval = 0.0, maxval = 20.0, step = 0.05, group = grpFilters)
+minShockZ = input.float(1.50, "Minimum outgoing bar z-score", minval = 0.0, maxval = 10.0, step = 0.10, group = grpFilters)
+minRollPct = input.float(0.50, "Minimum known display change %", minval = 0.0, maxval = 20.0, step = 0.05, group = grpFilters)
+minEdgeZ = input.float(0.75, "Minimum roll-off edge / bar volatility", minval = 0.0, maxval = 10.0, step = 0.05, group = grpFilters)
+
+useAttentionFilter = input.bool(true, "Require elevated rolling-return attention", group = grpFilters, inline = "att")
+minAttentionRank = input.int(60, "Percentile", minval = 0, maxval = 100, group = grpFilters, inline = "att")
+attentionLookbackHours = input.int(720, "Attention lookback (hours)", minval = 100, maxval = 4000, group = grpFilters)
+
+useVolumeFilter = input.bool(true, "Require minimum relative volume", group = grpFilters, inline = "vol")
+minRvol = input.float(0.60, "RVOL", minval = 0.0, maxval = 10.0, step = 0.05, group = grpFilters, inline = "vol")
+
+useTrendVeto = input.bool(true, "Veto strong opposing short-term trend", group = grpFilters, inline = "trend")
+trendHours = input.int(6, "Hours", minval = 2, maxval = 48, group = grpFilters, inline = "trend")
+counterTrendCapPct = input.float(3.0, "Maximum opposing move %", minval = 0.0, maxval = 25.0, step = 0.25, group = grpFilters)
+requireZeroCross = input.bool(false, "Only trade predicted rolling-return sign flips", group = grpFilters)
+
+grpRisk = "Risk and execution"
+useHardStops = input.bool(false, "Use ATR stop and target", group = grpRisk)
+stopAtr = input.float(1.50, "Stop ATR", minval = 0.25, maxval = 10.0, step = 0.25, group = grpRisk, inline = "risk")
+targetAtr = input.float(1.00, "Target ATR", minval = 0.25, maxval = 10.0, step = 0.25, group = grpRisk, inline = "risk")
+volLookbackHours = input.int(168, "Volatility lookback (hours)", minval = 24, maxval = 1000, group = grpRisk)
+
+grpView = "Display"
+showSignals = input.bool(true, "Signal markers", group = grpView, inline = "view")
+showRiskLines = input.bool(false, "Risk lines", group = grpView, inline = "view")
+showDashboard = input.bool(true, "Compact dashboard", group = grpView)
+
+// -----------------------------------------------------------------------------
+// Timeframe conversion
+// -----------------------------------------------------------------------------
+int chartSecondsRaw = timeframe.in_seconds()
+bool validTimeframe = timeframe.isintraday and not na(chartSecondsRaw) and chartSecondsRaw > 0
+float chartHours = validTimeframe ? chartSecondsRaw / 3600.0 : 24.0
+
+int maxDynamicBars = 2400
+int rollBarsRaw = int(math.round(rollHours / chartHours))
+int rollBars = math.max(2, math.min(maxDynamicBars, rollBarsRaw))
+int outgoingOffset = rollBars - 1
+int holdBars = math.max(1, int(math.ceil(holdHours / chartHours)))
+int cooldownBars = math.max(0, int(math.ceil(cooldownHours / chartHours)))
+int trendBars = math.max(1, math.min(5000, int(math.round(trendHours / chartHours))))
+int attentionBars = math.max(100, math.min(5000, int(math.round(attentionLookbackHours / chartHours))))
+int volBars = math.max(24, math.min(5000, int(math.round(volLookbackHours / chartHours))))
+int volumeBars = math.max(2, math.min(5000, int(math.round(24.0 / chartHours))))
+
+bool rollWindowCapped = rollBarsRaw > maxDynamicBars
+bool enoughHistory = bar_index > rollBars * 2 + 10
+
+// -----------------------------------------------------------------------------
+// Known roll-off mechanics
+// -----------------------------------------------------------------------------
+float barReturn = close / close[1] - 1.0
+
+float currentWindowReturn = validTimeframe and enoughHistory ? close / close[rollBars] - 1.0 : na
+float flatNextWindowReturn = validTimeframe and enoughHistory ? close / close[outgoingOffset] - 1.0 : na
+float knownRollDelta = flatNextWindowReturn - currentWindowReturn
+float outgoingReturn = validTimeframe and enoughHistory ? barReturn[outgoingOffset] : na
+
+float windowMaxAtOutgoing = validTimeframe and enoughHistory ? ta.highest(barReturn, rollBars)[outgoingOffset] : na
+float windowMinAtOutgoing = validTimeframe and enoughHistory ? ta.lowest(barReturn, rollBars)[outgoingOffset] : na
+float epsilon = 1e-10
+
+bool outgoingIsLargestGreen =
+     not na(outgoingReturn) and
+     outgoingReturn > 0 and
+     outgoingReturn >= windowMaxAtOutgoing - epsilon
+
+bool outgoingIsLargestRed =
+     not na(outgoingReturn) and
+     outgoingReturn < 0 and
+     outgoingReturn <= windowMinAtOutgoing + epsilon
+
+// -----------------------------------------------------------------------------
+// Filters
+// -----------------------------------------------------------------------------
+float barVol = ta.stdev(barReturn, volBars)
+float outgoingZ = barVol > 0 ? math.abs(outgoingReturn) / barVol : na
+float rollEdgeZ = barVol > 0 ? math.abs(knownRollDelta) / barVol : na
+float attentionRank = ta.percentrank(math.abs(currentWindowReturn), attentionBars)
+float rvol = volume / math.max(1.0, ta.sma(volume, volumeBars))
+float recentReturn = validTimeframe and bar_index > trendBars ? close / close[trendBars] - 1.0 : na
+
+bool shockOk =
+     math.abs(outgoingReturn) * 100.0 >= minShockPct and
+     outgoingZ >= minShockZ
+
+bool rollOk =
+     math.abs(knownRollDelta) * 100.0 >= minRollPct and
+     rollEdgeZ >= minEdgeZ
+
+bool attentionOk =
+     not useAttentionFilter or
+     attentionRank >= minAttentionRank
+
+bool volumeOk =
+     not useVolumeFilter or
+     rvol >= minRvol
+
+bool longTrendOk =
+     not useTrendVeto or
+     recentReturn * 100.0 >= -counterTrendCapPct
+
+bool shortTrendOk =
+     not useTrendVeto or
+     recentReturn * 100.0 <= counterTrendCapPct
+
+bool longZeroCross =
+     currentWindowReturn < 0 and
+     flatNextWindowReturn >= 0
+
+bool shortZeroCross =
+     currentWindowReturn > 0 and
+     flatNextWindowReturn <= 0
+
+bool longCrossOk =
+     not requireZeroCross or
+     longZeroCross
+
+bool shortCrossOk =
+     not requireZeroCross or
+     shortZeroCross
+
+bool dataReady =
+     validTimeframe and
+     enoughHistory and
+     not rollWindowCapped and
+     not na(outgoingReturn) and
+     not na(barVol) and
+     barVol > 0 and
+     not na(recentReturn) and
+     (not useAttentionFilter or not na(attentionRank))
+
+bool rawLongSetup =
+     dataReady and
+     outgoingIsLargestRed and
+     knownRollDelta > 0
+
+bool rawShortSetup =
+     dataReady and
+     outgoingIsLargestGreen and
+     knownRollDelta < 0
+
+bool filteredLongSetup =
+     rawLongSetup and
+     shockOk and
+     rollOk and
+     attentionOk and
+     volumeOk and
+     longTrendOk and
+     longCrossOk
+
+bool filteredShortSetup =
+     rawShortSetup and
+     shockOk and
+     rollOk and
+     attentionOk and
+     volumeOk and
+     shortTrendOk and
+     shortCrossOk
+
+float strengthScore =
+     100.0 * math.min(
+         1.0,
+         0.40 * math.min(nz(outgoingZ) / 4.0, 1.0) +
+         0.40 * math.min(nz(rollEdgeZ) / 3.0, 1.0) +
+         0.20 * nz(attentionRank) / 100.0
+     )
+
+// -----------------------------------------------------------------------------
+// Orders
+// -----------------------------------------------------------------------------
+float atrValue = ta.atr(14)
+
+var int lastEntryBar = -100000
+var int activeEntryBar = na
+var float activeEntryAtr = na
+var float activeRollDeltaPct = na
+
+bool cooldownOk =
+     bar_index - lastEntryBar >= cooldownBars
+
+bool flat =
+     strategy.position_size == 0
+
+bool longSignal =
+     tradeLongs and
+     filteredLongSetup and
+     cooldownOk and
+     flat and
+     barstate.isconfirmed
+
+bool shortSignal =
+     tradeShorts and
+     filteredShortSetup and
+     cooldownOk and
+     flat and
+     barstate.isconfirmed
+
+if longSignal
+    strategy.entry(
+         "Long",
+         strategy.long,
+         comment = "Red bar rolls off"
+    )
+
+    lastEntryBar := bar_index
+    activeEntryBar := bar_index
+    activeEntryAtr := atrValue
+    activeRollDeltaPct := knownRollDelta * 100.0
+
+if shortSignal
+    strategy.entry(
+         "Short",
+         strategy.short,
+         comment = "Green bar rolls off"
+    )
+
+    lastEntryBar := bar_index
+    activeEntryBar := bar_index
+    activeEntryAtr := atrValue
+    activeRollDeltaPct := knownRollDelta * 100.0
+
+if useHardStops and strategy.position_size > 0 and not na(activeEntryAtr)
+    strategy.exit(
+         "Long risk",
+         from_entry = "Long",
+         stop = strategy.position_avg_price - activeEntryAtr * stopAtr,
+         limit = strategy.position_avg_price + activeEntryAtr * targetAtr
+    )
+
+if useHardStops and strategy.position_size < 0 and not na(activeEntryAtr)
+    strategy.exit(
+         "Short risk",
+         from_entry = "Short",
+         stop = strategy.position_avg_price + activeEntryAtr * stopAtr,
+         limit = strategy.position_avg_price - activeEntryAtr * targetAtr
+    )
+
+bool timeExit =
+     strategy.position_size != 0 and
+     not na(activeEntryBar) and
+     bar_index - activeEntryBar >= holdBars
+
+if timeExit
+    if strategy.position_size > 0
+        strategy.close(
+             "Long",
+             comment = "Timed exit"
+        )
+
+    if strategy.position_size < 0
+        strategy.close(
+             "Short",
+             comment = "Timed exit"
+        )
+
+if strategy.position_size == 0 and strategy.position_size[1] != 0
+    activeEntryBar := na
+    activeEntryAtr := na
+    activeRollDeltaPct := na
+
+// -----------------------------------------------------------------------------
+// Clean chart layer
+// -----------------------------------------------------------------------------
+plotshape(
+     showSignals and longSignal,
+     title = "Roll-off long",
+     style = shape.triangleup,
+     location = location.belowbar,
+     color = color.new(color.lime, 0),
+     size = size.small,
+     text = "ROLL+",
+     textcolor = color.black
+)
+
+plotshape(
+     showSignals and shortSignal,
+     title = "Roll-off short",
+     style = shape.triangledown,
+     location = location.abovebar,
+     color = color.new(color.red, 0),
+     size = size.small,
+     text = "ROLL-",
+     textcolor = color.white
+)
+
+float longStopLine =
+     showRiskLines and
+     useHardStops and
+     strategy.position_size > 0 and
+     not na(activeEntryAtr) ?
+     strategy.position_avg_price - activeEntryAtr * stopAtr :
+     na
+
+float longTargetLine =
+     showRiskLines and
+     useHardStops and
+     strategy.position_size > 0 and
+     not na(activeEntryAtr) ?
+     strategy.position_avg_price + activeEntryAtr * targetAtr :
+     na
+
+float shortStopLine =
+     showRiskLines and
+     useHardStops and
+     strategy.position_size < 0 and
+     not na(activeEntryAtr) ?
+     strategy.position_avg_price + activeEntryAtr * stopAtr :
+     na
+
+float shortTargetLine =
+     showRiskLines and
+     useHardStops and
+     strategy.position_size < 0 and
+     not na(activeEntryAtr) ?
+     strategy.position_avg_price - activeEntryAtr * targetAtr :
+     na
+
+plot(longStopLine, "Long stop", color = color.new(color.red, 15), linewidth = 1, style = plot.style_linebr)
+plot(longTargetLine, "Long target", color = color.new(color.lime, 15), linewidth = 1, style = plot.style_linebr)
+plot(shortStopLine, "Short stop", color = color.new(color.red, 15), linewidth = 1, style = plot.style_linebr)
+plot(shortTargetLine, "Short target", color = color.new(color.lime, 15), linewidth = 1, style = plot.style_linebr)
+
+plot(currentWindowReturn * 100.0, "Current displayed return %", display = display.data_window)
+plot(flatNextWindowReturn * 100.0, "Flat-price next displayed return %", display = display.data_window)
+plot(knownRollDelta * 100.0, "Known roll-off change %", display = display.data_window)
+plot(outgoingReturn * 100.0, "Outgoing bar %", display = display.data_window)
+plot(outgoingZ, "Outgoing bar z-score", display = display.data_window)
+plot(rollEdgeZ, "Roll-off edge z-score", display = display.data_window)
+plot(attentionRank, "Rolling-return attention percentile", display = display.data_window)
+plot(strengthScore, "Setup strength", display = display.data_window)
+
+// -----------------------------------------------------------------------------
+// Compact dashboard
+// -----------------------------------------------------------------------------
+var dash = table.new(
+     position.top_right,
+     2,
+     9,
+     bgcolor = color.new(#0b1220, 8),
+     frame_color = color.new(#334155, 35),
+     frame_width = 1,
+     border_color = color.new(#1e293b, 70),
+     border_width = 1
+)
+
+if barstate.islast and showDashboard
+    string setupTxt =
+         not validTimeframe ? "INTRADAY ONLY" :
+         rollWindowCapped ? "WINDOW CAPPED" :
+         not enoughHistory ? "LOADING" :
+         longSignal ? "LONG NOW" :
+         shortSignal ? "SHORT NOW" :
+         filteredLongSetup ? "LONG READY" :
+         filteredShortSetup ? "SHORT READY" :
+         rawLongSetup or rawShortSetup ? "FILTERED OUT" :
+         "WAIT"
+
+    color setupCol =
+         longSignal or filteredLongSetup ? color.lime :
+         shortSignal or filteredShortSetup ? color.red :
+         rawLongSetup or rawShortSetup or rollWindowCapped ? color.orange :
+         color.silver
+
+    string positionTxt =
+         strategy.position_size > 0 ? "LONG" :
+         strategy.position_size < 0 ? "SHORT" :
+         "FLAT"
+
+    table.cell(dash, 0, 0, "RJ ROLL-OFF", text_color = color.aqua, text_size = size.tiny, text_halign = text.align_left)
+    table.cell(dash, 1, 0, setupTxt, text_color = setupCol, text_size = size.tiny, text_halign = text.align_right)
+
+    table.cell(dash, 0, 1, "Chart / bars", text_color = color.silver, text_size = size.tiny, text_halign = text.align_left)
+    table.cell(
+         dash,
+         1,
+         1,
+         validTimeframe ? str.tostring(chartHours, "#.###") + "h / " + str.tostring(rollBars) : "Use intraday",
+         text_color = validTimeframe ? color.silver : color.orange,
+         text_size = size.tiny,
+         text_halign = text.align_right
+    )
+
+    table.cell(dash, 0, 2, "Return now", text_color = color.silver, text_size = size.tiny, text_halign = text.align_left)
+    table.cell(
+         dash,
+         1,
+         2,
+         na(currentWindowReturn) ? "-" : str.tostring(currentWindowReturn * 100.0, "#.##") + "%",
+         text_color = na(currentWindowReturn) ? color.silver : currentWindowReturn >= 0 ? color.lime : color.red,
+         text_size = size.tiny,
+         text_halign = text.align_right
+    )
+
+    table.cell(dash, 0, 3, "Flat next", text_color = color.silver, text_size = size.tiny, text_halign = text.align_left)
+    table.cell(
+         dash,
+         1,
+         3,
+         na(flatNextWindowReturn) ? "-" : str.tostring(flatNextWindowReturn * 100.0, "#.##") + "%",
+         text_color = na(flatNextWindowReturn) ? color.silver : flatNextWindowReturn >= 0 ? color.lime : color.red,
+         text_size = size.tiny,
+         text_halign = text.align_right
+    )
+
+    table.cell(dash, 0, 4, "Known change", text_color = color.silver, text_size = size.tiny, text_halign = text.align_left)
+    table.cell(
+         dash,
+         1,
+         4,
+         na(knownRollDelta) ? "-" : str.tostring(knownRollDelta * 100.0, "#.##") + "%",
+         text_color = na(knownRollDelta) ? color.silver : knownRollDelta > 0 ? color.lime : knownRollDelta < 0 ? color.red : color.silver,
+         text_size = size.tiny,
+         text_halign = text.align_right
+    )
+
+    table.cell(dash, 0, 5, "Outgoing bar", text_color = color.silver, text_size = size.tiny, text_halign = text.align_left)
+    table.cell(
+         dash,
+         1,
+         5,
+         na(outgoingReturn) ? "-" : str.tostring(outgoingReturn * 100.0, "#.##") + "% / " + str.tostring(outgoingZ, "#.##") + "z",
+         text_color = na(outgoingReturn) ? color.silver : outgoingReturn > 0 ? color.lime : color.red,
+         text_size = size.tiny,
+         text_halign = text.align_right
+    )
+
+    table.cell(dash, 0, 6, "Edge / attention", text_color = color.silver, text_size = size.tiny, text_halign = text.align_left)
+    table.cell(
+         dash,
+         1,
+         6,
+         na(rollEdgeZ) ? "-" : str.tostring(rollEdgeZ, "#.##") + "z / " + str.tostring(attentionRank, "#") + "p",
+         text_color = strengthScore >= 60 ? color.lime : color.orange,
+         text_size = size.tiny,
+         text_halign = text.align_right
+    )
+
+    table.cell(dash, 0, 7, "RVOL / recent", text_color = color.silver, text_size = size.tiny, text_halign = text.align_left)
+    table.cell(
+         dash,
+         1,
+         7,
+         str.tostring(rvol, "#.##") + "x / " + (na(recentReturn) ? "-" : str.tostring(recentReturn * 100.0, "#.##") + "%"),
+         text_color = color.silver,
+         text_size = size.tiny,
+         text_halign = text.align_right
+    )
+
+    table.cell(dash, 0, 8, "Position", text_color = color.silver, text_size = size.tiny, text_halign = text.align_left)
+    table.cell(
+         dash,
+         1,
+         8,
+         positionTxt + (not na(activeRollDeltaPct) ? " / " + str.tostring(activeRollDeltaPct, "#.##") + "%" : ""),
+         text_color = strategy.position_size > 0 ? color.lime : strategy.position_size < 0 ? color.red : color.silver,
+         text_size = size.tiny,
+         text_halign = text.align_right
+    )
+
+// -----------------------------------------------------------------------------
+// Alerts
+// -----------------------------------------------------------------------------
+alertcondition(longSignal, "RJ roll-off long", "Largest red bar is rolling out of the displayed return window.")
+alertcondition(shortSignal, "RJ roll-off short", "Largest green bar is rolling out of the displayed return window.")
