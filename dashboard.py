@@ -534,11 +534,14 @@ def build_dashboard(
 <div class="shell">
   <header class="masthead">
     <div>
-      <p class="kicker">RJ · Trading for Dickheads · Edition 03</p>
+      <p class="kicker">Inspired by Robot James · A truly idiotic crypto trade</p>
       <h1>Idiot <em>Flow</em><br/>Bourse</h1>
       <p class="deck">
         Mechanical board-path projector. When the tile looks better, idiots bid.
         When it sours, they dump. <strong>We know the tile before they do.</strong>
+        Idea from
+        <a href="https://robotjames.substack.com/p/a-truly-idiotic-crypto-trade" style="color:var(--acid)" target="_blank" rel="noopener">RJ’s essay</a>
+        — independent tool, not affiliated.
       </p>
     </div>
     <div class="stamp">
@@ -629,8 +632,8 @@ def build_dashboard(
   </section>
 
   <footer>
-    <div>Idiot Flow Bourse · Acid ledger · re-run <span>scanner.py --html</span></div>
-    <div>pine adaptive · board path · no prophets</div>
+    <div>Idiot Flow Bourse · inspired by <a href="https://robotjames.substack.com/p/a-truly-idiotic-crypto-trade" style="color:var(--acid)" target="_blank" rel="noopener">robotjames.substack.com</a></div>
+    <div>pine adaptive · board path · re-run <span>scanner.py --html</span></div>
   </footer>
 </div>
 

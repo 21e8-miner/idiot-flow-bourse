@@ -2,8 +2,11 @@
 """
 RJ Idiot Flow Scanner v3 — Pine adaptive + board-path lab
 =========================================================
-Ports RJ_24H_Roll_Off_Adaptive_v2.pine filters into a cross-sectional scanner,
-plus multi-hour board path, potato portfolio, and HTML lab.
+Inspired by Robot James, "A truly idiotic crypto trade":
+  https://robotjames.substack.com/p/a-truly-idiotic-crypto-trade
+
+Ports RJ_24H_Roll_Off_Adaptive_v2.pine-style filters into a cross-sectional
+scanner, plus multi-hour board path, potato portfolio, and HTML lab.
 
 Usage:
   python scanner.py --html --open

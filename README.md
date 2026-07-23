@@ -1,8 +1,19 @@
 # Idiot Flow Bourse
 
-Cross-sectional crypto scanner for the **24h return roll-off** edge
-(Robot James / *Trading for Dickheads*), with filters ported from
+Cross-sectional crypto scanner for the **24h return roll-off** edge,
+with filters inspired by the Pine adaptive construction in
 `RJ_24H_Roll_Off_Adaptive_v2.pine`.
+
+## Inspiration
+
+**Inspired by** Robot James — [*A truly idiotic crypto trade*](https://robotjames.substack.com/p/a-truly-idiotic-crypto-trade)
+(*RJ’s Trading for Dickheads*, Jul 2026).
+
+That essay describes how exchange-displayed **24h %** numbers have a
+predictable component (the reference price walks forward), and how
+retail often reacts to the *look* of that number. This project is an
+independent scanner / research lab built on that idea — not affiliated
+with Robot James or his newsletter.
 
 ## Live board
 
@@ -52,3 +63,5 @@ Python 3.10+, **no pip deps**.
 
 Research / education only. Not financial advice. Crypto is violent;
 dumb-money patterns can die; you can lose money.
+
+Credit for the underlying edge concept: [Robot James — A truly idiotic crypto trade](https://robotjames.substack.com/p/a-truly-idiotic-crypto-trade).
