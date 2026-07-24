@@ -19,8 +19,9 @@ with Robot James or his newsletter.
 
 **→ [Open the Idiot Flow Lab](https://21e8-miner.github.io/idiot-flow-bourse/)**
 
-Snapshot of the adaptive potato book + full board (Acid Bourse UI).
-Re-run the scanner locally (or via Actions) to refresh.
+Acid Bourse UI with **live Binance prices** (WebSocket miniTicker + REST
+fallback) overlaid on the last scan payload. Re-run the scanner locally
+(or via Actions) to refresh the signal book / board scores.
 
 ## What it does
 
