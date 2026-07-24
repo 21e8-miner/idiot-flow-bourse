@@ -1,0 +1,77 @@
+# Rescan Binance USDT markets and republish the GitHub Pages board.
+# Cron: every 5 minutes (GitHub may delay under load; not a hard SLA).
+name: Refresh board
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch: # manual "Run workflow" in Actions tab
+
+concurrency:
+  group: refresh-board
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  scan-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run idiot-flow scanner
+        env:
+          NO_COLOR: "1"
+          PYTHONUNBUFFERED: "1"
+        run: |
+          set -euo pipefail
+          python scanner.py \
+            --venue auto \
+            --mode adaptive \
+            --universe 100 \
+            --workers 16 \
+            --min-shock-z 1.0 \
+            --min-attention 40 \
+            --min-rvol 0.3 \
+            --html idiot_flow_lab.html \
+            --quiet
+          cp -f idiot_flow_lab.html index.html
+          # stamp for easy verification in Actions log
+          python - <<'PY'
+          import json, re, pathlib
+          html = pathlib.Path("index.html").read_text(encoding="utf-8")
+          m = re.search(r'<script id="payload" type="application/json">(.*?)</script>', html, re.S)
+          if not m:
+              raise SystemExit("payload missing from index.html")
+          meta = json.loads(m.group(1)).get("meta", {})
+          print("generated_at:", meta.get("generated_at"))
+          print("n_ideas:", meta.get("n_ideas"), "n_adaptive:", meta.get("n_adaptive"))
+          print("venue:", meta.get("venue"), "mode:", meta.get("mode"))
+          PY
+
+      - name: Commit and push board
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html idiot_flow_lab.html
+          if git diff --staged --quiet; then
+            echo "No board changes to commit."
+            exit 0
+          fi
+          git commit -m "chore: refresh board $(date -u +%Y-%m-%dT%H:%MZ)"
+          # retry push once if race with another job
+          git push origin HEAD:main || {
+            git pull --rebase origin main
+            git push origin HEAD:main
+          }

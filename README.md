@@ -19,9 +19,13 @@ with Robot James or his newsletter.
 
 **→ [Open the Idiot Flow Lab](https://21e8-miner.github.io/idiot-flow-bourse/)**
 
-Acid Bourse UI with **live Binance prices** (WebSocket miniTicker + REST
-fallback) overlaid on the last scan payload. Re-run the scanner locally
-(or via Actions) to refresh the signal book / board scores.
+Public board auto-refreshes **about every 5 minutes** via GitHub Actions
+(`.github/workflows/refresh-board.yml`). GitHub cron is best-effort — runs can
+slip under load. Use **Actions → Refresh board → Run workflow** for an
+immediate rescan.
+
+The UI also overlays **live Binance prices** (WebSocket miniTicker + REST
+fallback) on the latest scan payload when available.
 
 ## What it does
 
@@ -50,7 +54,7 @@ Python 3.10+, **no pip deps**.
 |------|------|
 | `scanner.py` | CLI, venues, watch mode |
 | `engine.py` | Pine math + board path + scoring |
-| `dashboard.py` | Acid Bourse HTML generator |
+| `dashboard.py` | HTML lab generator |
 | `index.html` | GitHub Pages live board |
 | `RJ_24H_Roll_Off_Adaptive_v2.pine` | TradingView reference strategy |
 
