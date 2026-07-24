@@ -1,7 +1,7 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
-Generate Idiot Flow Lab HTML — exact match to rj new style.png
-(Acid Bourse · dark cinematic glass · mobile-perfect).
+Generate Idiot Flow Lab HTML ΓÇö exact match to rj new style.png
+(Acid Bourse ┬╖ dark cinematic glass ┬╖ mobile-perfect).
 """
 
 from __future__ import annotations
@@ -51,7 +51,7 @@ def build_dashboard(
     herd_bias = _esc(str(herd.get("bias", "n/a")).replace("-", " ").upper())
     herd_note = _esc(str(herd.get("note", "")))
     generated = _esc(str(meta.get("generated_at", "")))
-    gen_display = generated.upper().replace(" UTC", " EST") if generated else "—"
+    gen_display = generated.upper().replace(" UTC", " EST") if generated else "ΓÇö"
     venue = _esc(str(meta.get("venue_label") or meta.get("venue", "")))
     mode = _esc(str(meta.get("mode", "adaptive")).title())
     n_ad = meta.get("n_adaptive", herd.get("n_adaptive", 0))
@@ -86,7 +86,7 @@ def build_dashboard(
         um, us = divmod(int(es), 60)
         uptime = f"{um}M {us:02d}S SCAN"
     except (TypeError, ValueError):
-        uptime = "—"
+        uptime = "ΓÇö"
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -95,14 +95,14 @@ def build_dashboard(
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 <meta name="theme-color" content="#050608"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
-<title>Idiot Flow · Acid Bourse</title>
+<title>Idiot Flow ┬╖ Acid Bourse</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
-/* ═══════════════════════════════════════════
-   ACID BOURSE — advanced RJ cinematic glass
-   ═══════════════════════════════════════════ */
+/* ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+   ACID BOURSE ΓÇö advanced RJ cinematic glass
+   ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ */
 :root {{
   --ink: #f7f3ea;
   --ink2: #d0c9bb;
@@ -166,7 +166,7 @@ img, svg {{ max-width: 100%; display: block; }}
     calc(var(--pad-x) + var(--safe-l));
 }}
 
-/* ── top bar ── */
+/* ΓöÇΓöÇ top bar ΓöÇΓöÇ */
 .topline {{
   display: flex;
   justify-content: space-between;
@@ -216,7 +216,7 @@ img, svg {{ max-width: 100%; display: block; }}
   flex-shrink: 0;
 }}
 
-/* ── hero stage: left | orb | right ── */
+/* ΓöÇΓöÇ hero stage: left | orb | right ΓöÇΓöÇ */
 .stage {{
   display: grid;
   grid-template-columns: minmax(140px, 1fr) minmax(240px, 1.45fr) minmax(140px, 1fr);
@@ -605,7 +605,7 @@ img, svg {{ max-width: 100%; display: block; }}
 .stat .s.dim {{ color: var(--muted); }}
 .stat .s.warn {{ color: var(--gold); }}
 
-/* ── flow projection ── */
+/* ΓöÇΓöÇ flow projection ΓöÇΓöÇ */
 .projection {{
   margin-top: clamp(8px, 2vw, 18px);
   padding-top: 4px;
@@ -659,7 +659,7 @@ img, svg {{ max-width: 100%; display: block; }}
 }}
 .proj-foot b {{ color: var(--muted); font-weight: 500; }}
 
-/* ── the board ── */
+/* ΓöÇΓöÇ the board ΓöÇΓöÇ */
 .board {{
   margin-top: clamp(28px, 4vw, 42px);
 }}
@@ -837,7 +837,7 @@ img, svg {{ max-width: 100%; display: block; }}
 }}
 .token.SHORT .arrow {{ color: var(--magenta); }}
 
-/* ── lower: teardown + notes ── */
+/* ΓöÇΓöÇ lower: teardown + notes ΓöÇΓöÇ */
 .lower {{
   display: grid;
   grid-template-columns: 1.35fr 0.9fr;
@@ -974,7 +974,149 @@ img, svg {{ max-width: 100%; display: block; }}
   opacity: 0.7;
 }}
 
-/* ── footer ── */
+/* ΓöÇΓöÇ Photon FSQ fingerprint ΓöÇΓöÇ */
+.photon {{
+  margin: clamp(28px, 4vw, 40px) 0;
+  padding: 18px 18px 16px;
+  border-radius: 18px;
+  border: 1px solid var(--line2);
+  background:
+    radial-gradient(ellipse 80% 60% at 0% 0%, rgba(200,242,58,0.06), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 100% 100%, rgba(240,74,158,0.06), transparent 50%),
+    rgba(255,255,255,0.02);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}}
+.photon-head {{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px 16px;
+  margin-bottom: 14px;
+}}
+.photon-head h2 {{
+  margin: 0;
+  font-family: var(--display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+}}
+.photon-head h2 em {{
+  font-style: normal;
+  color: var(--lime);
+}}
+.photon-head .sub {{
+  font-size: 0.68rem;
+  color: var(--muted);
+  max-width: 36rem;
+  line-height: 1.4;
+}}
+.photon-grid-wrap {{
+  display: grid;
+  grid-template-columns: 1.4fr 0.9fr;
+  gap: 14px;
+}}
+@media (max-width: 820px) {{
+  .photon-grid-wrap {{ grid-template-columns: 1fr; }}
+}}
+.photon-lattice {{
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  gap: 3px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid var(--line);
+  min-height: 140px;
+}}
+.photon-cell {{
+  aspect-ratio: 1;
+  border-radius: 2px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}}
+.photon-cell:hover {{
+  transform: scale(1.35);
+  z-index: 2;
+  box-shadow: 0 0 10px currentColor;
+}}
+.photon-cell.L-2 {{ background: #f04a9e; color: #f04a9e; opacity: 0.95; }}
+.photon-cell.L-1 {{ background: #c45a8a; color: #c45a8a; opacity: 0.75; }}
+.photon-cell.L0  {{ background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.2); }}
+.photon-cell.L1  {{ background: #8aab2e; color: #8aab2e; opacity: 0.8; }}
+.photon-cell.L2  {{ background: #c8f23a; color: #c8f23a; opacity: 1;
+  box-shadow: 0 0 6px rgba(200,242,58,0.35); }}
+.photon-cell.delta {{
+  outline: 1px solid rgba(224,192,120,0.85);
+  outline-offset: 0;
+}}
+.photon-meta {{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}}
+.photon-stat {{
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: rgba(0,0,0,0.22);
+}}
+.photon-stat .k {{
+  display: block;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted2);
+  margin-bottom: 4px;
+  font-weight: 600;
+}}
+.photon-stat .v {{
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+}}
+.photon-stat .v.lime {{ color: var(--lime); }}
+.photon-stat .v.mag {{ color: var(--magenta); }}
+.photon-stat .v.gold {{ color: var(--gold); }}
+.photon-legend {{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: 12px;
+  font-size: 0.62rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}}
+.photon-legend span {{
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}}
+.photon-legend i {{
+  width: 10px; height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+}}
+.photon-bar {{
+  height: 6px;
+  border-radius: 99px;
+  background: rgba(255,255,255,0.06);
+  overflow: hidden;
+  margin-top: 6px;
+}}
+.photon-bar > b {{
+  display: block;
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--magenta), var(--gold), var(--lime));
+  width: 0%;
+  transition: width 0.6s ease;
+}}
+
+/* ΓöÇΓöÇ footer ΓöÇΓöÇ */
 .foot {{
   display: flex;
   flex-wrap: wrap;
@@ -1036,7 +1178,7 @@ img, svg {{ max-width: 100%; display: block; }}
   line-height: 1.4;
 }}
 
-/* ── audit (settings drawer) ── */
+/* ΓöÇΓöÇ audit (settings drawer) ΓöÇΓöÇ */
 .audit {{
   margin-top: 28px;
   border-top: 1px solid var(--line);
@@ -1064,7 +1206,7 @@ img, svg {{ max-width: 100%; display: block; }}
   font-size: 1rem;
   color: var(--muted2);
 }}
-.audit[open] summary::after {{ content: "−"; }}
+.audit[open] summary::after {{ content: "ΓêÆ"; }}
 .table-card {{
   margin-top: 10px;
   background: rgba(255,255,255,0.03);
@@ -1198,9 +1340,9 @@ td.sym {{ font-weight: 600; color: var(--ink); }}
   display: none;
 }}
 
-/* ═══════════════════════════════════════════
-   MOBILE — visual perfection
-   ═══════════════════════════════════════════ */
+/* ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+   MOBILE ΓÇö visual perfection
+   ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ */
 @media (max-width: 900px) {{
   .stage {{
     grid-template-columns: 1fr 1fr;
@@ -1350,6 +1492,7 @@ td.sym {{ font-weight: 600; color: var(--ink); }}
           <li><a class="on" href="#overview">Overview</a></li>
           <li><a href="#signals">Signals</a></li>
           <li><a href="#board">Board</a></li>
+          <li><a href="#photon">Photon</a></li>
           <li><a href="#teardown">Teardown</a></li>
           <li><a href="#settings">Settings</a></li>
         </ul>
@@ -1415,9 +1558,9 @@ td.sym {{ font-weight: 600; color: var(--ink); }}
     </div>
     <div class="proj-chart" id="pathChart"></div>
     <div class="proj-foot">
-      <span>Entry zone · <b id="pathTarget">—</b></span>
-      <span>Invalidation · board cliff</span>
-      <span>Time horizon: 0–{horizon}h</span>
+      <span>Entry zone ┬╖ <b id="pathTarget">ΓÇö</b></span>
+      <span>Invalidation ┬╖ board cliff</span>
+      <span>Time horizon: 0ΓÇô{horizon}h</span>
     </div>
   </section>
 
@@ -1431,6 +1574,55 @@ td.sym {{ font-weight: 600; color: var(--ink); }}
     <div class="board-track" id="ranked" role="list"></div>
   </section>
 
+  <!-- PHOTON FSQ FINGERPRINT -->
+  <section class="photon" id="photon" aria-label="Photon board fingerprint">
+    <div class="photon-head">
+      <div>
+        <h2>Photon <em>FSQ</em> fingerprint</h2>
+        <p class="sub">
+          Board state quantized to Photon-style levels
+          <b style="color:var(--ink2);font-weight:600">{{ΓêÆ1, ΓêÆ┬╜, 0, +┬╜, +1}}</b>
+          ΓÇö discrete tokens from flow metrics, not raw pixels.
+          Gold outline = changed vs last scan in this browser.
+        </p>
+      </div>
+    </div>
+    <div class="photon-grid-wrap">
+      <div class="photon-lattice" id="photonLattice" aria-hidden="true"></div>
+      <div class="photon-meta">
+        <div class="photon-stat">
+          <span class="k">Token grid</span>
+          <span class="v lime" id="phTokens">ΓÇö</span>
+        </div>
+        <div class="photon-stat">
+          <span class="k">╬ö vs last scan</span>
+          <span class="v gold" id="phDelta">ΓÇö</span>
+          <div class="photon-bar"><b id="phDeltaBar"></b></div>
+        </div>
+        <div class="photon-stat">
+          <span class="k">Long / short mass</span>
+          <span class="v" id="phSideMass">ΓÇö</span>
+        </div>
+        <div class="photon-stat">
+          <span class="k">Entropy ┬╖ compression feel</span>
+          <span class="v mag" id="phEntropy">ΓÇö</span>
+        </div>
+        <div class="photon-stat">
+          <span class="k">Fingerprint hash</span>
+          <span class="v" id="phHash" style="font-size:0.72rem;word-break:break-all">ΓÇö</span>
+        </div>
+      </div>
+    </div>
+    <div class="photon-legend">
+      <span><i style="background:#f04a9e"></i> ΓêÆ1 strong short bias</span>
+      <span><i style="background:#c45a8a"></i> ΓêÆ┬╜ soft short</span>
+      <span><i style="background:rgba(255,255,255,0.2)"></i> 0 neutral</span>
+      <span><i style="background:#8aab2e"></i> +┬╜ soft long</span>
+      <span><i style="background:#c8f23a"></i> +1 strong long</span>
+      <span><i style="outline:1px solid #e0c078;background:transparent"></i> ╬ö changed cell</span>
+    </div>
+  </section>
+
   <!-- TEARDOWN + NOTES -->
   <section class="lower" id="teardown">
     <div>
@@ -1439,11 +1631,11 @@ td.sym {{ font-weight: 600; color: var(--ink); }}
         <div class="radar" id="radar"></div>
         <div>
           <div class="td-head">
-            <span class="sym" id="tdSym">—</span>
-            <span class="side LONG" id="tdSide">—</span>
+            <span class="sym" id="tdSym">ΓÇö</span>
+            <span class="side LONG" id="tdSide">ΓÇö</span>
           </div>
           <div class="td-rows" id="tdList"></div>
-          <div class="overall">Overall conviction <b id="tdConv">—</b></div>
+          <div class="overall">Overall conviction <b id="tdConv">ΓÇö</b></div>
         </div>
       </div>
     </div>
@@ -1475,23 +1667,23 @@ td.sym {{ font-weight: 600; color: var(--ink); }}
   <footer class="foot">
     <div>
       <span>Acid Bourse Systems</span>
-      &nbsp;·&nbsp;
+      &nbsp;┬╖&nbsp;
       <span>Ver 2.1.0</span>
     </div>
     <div class="live offline" id="streamStatus">Data stream: connecting</div>
-    <div id="uptimeLabel">Uptime · {uptime}</div>
+    <div id="uptimeLabel">Uptime ┬╖ {uptime}</div>
     <div class="inspire">
       Inspired by
-      <a href="https://robotjames.substack.com/p/a-truly-idiotic-crypto-trade" target="_blank" rel="noopener">Robot James — A truly idiotic crypto trade</a>
-      · independent tool, not affiliated · {venue} · {mode} · {n_ideas} ideas · {n_ad} adaptive · {n_raw} raw
-      · Regime: {herd_bias}. {herd_note}
+      <a href="https://robotjames.substack.com/p/a-truly-idiotic-crypto-trade" target="_blank" rel="noopener">Robot James ΓÇö A truly idiotic crypto trade</a>
+      ┬╖ independent tool, not affiliated ┬╖ {venue} ┬╖ {mode} ┬╖ {n_ideas} ideas ┬╖ {n_ad} adaptive ┬╖ {n_raw} raw
+      ┬╖ Regime: {herd_bias}. {herd_note}
       Not financial advice.
     </div>
   </footer>
 
   <!-- SETTINGS / AUDIT -->
   <details class="audit" id="settings">
-    <summary>Settings · Full-board audit</summary>
+    <summary>Settings ┬╖ Full-board audit</summary>
     <div class="table-card">
       <div class="table-toolbar">
         <select id="sideFilter" aria-label="Side filter">
@@ -1508,7 +1700,7 @@ td.sym {{ font-weight: 600; color: var(--ink); }}
         <select id="sortBy" aria-label="Sort">
           <option value="score">Sort: score</option>
           <option value="strength">Sort: strength</option>
-          <option value="delta">Sort: |Δ|</option>
+          <option value="delta">Sort: |╬ö|</option>
           <option value="outz">Sort: z-out</option>
           <option value="att">Sort: attention</option>
           <option value="vol">Sort: volume</option>
@@ -1526,7 +1718,7 @@ td.sym {{ font-weight: 600; color: var(--ink); }}
               <th>State</th>
               <th>Symbol</th>
               <th>Side</th>
-              <th>Δ (1h)</th>
+              <th>╬ö (1h)</th>
               <th>Z-out</th>
               <th>Edge</th>
               <th>Attention</th>
@@ -1556,11 +1748,11 @@ const LIVE = {{
 }};
 
 function fmt(n, d=2) {{
-  if (n === undefined || n === null || Number.isNaN(+n)) return '—';
+  if (n === undefined || n === null || Number.isNaN(+n)) return 'ΓÇö';
   return Number(n).toFixed(d);
 }}
 function fmtVol(v) {{
-  if (v == null) return '—';
+  if (v == null) return 'ΓÇö';
   const av = Math.abs(v);
   const sign = v < 0 ? '-' : (v > 0 ? '+' : '');
   if (av >= 1e9) return sign + '$' + (av/1e9).toFixed(2) + 'B';
@@ -1732,7 +1924,7 @@ function listForRank() {{
 }}
 
 function fmtPrice(p) {{
-  if (p == null || Number.isNaN(+p)) return '—';
+  if (p == null || Number.isNaN(+p)) return 'ΓÇö';
   const n = Number(p);
   if (n >= 1000) return n.toLocaleString(undefined, {{ maximumFractionDigits: 2 }});
   if (n >= 1) return n.toFixed(4);
@@ -1749,14 +1941,14 @@ function renderHero(i) {{
   if (!i) {{
     el.innerHTML = '<div class="blob-lbl">Primary signal</div><div class="empty" style="padding:8px;font-size:0.8rem">No signals this scan.</div>';
     document.getElementById('pathChart').innerHTML = '<div class="empty">No path</div>';
-    document.getElementById('pathTarget').textContent = '—';
+    document.getElementById('pathTarget').textContent = 'ΓÇö';
     renderTeardown(null);
     return;
   }}
   const str = i.strength_pine || i.score || 0;
-  const side = i.side || '—';
+  const side = i.side || 'ΓÇö';
   const conv = conviction(str);
-  const arrow = side === 'SHORT' ? '↓' : '↑';
+  const arrow = side === 'SHORT' ? 'Γåô' : 'Γåæ';
   const L = liveFor(i.symbol);
   const px = L ? L.price : i.price;
   const chg = L && L.chgPct != null ? L.chgPct : i.current_24h_pct;
@@ -1775,7 +1967,7 @@ function renderHero(i) {{
   // Live-adjusted board path: reprice current 24h from live last vs scan ref
   const pathHint = livePathHint(i);
   document.getElementById('pathTarget').textContent = pathHint ||
-    `${{fmt(i.current_24h_pct)}}% → ${{fmt(i.flat_next_24h_pct)}}%  (Δ ${{fmt(i.known_roll_delta_pp)}}pp)`;
+    `${{fmt(i.current_24h_pct)}}% ΓåÆ ${{fmt(i.flat_next_24h_pct)}}%  (╬ö ${{fmt(i.known_roll_delta_pp)}}pp)`;
   renderTeardown(i);
 }}
 
@@ -1783,23 +1975,23 @@ function livePathHint(i) {{
   const L = liveFor(i.symbol);
   if (!L || !i.path || !i.path.length) return null;
   const ref0 = i.path[0] && i.path[0].ref_price;
-  if (!ref0) return `${{fmt(L.chgPct)}}% live · Δ ${{fmt(i.known_roll_delta_pp)}}pp cliff`;
+  if (!ref0) return `${{fmt(L.chgPct)}}% live ┬╖ ╬ö ${{fmt(i.known_roll_delta_pp)}}pp cliff`;
   const livePct = ((L.price / ref0) - 1) * 100;
   const next = livePct + (i.known_roll_delta_pp || 0);
-  return `${{fmt(livePct)}}% → ${{fmt(next)}}%  (Δ ${{fmt(i.known_roll_delta_pp)}}pp · live)`;
+  return `${{fmt(livePct)}}% ΓåÆ ${{fmt(next)}}%  (╬ö ${{fmt(i.known_roll_delta_pp)}}pp ┬╖ live)`;
 }}
 
 function renderTeardown(i) {{
   if (!i) {{
-    document.getElementById('tdSym').textContent = '—';
-    document.getElementById('tdSide').textContent = '—';
+    document.getElementById('tdSym').textContent = 'ΓÇö';
+    document.getElementById('tdSide').textContent = 'ΓÇö';
     document.getElementById('tdList').innerHTML = '';
-    document.getElementById('tdConv').textContent = '—';
+    document.getElementById('tdConv').textContent = 'ΓÇö';
     document.getElementById('radar').innerHTML = '';
     return;
   }}
   const str = i.strength_pine || i.score || 0;
-  const side = i.side || '—';
+  const side = i.side || 'ΓÇö';
   document.getElementById('tdSym').textContent = baseSym(i.symbol) + ' /USDT';
   const sideEl = document.getElementById('tdSide');
   sideEl.textContent = side;
@@ -1842,7 +2034,7 @@ function renderRanked() {{
     if (i.known_roll_delta_pp != null && Math.abs(i.roll_volume || 0) < 1) {{
       flow = (i.known_roll_delta_pp >= 0 ? '+' : '') + fmt(i.known_roll_delta_pp) + 'pp';
     }}
-    const arrow = side === 'SHORT' ? '↓' : '↑';
+    const arrow = side === 'SHORT' ? 'Γåô' : 'Γåæ';
     const L = liveFor(i.symbol);
     const px = L ? L.price : i.price;
     const chg = L && L.chgPct != null ? L.chgPct : i.current_24h_pct;
@@ -1917,7 +2109,7 @@ function renderTable() {{
   const rows = filteredIdeas();
   const tb = document.getElementById('tbody');
   if (!rows.length) {{
-    tb.innerHTML = '<tr><td colspan="12" class="empty">No rows match these filters. Try “All states”.</td></tr>';
+    tb.innerHTML = '<tr><td colspan="12" class="empty">No rows match these filters. Try ΓÇ£All statesΓÇ¥.</td></tr>';
     return;
   }}
   tb.innerHTML = rows.map(i => `
@@ -1951,9 +2143,9 @@ document.getElementById('apply').onclick = renderTable;
   document.getElementById(id).addEventListener('change', renderTable);
 }});
 
-/* ═══════════════════════════════════════════
-   REAL-TIME — Binance miniTicker WS + REST
-   ═══════════════════════════════════════════ */
+/* ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+   REAL-TIME ΓÇö Binance miniTicker WS + REST
+   ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ */
 function allSymbols() {{
   const s = new Set();
   (DATA.ideas || []).forEach(i => i.symbol && s.add(i.symbol));
@@ -1991,7 +2183,7 @@ function applyTick(sym, price, chgPct) {{
   }};
   LIVE.lastTick = Date.now();
 
-  // Board tokens — surgical DOM update (no full re-render)
+  // Board tokens ΓÇö surgical DOM update (no full re-render)
   document.querySelectorAll(`.token[data-sym="${{sym}}"]`).forEach(card => {{
     const pxEl = card.querySelector('[data-live-px]');
     const chEl = card.querySelector('[data-live-chg]');
@@ -2006,7 +2198,7 @@ function applyTick(sym, price, chgPct) {{
     }}
   }});
 
-  // Hero — only if selected
+  // Hero ΓÇö only if selected
   const list = listForRank();
   const cur = list[selected];
   if (cur && cur.symbol === sym) {{
@@ -2149,7 +2341,7 @@ function tickClock() {{
   if (!el) return;
   const d = new Date();
   const pad = n => String(n).padStart(2, '0');
-  // Local wall clock (browser TZ) — feels live
+  // Local wall clock (browser TZ) ΓÇö feels live
   el.textContent =
     d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' +
     pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
@@ -2163,8 +2355,139 @@ function tickClock() {{
       ? (h + 'H ' + String(m % 60).padStart(2, '0') + 'M ' + String(s).padStart(2, '0') + 'S')
       : (m + 'M ' + String(s).padStart(2, '0') + 'S');
     const stale = LIVE.lastTick && (Date.now() - LIVE.lastTick > 15000);
-    up.textContent = 'Uptime · ' + body + (stale && LIVE.status === 'live' ? ' · stale' : '');
+    up.textContent = 'Uptime ┬╖ ' + body + (stale && LIVE.status === 'live' ? ' ┬╖ stale' : '');
   }}
+}}
+
+/* ΓöÇΓöÇ Photon-FSQ style fingerprint (numeric board ΓåÆ discrete tokens) ΓöÇΓöÇ */
+const FSQ_LEVELS = [-1, -0.5, 0, 0.5, 1];
+const PHOTON_KEY = 'ifb_photon_fp_v1';
+
+function quantizeFSQ(x) {{
+  // map continuous score in [-1,1] to nearest Photon level
+  let best = 0, bestD = Infinity;
+  for (let i = 0; i < FSQ_LEVELS.length; i++) {{
+    const d = Math.abs(x - FSQ_LEVELS[i]);
+    if (d < bestD) {{ bestD = d; best = i; }}
+  }}
+  return best; // 0..4
+}}
+
+function clamp01(x) {{ return Math.max(0, Math.min(1, x)); }}
+
+function ideaToToken(i) {{
+  // Side-signed strength + edge shock ΓåÆ one discrete level
+  const str = (+i.strength_pine || +i.score || 0) / 100;
+  const edge = Math.min(1, Math.abs(+i.outgoing_z || 0) / 4);
+  const att = clamp01((+i.attention_rank || 50) / 100);
+  const rvol = Math.min(1, (+i.rvol || 0) / 2);
+  const signed = (i.side === 'LONG' ? 1 : -1) * (0.55 * str + 0.25 * edge + 0.12 * att + 0.08 * rvol);
+  // squash to [-1,1]
+  const x = Math.tanh(signed * 1.4);
+  return quantizeFSQ(x);
+}}
+
+function buildPhotonGrid() {{
+  const ideas = (DATA.ideas || []).slice().sort((a, b) =>
+    Math.abs(b.strength_pine || b.score || 0) - Math.abs(a.strength_pine || a.score || 0)
+  );
+  const cols = 24;
+  const rows = 8;
+  const n = cols * rows;
+  const tokens = new Array(n).fill(2); // neutral L0
+  // Place top ideas; fill rest with herd-biased noise from meta
+  const herd = (DATA.meta && DATA.meta.herd) || {{}};
+  const longBias = (+herd.long_share || 0.5) - 0.5; // -0.5..0.5
+  for (let k = 0; k < n; k++) {{
+    if (k < ideas.length) {{
+      tokens[k] = ideaToToken(ideas[k]);
+    }} else {{
+      // ambient lattice from regime + position
+      const t = (k / n) * 2 - 1;
+      const amb = Math.tanh(longBias * 1.6 + t * 0.15);
+      tokens[k] = quantizeFSQ(amb + ((k * 17) % 5 - 2) * 0.08);
+    }}
+  }}
+  return {{ tokens, cols, rows, n, ideas: ideas.slice(0, Math.min(ideas.length, n)) }};
+}}
+
+function levelClass(idx) {{
+  return ['L-2', 'L-1', 'L0', 'L1', 'L2'][idx] || 'L0';
+}}
+
+function simpleHash(arr) {{
+  let h = 2166136261;
+  for (let i = 0; i < arr.length; i++) {{
+    h ^= arr[i] + 1;
+    h = Math.imul(h, 16777619);
+  }}
+  return ('00000000' + (h >>> 0).toString(16)).slice(-8);
+}}
+
+function entropyBits(tokens) {{
+  const counts = [0, 0, 0, 0, 0];
+  tokens.forEach(t => {{ counts[t] = (counts[t] || 0) + 1; }});
+  const n = tokens.length || 1;
+  let H = 0;
+  counts.forEach(c => {{
+    if (!c) return;
+    const p = c / n;
+    H -= p * Math.log2(p);
+  }});
+  return H;
+}}
+
+function renderPhoton() {{
+  const lattice = document.getElementById('photonLattice');
+  if (!lattice) return;
+  const {{ tokens, n, ideas }} = buildPhotonGrid();
+  let prev = null;
+  try {{ prev = JSON.parse(localStorage.getItem(PHOTON_KEY) || 'null'); }} catch (_) {{}}
+
+  let changed = 0;
+  const prevTok = prev && Array.isArray(prev.tokens) ? prev.tokens : null;
+  lattice.innerHTML = tokens.map((t, i) => {{
+    const delta = prevTok && prevTok[i] !== t;
+    if (delta) changed++;
+    const tip = ideas[i]
+      ? (ideas[i].symbol + ' ' + ideas[i].side + ' ┬╖ L' + FSQ_LEVELS[t])
+      : ('ambient ┬╖ L' + FSQ_LEVELS[t]);
+    return `<div class="photon-cell ${{levelClass(t)}}${{delta ? ' delta' : ''}}" title="${{tip}}"></div>`;
+  }}).join('');
+
+  const deltaPct = prevTok ? Math.round(100 * changed / n) : 0;
+  const H = entropyBits(tokens);
+  const maxH = Math.log2(5);
+  const longN = tokens.filter(t => t >= 3).length;
+  const shortN = tokens.filter(t => t <= 1).length;
+  const hash = simpleHash(tokens);
+
+  const el = id => document.getElementById(id);
+  if (el('phTokens')) el('phTokens').textContent = n + ' ┬╖ 5 levels ┬╖ dim 1';
+  if (el('phDelta')) {{
+    el('phDelta').textContent = prevTok
+      ? (changed + ' cells ┬╖ ' + deltaPct + '%')
+      : 'first scan in this browser';
+  }}
+  if (el('phDeltaBar')) el('phDeltaBar').style.width = (prevTok ? deltaPct : 8) + '%';
+  if (el('phSideMass')) {{
+    el('phSideMass').innerHTML =
+      '<span class="lime">' + longN + ' long</span> / <span class="mag">' + shortN + ' short</span>';
+  }}
+  if (el('phEntropy')) {{
+    el('phEntropy').textContent =
+      H.toFixed(2) + ' / ' + maxH.toFixed(2) + ' bits ┬╖ ' + Math.round(100 * (1 - H / maxH)) + '% ordered';
+  }}
+  if (el('phHash')) el('phHash').textContent = 'fsq_' + hash;
+
+  try {{
+    localStorage.setItem(PHOTON_KEY, JSON.stringify({{
+      tokens,
+      t: Date.now(),
+      generated_at: (DATA.meta && DATA.meta.generated_at) || null,
+      hash: 'fsq_' + hash,
+    }}));
+  }} catch (_) {{}}
 }}
 
 // Seed from scan snapshot so UI is never empty before first tick
@@ -2185,6 +2508,7 @@ renderRanked();
 const hasReady = (DATA.ideas || []).some(i => (i.setup_state || '').includes('READY'));
 if (!hasReady) document.getElementById('stateFilter').value = 'ALL';
 renderTable();
+renderPhoton();
 
 tickClock();
 setInterval(tickClock, 1000);
