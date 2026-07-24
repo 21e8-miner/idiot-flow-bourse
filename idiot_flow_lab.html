@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 <meta name="theme-color" content="#050608"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
-<title>Idiot Flow · Acid Bourse</title>
+<title>Idiot Flow ┬╖ Acid Bourse</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
-/* ═══════════════════════════════════════════
-   ACID BOURSE — advanced RJ cinematic glass
-   ═══════════════════════════════════════════ */
+/* ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+   ACID BOURSE ΓÇö advanced RJ cinematic glass
+   ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ */
 :root {
   --ink: #f7f3ea;
   --ink2: #d0c9bb;
@@ -76,7 +76,7 @@ img, svg { max-width: 100%; display: block; }
     calc(var(--pad-x) + var(--safe-l));
 }
 
-/* ── top bar ── */
+/* ΓöÇΓöÇ top bar ΓöÇΓöÇ */
 .topline {
   display: flex;
   justify-content: space-between;
@@ -126,7 +126,7 @@ img, svg { max-width: 100%; display: block; }
   flex-shrink: 0;
 }
 
-/* ── hero stage: left | orb | right ── */
+/* ΓöÇΓöÇ hero stage: left | orb | right ΓöÇΓöÇ */
 .stage {
   display: grid;
   grid-template-columns: minmax(140px, 1fr) minmax(240px, 1.45fr) minmax(140px, 1fr);
@@ -515,7 +515,7 @@ img, svg { max-width: 100%; display: block; }
 .stat .s.dim { color: var(--muted); }
 .stat .s.warn { color: var(--gold); }
 
-/* ── flow projection ── */
+/* ΓöÇΓöÇ flow projection ΓöÇΓöÇ */
 .projection {
   margin-top: clamp(8px, 2vw, 18px);
   padding-top: 4px;
@@ -569,7 +569,7 @@ img, svg { max-width: 100%; display: block; }
 }
 .proj-foot b { color: var(--muted); font-weight: 500; }
 
-/* ── the board ── */
+/* ΓöÇΓöÇ the board ΓöÇΓöÇ */
 .board {
   margin-top: clamp(28px, 4vw, 42px);
 }
@@ -747,7 +747,7 @@ img, svg { max-width: 100%; display: block; }
 }
 .token.SHORT .arrow { color: var(--magenta); }
 
-/* ── lower: teardown + notes ── */
+/* ΓöÇΓöÇ lower: teardown + notes ΓöÇΓöÇ */
 .lower {
   display: grid;
   grid-template-columns: 1.35fr 0.9fr;
@@ -884,7 +884,149 @@ img, svg { max-width: 100%; display: block; }
   opacity: 0.7;
 }
 
-/* ── footer ── */
+/* ΓöÇΓöÇ Photon FSQ fingerprint ΓöÇΓöÇ */
+.photon {
+  margin: clamp(28px, 4vw, 40px) 0;
+  padding: 18px 18px 16px;
+  border-radius: 18px;
+  border: 1px solid var(--line2);
+  background:
+    radial-gradient(ellipse 80% 60% at 0% 0%, rgba(200,242,58,0.06), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 100% 100%, rgba(240,74,158,0.06), transparent 50%),
+    rgba(255,255,255,0.02);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.photon-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px 16px;
+  margin-bottom: 14px;
+}
+.photon-head h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.photon-head h2 em {
+  font-style: normal;
+  color: var(--lime);
+}
+.photon-head .sub {
+  font-size: 0.68rem;
+  color: var(--muted);
+  max-width: 36rem;
+  line-height: 1.4;
+}
+.photon-grid-wrap {
+  display: grid;
+  grid-template-columns: 1.4fr 0.9fr;
+  gap: 14px;
+}
+@media (max-width: 820px) {
+  .photon-grid-wrap { grid-template-columns: 1fr; }
+}
+.photon-lattice {
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  gap: 3px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid var(--line);
+  min-height: 140px;
+}
+.photon-cell {
+  aspect-ratio: 1;
+  border-radius: 2px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.photon-cell:hover {
+  transform: scale(1.35);
+  z-index: 2;
+  box-shadow: 0 0 10px currentColor;
+}
+.photon-cell.L-2 { background: #f04a9e; color: #f04a9e; opacity: 0.95; }
+.photon-cell.L-1 { background: #c45a8a; color: #c45a8a; opacity: 0.75; }
+.photon-cell.L0  { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.2); }
+.photon-cell.L1  { background: #8aab2e; color: #8aab2e; opacity: 0.8; }
+.photon-cell.L2  { background: #c8f23a; color: #c8f23a; opacity: 1;
+  box-shadow: 0 0 6px rgba(200,242,58,0.35); }
+.photon-cell.delta {
+  outline: 1px solid rgba(224,192,120,0.85);
+  outline-offset: 0;
+}
+.photon-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.photon-stat {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: rgba(0,0,0,0.22);
+}
+.photon-stat .k {
+  display: block;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted2);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+.photon-stat .v {
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.photon-stat .v.lime { color: var(--lime); }
+.photon-stat .v.mag { color: var(--magenta); }
+.photon-stat .v.gold { color: var(--gold); }
+.photon-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: 12px;
+  font-size: 0.62rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+.photon-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.photon-legend i {
+  width: 10px; height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+}
+.photon-bar {
+  height: 6px;
+  border-radius: 99px;
+  background: rgba(255,255,255,0.06);
+  overflow: hidden;
+  margin-top: 6px;
+}
+.photon-bar > b {
+  display: block;
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--magenta), var(--gold), var(--lime));
+  width: 0%;
+  transition: width 0.6s ease;
+}
+
+/* ΓöÇΓöÇ footer ΓöÇΓöÇ */
 .foot {
   display: flex;
   flex-wrap: wrap;
@@ -946,7 +1088,7 @@ img, svg { max-width: 100%; display: block; }
   line-height: 1.4;
 }
 
-/* ── audit (settings drawer) ── */
+/* ΓöÇΓöÇ audit (settings drawer) ΓöÇΓöÇ */
 .audit {
   margin-top: 28px;
   border-top: 1px solid var(--line);
@@ -974,7 +1116,7 @@ img, svg { max-width: 100%; display: block; }
   font-size: 1rem;
   color: var(--muted2);
 }
-.audit[open] summary::after { content: "−"; }
+.audit[open] summary::after { content: "ΓêÆ"; }
 .table-card {
   margin-top: 10px;
   background: rgba(255,255,255,0.03);
@@ -1108,9 +1250,9 @@ td.sym { font-weight: 600; color: var(--ink); }
   display: none;
 }
 
-/* ═══════════════════════════════════════════
-   MOBILE — visual perfection
-   ═══════════════════════════════════════════ */
+/* ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+   MOBILE ΓÇö visual perfection
+   ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ */
 @media (max-width: 900px) {
   .stage {
     grid-template-columns: 1fr 1fr;
@@ -1241,7 +1383,7 @@ td.sym { font-weight: 600; color: var(--ink); }
       Acid Bourse
     </div>
     <div class="clock">
-      <span id="scanTime">2026-07-24 15:52:55 EST</span>
+      <span id="scanTime">2026-07-24 15:53:36 EST</span>
       <span class="stream-tag" id="streamTag">SCAN</span>
       <svg class="wave" viewBox="0 0 48 14" fill="none" aria-hidden="true">
         <path d="M0 7 Q3 1 6 7 T12 7 T18 7 T24 7 T30 7 T36 7 T42 7 T48 7" stroke="rgba(200,242,58,0.6)" stroke-width="1.2"/>
@@ -1260,6 +1402,7 @@ td.sym { font-weight: 600; color: var(--ink); }
           <li><a class="on" href="#overview">Overview</a></li>
           <li><a href="#signals">Signals</a></li>
           <li><a href="#board">Board</a></li>
+          <li><a href="#photon">Photon</a></li>
           <li><a href="#teardown">Teardown</a></li>
           <li><a href="#settings">Settings</a></li>
         </ul>
@@ -1325,9 +1468,9 @@ td.sym { font-weight: 600; color: var(--ink); }
     </div>
     <div class="proj-chart" id="pathChart"></div>
     <div class="proj-foot">
-      <span>Entry zone · <b id="pathTarget">—</b></span>
-      <span>Invalidation · board cliff</span>
-      <span>Time horizon: 0–12h</span>
+      <span>Entry zone ┬╖ <b id="pathTarget">ΓÇö</b></span>
+      <span>Invalidation ┬╖ board cliff</span>
+      <span>Time horizon: 0ΓÇô12h</span>
     </div>
   </section>
 
@@ -1341,6 +1484,55 @@ td.sym { font-weight: 600; color: var(--ink); }
     <div class="board-track" id="ranked" role="list"></div>
   </section>
 
+  <!-- PHOTON FSQ FINGERPRINT -->
+  <section class="photon" id="photon" aria-label="Photon board fingerprint">
+    <div class="photon-head">
+      <div>
+        <h2>Photon <em>FSQ</em> fingerprint</h2>
+        <p class="sub">
+          Board state quantized to Photon-style levels
+          <b style="color:var(--ink2);font-weight:600">{ΓêÆ1, ΓêÆ┬╜, 0, +┬╜, +1}</b>
+          ΓÇö discrete tokens from flow metrics, not raw pixels.
+          Gold outline = changed vs last scan in this browser.
+        </p>
+      </div>
+    </div>
+    <div class="photon-grid-wrap">
+      <div class="photon-lattice" id="photonLattice" aria-hidden="true"></div>
+      <div class="photon-meta">
+        <div class="photon-stat">
+          <span class="k">Token grid</span>
+          <span class="v lime" id="phTokens">ΓÇö</span>
+        </div>
+        <div class="photon-stat">
+          <span class="k">╬ö vs last scan</span>
+          <span class="v gold" id="phDelta">ΓÇö</span>
+          <div class="photon-bar"><b id="phDeltaBar"></b></div>
+        </div>
+        <div class="photon-stat">
+          <span class="k">Long / short mass</span>
+          <span class="v" id="phSideMass">ΓÇö</span>
+        </div>
+        <div class="photon-stat">
+          <span class="k">Entropy ┬╖ compression feel</span>
+          <span class="v mag" id="phEntropy">ΓÇö</span>
+        </div>
+        <div class="photon-stat">
+          <span class="k">Fingerprint hash</span>
+          <span class="v" id="phHash" style="font-size:0.72rem;word-break:break-all">ΓÇö</span>
+        </div>
+      </div>
+    </div>
+    <div class="photon-legend">
+      <span><i style="background:#f04a9e"></i> ΓêÆ1 strong short bias</span>
+      <span><i style="background:#c45a8a"></i> ΓêÆ┬╜ soft short</span>
+      <span><i style="background:rgba(255,255,255,0.2)"></i> 0 neutral</span>
+      <span><i style="background:#8aab2e"></i> +┬╜ soft long</span>
+      <span><i style="background:#c8f23a"></i> +1 strong long</span>
+      <span><i style="outline:1px solid #e0c078;background:transparent"></i> ╬ö changed cell</span>
+    </div>
+  </section>
+
   <!-- TEARDOWN + NOTES -->
   <section class="lower" id="teardown">
     <div>
@@ -1349,11 +1541,11 @@ td.sym { font-weight: 600; color: var(--ink); }
         <div class="radar" id="radar"></div>
         <div>
           <div class="td-head">
-            <span class="sym" id="tdSym">—</span>
-            <span class="side LONG" id="tdSide">—</span>
+            <span class="sym" id="tdSym">ΓÇö</span>
+            <span class="side LONG" id="tdSide">ΓÇö</span>
           </div>
           <div class="td-rows" id="tdList"></div>
-          <div class="overall">Overall conviction <b id="tdConv">—</b></div>
+          <div class="overall">Overall conviction <b id="tdConv">ΓÇö</b></div>
         </div>
       </div>
     </div>
@@ -1385,23 +1577,23 @@ td.sym { font-weight: 600; color: var(--ink); }
   <footer class="foot">
     <div>
       <span>Acid Bourse Systems</span>
-      &nbsp;·&nbsp;
+      &nbsp;┬╖&nbsp;
       <span>Ver 2.1.0</span>
     </div>
     <div class="live offline" id="streamStatus">Data stream: connecting</div>
-    <div id="uptimeLabel">Uptime · 0M 08S SCAN</div>
+    <div id="uptimeLabel">Uptime ┬╖ 0M 07S SCAN</div>
     <div class="inspire">
       Inspired by
-      <a href="https://robotjames.substack.com/p/a-truly-idiotic-crypto-trade" target="_blank" rel="noopener">Robot James — A truly idiotic crypto trade</a>
-      · independent tool, not affiliated · Binance spot USDT · Adaptive · 6 ideas · 1 adaptive · 6 raw
-      · Regime: BROAD LONG BOARD. Many boards set to look better — idiot bid may lift weak alts broadly.
+      <a href="https://robotjames.substack.com/p/a-truly-idiotic-crypto-trade" target="_blank" rel="noopener">Robot James ΓÇö A truly idiotic crypto trade</a>
+      ┬╖ independent tool, not affiliated ┬╖ Binance spot USDT ┬╖ Adaptive ┬╖ 6 ideas ┬╖ 1 adaptive ┬╖ 6 raw
+      ┬╖ Regime: BROAD LONG BOARD. Many boards set to look better — idiot bid may lift weak alts broadly.
       Not financial advice.
     </div>
   </footer>
 
   <!-- SETTINGS / AUDIT -->
   <details class="audit" id="settings">
-    <summary>Settings · Full-board audit</summary>
+    <summary>Settings ┬╖ Full-board audit</summary>
     <div class="table-card">
       <div class="table-toolbar">
         <select id="sideFilter" aria-label="Side filter">
@@ -1418,7 +1610,7 @@ td.sym { font-weight: 600; color: var(--ink); }
         <select id="sortBy" aria-label="Sort">
           <option value="score">Sort: score</option>
           <option value="strength">Sort: strength</option>
-          <option value="delta">Sort: |Δ|</option>
+          <option value="delta">Sort: |╬ö|</option>
           <option value="outz">Sort: z-out</option>
           <option value="att">Sort: attention</option>
           <option value="vol">Sort: volume</option>
@@ -1436,7 +1628,7 @@ td.sym { font-weight: 600; color: var(--ink); }
               <th>State</th>
               <th>Symbol</th>
               <th>Side</th>
-              <th>Δ (1h)</th>
+              <th>╬ö (1h)</th>
               <th>Z-out</th>
               <th>Edge</th>
               <th>Attention</th>
@@ -1452,7 +1644,7 @@ td.sym { font-weight: 600; color: var(--ink); }
   </details>
 </div>
 
-<script id="payload" type="application/json">{"meta":{"generated_at":"2026-07-24 15:52:55 UTC","venue":"binance-spot","elapsed_s":8.57,"n_ideas":6,"n_adaptive":1,"n_classic_raw":6,"herd":{"bias":"broad-long-board","long_share":1.0,"short_share":0.0,"n":1,"n_adaptive":1,"note":"Many boards set to look better \u2014 idiot bid may lift weak alts broadly."},"top_score":47.08,"median_score":34.97,"venue_label":"Binance spot USDT","horizon":12,"mode":"adaptive"},"ideas":[{"symbol":"DEXEUSDT","venue":"binance-spot","side":"LONG","price":2.964,"next_drift_pp":25.098,"roll_move_pct":-18.295,"roll_volume":3610119.0,"roll_open_time":"2026-07-23 16:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":12.3153,"ref_price":2.639,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":37.4131,"ref_price":2.157,"step_drift_pp":25.0978},{"hours_ahead":2,"displayed_24h_pct":40.9415,"ref_price":2.103,"step_drift_pp":3.5284},{"hours_ahead":3,"displayed_24h_pct":34.9112,"ref_price":2.197,"step_drift_pp":-6.0303},{"hours_ahead":4,"displayed_24h_pct":34.8499,"ref_price":2.198,"step_drift_pp":-0.0614},{"hours_ahead":5,"displayed_24h_pct":38.5047,"ref_price":2.14,"step_drift_pp":3.6548},{"hours_ahead":6,"displayed_24h_pct":38.3108,"ref_price":2.143,"step_drift_pp":-0.1939},{"hours_ahead":7,"displayed_24h_pct":52.7048,"ref_price":1.941,"step_drift_pp":14.394},{"hours_ahead":8,"displayed_24h_pct":77.6978,"ref_price":1.668,"step_drift_pp":24.9931},{"hours_ahead":9,"displayed_24h_pct":78.8775,"ref_price":1.657,"step_drift_pp":1.1796},{"hours_ahead":10,"displayed_24h_pct":55.0209,"ref_price":1.912,"step_drift_pp":-23.8566},{"hours_ahead":11,"displayed_24h_pct":73.232,"ref_price":1.711,"step_drift_pp":18.2111},{"hours_ahead":12,"displayed_24h_pct":63.5762,"ref_price":1.812,"step_drift_pp":-9.6559}],"cliff_pp":25.098,"cliff_hour":1,"path_end_drift_pp":51.261,"current_24h_pct":12.315,"projected_24h_at_cliff":37.413,"flat_next_24h_pct":37.413,"known_roll_delta_pp":25.098,"outgoing_return_pct":-18.264,"outgoing_z":2.739,"roll_edge_z":3.764,"attention_rank":78.09,"rvol":1.02,"recent_trend_pct":2.419,"strength_pine":83.01,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":true,"zero_cross":false,"setup_state":"LONG READY","score":47.08,"liquidity_score":29.5,"magnet_score":5.69,"clean_score":26.0,"freshness_score":0,"cliff_score":28,"recent_1h_pct":9.453,"recent_4h_pct":6.122,"already_moved_with_flow":true,"reason":"[LONG READY] Board +25.10pp next hour if flat (+12.3%\u2192+37.4%). Outgoing -18.26% (2.7z) edge 3.8z att 78p rvol 1.02x.","tags":["classic-raw","adaptive-pass","magnet +15%","magnet +20%","already-bid","classic-red-extreme","imminent-cliff","multi-hour-grind"]},{"symbol":"UUSDT","venue":"binance-spot","side":"SHORT","price":1.0007,"next_drift_pp":-0.02,"roll_move_pct":0.02,"roll_volume":3905645.0,"roll_open_time":"2026-07-23 16:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":0.03,"ref_price":1.0004,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":0.01,"ref_price":1.0006,"step_drift_pp":-0.02},{"hours_ahead":2,"displayed_24h_pct":0.0,"ref_price":1.0007,"step_drift_pp":-0.01},{"hours_ahead":3,"displayed_24h_pct":0.01,"ref_price":1.0006,"step_drift_pp":0.01},{"hours_ahead":4,"displayed_24h_pct":0.0,"ref_price":1.0007,"step_drift_pp":-0.01},{"hours_ahead":5,"displayed_24h_pct":0.01,"ref_price":1.0006,"step_drift_pp":0.01},{"hours_ahead":6,"displayed_24h_pct":0.01,"ref_price":1.0006,"step_drift_pp":0.0},{"hours_ahead":7,"displayed_24h_pct":0.02,"ref_price":1.0005,"step_drift_pp":0.01},{"hours_ahead":8,"displayed_24h_pct":0.02,"ref_price":1.0005,"step_drift_pp":0.0},{"hours_ahead":9,"displayed_24h_pct":0.02,"ref_price":1.0005,"step_drift_pp":0.0},{"hours_ahead":10,"displayed_24h_pct":0.01,"ref_price":1.0006,"step_drift_pp":-0.01},{"hours_ahead":11,"displayed_24h_pct":0.02,"ref_price":1.0005,"step_drift_pp":0.01},{"hours_ahead":12,"displayed_24h_pct":0.02,"ref_price":1.0005,"step_drift_pp":0.0}],"cliff_pp":-0.02,"cliff_hour":1,"path_end_drift_pp":-0.01,"current_24h_pct":0.03,"projected_24h_at_cliff":0.01,"flat_next_24h_pct":0.01,"known_roll_delta_pp":-0.02,"outgoing_return_pct":0.02,"outgoing_z":2.68,"roll_edge_z":2.681,"attention_rank":91.68,"rvol":1.74,"recent_trend_pct":0.03,"strength_pine":80.88,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":false,"setup_state":"FILTERED OUT","score":35.52,"liquidity_score":31.0,"magnet_score":13.5,"clean_score":26.0,"freshness_score":20.04,"cliff_score":5.07,"recent_1h_pct":0.0,"recent_4h_pct":0.03,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board -0.02pp next hour if flat (+0.0%\u2192+0.0%). Outgoing +0.02% (2.7z) edge 2.7z att 92p rvol 1.74x.","tags":["classic-raw","magnet +0%","classic-green-extreme","fail-shock","fail-edge","imminent-cliff","high-attention","high-rvol"]},{"symbol":"XUSDUSDT","venue":"binance-spot","side":"SHORT","price":1.0011,"next_drift_pp":-0.03,"roll_move_pct":0.02,"roll_volume":306249.0,"roll_open_time":"2026-07-23 16:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":0.03,"ref_price":1.0008,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":0.0,"ref_price":1.0011,"step_drift_pp":-0.03},{"hours_ahead":2,"displayed_24h_pct":0.01,"ref_price":1.001,"step_drift_pp":0.01},{"hours_ahead":3,"displayed_24h_pct":0.01,"ref_price":1.001,"step_drift_pp":0.0},{"hours_ahead":4,"displayed_24h_pct":0.01,"ref_price":1.001,"step_drift_pp":0.0},{"hours_ahead":5,"displayed_24h_pct":0.01,"ref_price":1.001,"step_drift_pp":0.0},{"hours_ahead":6,"displayed_24h_pct":0.02,"ref_price":1.0009,"step_drift_pp":0.01},{"hours_ahead":7,"displayed_24h_pct":0.02,"ref_price":1.0009,"step_drift_pp":0.0},{"hours_ahead":8,"displayed_24h_pct":0.02,"ref_price":1.0009,"step_drift_pp":0.0},{"hours_ahead":9,"displayed_24h_pct":0.0,"ref_price":1.0011,"step_drift_pp":-0.02},{"hours_ahead":10,"displayed_24h_pct":0.0,"ref_price":1.0011,"step_drift_pp":0.0},{"hours_ahead":11,"displayed_24h_pct":0.01,"ref_price":1.001,"step_drift_pp":0.01},{"hours_ahead":12,"displayed_24h_pct":0.02,"ref_price":1.0009,"step_drift_pp":0.01}],"cliff_pp":-0.03,"cliff_hour":1,"path_end_drift_pp":-0.01,"current_24h_pct":0.03,"projected_24h_at_cliff":0.0,"flat_next_24h_pct":0.0,"known_roll_delta_pp":-0.03,"outgoing_return_pct":0.03,"outgoing_z":2.836,"roll_edge_z":2.836,"attention_rank":82.52,"rvol":0.157,"recent_trend_pct":0.03,"strength_pine":82.67,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":true,"setup_state":"FILTERED OUT","score":34.97,"liquidity_score":23.3,"magnet_score":13.5,"clean_score":26.0,"freshness_score":20.02,"cliff_score":5.1,"recent_1h_pct":0.01,"recent_4h_pct":0.02,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board -0.03pp next hour if flat (+0.0%\u2192+0.0%). Outgoing +0.03% (2.8z) edge 2.8z att 83p rvol 0.16x.","tags":["classic-raw","magnet +0%","classic-green-extreme","fail-shock","fail-edge","fail-rvol","zero-cross","imminent-cliff","high-attention"]},{"symbol":"CAKEUSDT","venue":"binance-spot","side":"SHORT","price":1.393,"next_drift_pp":-0.577,"roll_move_pct":0.577,"roll_volume":257538.0,"roll_open_time":"2026-07-23 16:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":0.5051,"ref_price":1.386,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":-0.0717,"ref_price":1.394,"step_drift_pp":-0.5768},{"hours_ahead":2,"displayed_24h_pct":0.5776,"ref_price":1.385,"step_drift_pp":0.6494},{"hours_ahead":3,"displayed_24h_pct":0.2158,"ref_price":1.39,"step_drift_pp":-0.3618},{"hours_ahead":4,"displayed_24h_pct":0.5051,"ref_price":1.386,"step_drift_pp":0.2892},{"hours_ahead":5,"displayed_24h_pct":0.3602,"ref_price":1.388,"step_drift_pp":-0.1448},{"hours_ahead":6,"displayed_24h_pct":0.6503,"ref_price":1.384,"step_drift_pp":0.2901},{"hours_ahead":7,"displayed_24h_pct":0.3602,"ref_price":1.388,"step_drift_pp":-0.2901},{"hours_ahead":8,"displayed_24h_pct":0.288,"ref_price":1.389,"step_drift_pp":-0.0723},{"hours_ahead":9,"displayed_24h_pct":0.3602,"ref_price":1.388,"step_drift_pp":0.0723},{"hours_ahead":10,"displayed_24h_pct":0.2158,"ref_price":1.39,"step_drift_pp":-0.1444},{"hours_ahead":11,"displayed_24h_pct":0.3602,"ref_price":1.388,"step_drift_pp":0.1444},{"hours_ahead":12,"displayed_24h_pct":0.0,"ref_price":1.393,"step_drift_pp":-0.3602}],"cliff_pp":0.649,"cliff_hour":2,"path_end_drift_pp":-0.505,"current_24h_pct":0.505,"projected_24h_at_cliff":0.578,"flat_next_24h_pct":-0.072,"known_roll_delta_pp":-0.577,"outgoing_return_pct":0.577,"outgoing_z":1.962,"roll_edge_z":1.96,"attention_rank":24.83,"rvol":0.706,"recent_trend_pct":-0.642,"strength_pine":50.72,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":true,"setup_state":"FILTERED OUT","score":24.05,"liquidity_score":21.62,"magnet_score":13.5,"clean_score":26.0,"freshness_score":19.55,"cliff_score":6.71,"recent_1h_pct":0.216,"recent_4h_pct":-0.358,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board -0.58pp next hour if flat (+0.5%\u2192-0.1%). Outgoing +0.58% (2.0z) edge 2.0z att 25p rvol 0.71x.","tags":["classic-raw","magnet +0%","classic-green-extreme","fail-shock","fail-attention","zero-cross","imminent-cliff"]},{"symbol":"DOTUSDT","venue":"binance-spot","side":"LONG","price":0.799,"next_drift_pp":0.605,"roll_move_pct":-0.613,"roll_volume":80530.0,"roll_open_time":"2026-07-23 16:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":-1.9632,"ref_price":0.815,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":-1.358,"ref_price":0.81,"step_drift_pp":0.6052},{"hours_ahead":2,"displayed_24h_pct":-0.9913,"ref_price":0.807,"step_drift_pp":0.3667},{"hours_ahead":3,"displayed_24h_pct":-2.0833,"ref_price":0.816,"step_drift_pp":-1.092},{"hours_ahead":4,"displayed_24h_pct":-2.0833,"ref_price":0.816,"step_drift_pp":0.0},{"hours_ahead":5,"displayed_24h_pct":-2.2032,"ref_price":0.817,"step_drift_pp":-0.1198},{"hours_ahead":6,"displayed_24h_pct":-2.2032,"ref_price":0.817,"step_drift_pp":0.0},{"hours_ahead":7,"displayed_24h_pct":-2.2032,"ref_price":0.817,"step_drift_pp":0.0},{"hours_ahead":8,"displayed_24h_pct":-1.9632,"ref_price":0.815,"step_drift_pp":0.24},{"hours_ahead":9,"displayed_24h_pct":-2.0833,"ref_price":0.816,"step_drift_pp":-0.1201},{"hours_ahead":10,"displayed_24h_pct":-2.2032,"ref_price":0.817,"step_drift_pp":-0.1198},{"hours_ahead":11,"displayed_24h_pct":-1.8428,"ref_price":0.814,"step_drift_pp":0.3604},{"hours_ahead":12,"displayed_24h_pct":-1.9632,"ref_price":0.815,"step_drift_pp":-0.1204}],"cliff_pp":-1.092,"cliff_hour":3,"path_end_drift_pp":0.0,"current_24h_pct":-1.963,"projected_24h_at_cliff":-2.083,"flat_next_24h_pct":-1.358,"known_roll_delta_pp":0.605,"outgoing_return_pct":-0.613,"outgoing_z":1.392,"roll_edge_z":1.373,"attention_rank":54.92,"rvol":1.386,"recent_trend_pct":-0.991,"strength_pine":43.21,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":false,"setup_state":"FILTERED OUT","score":20.36,"liquidity_score":16.66,"magnet_score":0.0,"clean_score":26.0,"freshness_score":20.12,"cliff_score":2.32,"recent_1h_pct":0.251,"recent_4h_pct":-0.622,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board +0.61pp next hour if flat (-2.0%\u2192-1.4%). Outgoing -0.61% (1.4z) edge 1.4z att 55p rvol 1.39x.","tags":["classic-raw","classic-red-extreme","fail-shock"]},{"symbol":"ICPUSDT","venue":"binance-spot","side":"LONG","price":2.152,"next_drift_pp":0.507,"roll_move_pct":-0.508,"roll_volume":81648.0,"roll_open_time":"2026-07-23 16:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":-0.6464,"ref_price":2.166,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":-0.1392,"ref_price":2.155,"step_drift_pp":0.5071},{"hours_ahead":2,"displayed_24h_pct":0.1396,"ref_price":2.149,"step_drift_pp":0.2788},{"hours_ahead":3,"displayed_24h_pct":-0.0929,"ref_price":2.154,"step_drift_pp":-0.2325},{"hours_ahead":4,"displayed_24h_pct":-0.1855,"ref_price":2.156,"step_drift_pp":-0.0927},{"hours_ahead":5,"displayed_24h_pct":-0.6922,"ref_price":2.167,"step_drift_pp":-0.5067},{"hours_ahead":6,"displayed_24h_pct":-0.4165,"ref_price":2.161,"step_drift_pp":0.2757},{"hours_ahead":7,"displayed_24h_pct":-0.278,"ref_price":2.158,"step_drift_pp":0.1384},{"hours_ahead":8,"displayed_24h_pct":-0.2318,"ref_price":2.157,"step_drift_pp":0.0462},{"hours_ahead":9,"displayed_24h_pct":-0.1855,"ref_price":2.156,"step_drift_pp":0.0463},{"hours_ahead":10,"displayed_24h_pct":0.0465,"ref_price":2.151,"step_drift_pp":0.232},{"hours_ahead":11,"displayed_24h_pct":0.0465,"ref_price":2.151,"step_drift_pp":0.0},{"hours_ahead":12,"displayed_24h_pct":-0.7838,"ref_price":2.169,"step_drift_pp":-0.8303}],"cliff_pp":-0.83,"cliff_hour":12,"path_end_drift_pp":-0.137,"current_24h_pct":-0.646,"projected_24h_at_cliff":-0.784,"flat_next_24h_pct":-0.139,"known_roll_delta_pp":0.507,"outgoing_return_pct":-0.508,"outgoing_z":1.363,"roll_edge_z":1.361,"attention_rank":19.97,"rvol":1.172,"recent_trend_pct":-0.6,"strength_pine":35.77,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":false,"setup_state":"FILTERED OUT","score":17.77,"liquidity_score":18.02,"magnet_score":0.0,"clean_score":26.0,"freshness_score":19.48,"cliff_score":0.65,"recent_1h_pct":0.186,"recent_4h_pct":0.046,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board +0.51pp next hour if flat (-0.6%\u2192-0.1%). Outgoing -0.51% (1.4z) edge 1.4z att 20p rvol 1.17x.","tags":["classic-raw","classic-red-extreme","fail-shock","fail-attention"]}],"potato":[{"symbol":"DEXEUSDT","venue":"binance-spot","side":"LONG","price":2.964,"next_drift_pp":25.098,"roll_move_pct":-18.295,"roll_volume":3610119.0,"roll_open_time":"2026-07-23 16:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":12.3153,"ref_price":2.639,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":37.4131,"ref_price":2.157,"step_drift_pp":25.0978},{"hours_ahead":2,"displayed_24h_pct":40.9415,"ref_price":2.103,"step_drift_pp":3.5284},{"hours_ahead":3,"displayed_24h_pct":34.9112,"ref_price":2.197,"step_drift_pp":-6.0303},{"hours_ahead":4,"displayed_24h_pct":34.8499,"ref_price":2.198,"step_drift_pp":-0.0614},{"hours_ahead":5,"displayed_24h_pct":38.5047,"ref_price":2.14,"step_drift_pp":3.6548},{"hours_ahead":6,"displayed_24h_pct":38.3108,"ref_price":2.143,"step_drift_pp":-0.1939},{"hours_ahead":7,"displayed_24h_pct":52.7048,"ref_price":1.941,"step_drift_pp":14.394},{"hours_ahead":8,"displayed_24h_pct":77.6978,"ref_price":1.668,"step_drift_pp":24.9931},{"hours_ahead":9,"displayed_24h_pct":78.8775,"ref_price":1.657,"step_drift_pp":1.1796},{"hours_ahead":10,"displayed_24h_pct":55.0209,"ref_price":1.912,"step_drift_pp":-23.8566},{"hours_ahead":11,"displayed_24h_pct":73.232,"ref_price":1.711,"step_drift_pp":18.2111},{"hours_ahead":12,"displayed_24h_pct":63.5762,"ref_price":1.812,"step_drift_pp":-9.6559}],"cliff_pp":25.098,"cliff_hour":1,"path_end_drift_pp":51.261,"current_24h_pct":12.315,"projected_24h_at_cliff":37.413,"flat_next_24h_pct":37.413,"known_roll_delta_pp":25.098,"outgoing_return_pct":-18.264,"outgoing_z":2.739,"roll_edge_z":3.764,"attention_rank":78.09,"rvol":1.02,"recent_trend_pct":2.419,"strength_pine":83.01,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":true,"zero_cross":false,"setup_state":"LONG READY","score":47.08,"liquidity_score":29.5,"magnet_score":5.69,"clean_score":26.0,"freshness_score":0,"cliff_score":28,"recent_1h_pct":9.453,"recent_4h_pct":6.122,"already_moved_with_flow":true,"reason":"[LONG READY] Board +25.10pp next hour if flat (+12.3%\u2192+37.4%). Outgoing -18.26% (2.7z) edge 3.8z att 78p rvol 1.02x.","tags":["classic-raw","adaptive-pass","magnet +15%","magnet +20%","already-bid","classic-red-extreme","imminent-cliff","multi-hour-grind"]},{"symbol":"XUSDUSDT","venue":"binance-spot","side":"SHORT","price":1.0011,"next_drift_pp":-0.03,"roll_move_pct":0.02,"roll_volume":306249.0,"roll_open_time":"2026-07-23 16:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":0.03,"ref_price":1.0008,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":0.0,"ref_price":1.0011,"step_drift_pp":-0.03},{"hours_ahead":2,"displayed_24h_pct":0.01,"ref_price":1.001,"step_drift_pp":0.01},{"hours_ahead":3,"displayed_24h_pct":0.01,"ref_price":1.001,"step_drift_pp":0.0},{"hours_ahead":4,"displayed_24h_pct":0.01,"ref_price":1.001,"step_drift_pp":0.0},{"hours_ahead":5,"displayed_24h_pct":0.01,"ref_price":1.001,"step_drift_pp":0.0},{"hours_ahead":6,"displayed_24h_pct":0.02,"ref_price":1.0009,"step_drift_pp":0.01},{"hours_ahead":7,"displayed_24h_pct":0.02,"ref_price":1.0009,"step_drift_pp":0.0},{"hours_ahead":8,"displayed_24h_pct":0.02,"ref_price":1.0009,"step_drift_pp":0.0},{"hours_ahead":9,"displayed_24h_pct":0.0,"ref_price":1.0011,"step_drift_pp":-0.02},{"hours_ahead":10,"displayed_24h_pct":0.0,"ref_price":1.0011,"step_drift_pp":0.0},{"hours_ahead":11,"displayed_24h_pct":0.01,"ref_price":1.001,"step_drift_pp":0.01},{"hours_ahead":12,"displayed_24h_pct":0.02,"ref_price":1.0009,"step_drift_pp":0.01}],"cliff_pp":-0.03,"cliff_hour":1,"path_end_drift_pp":-0.01,"current_24h_pct":0.03,"projected_24h_at_cliff":0.0,"flat_next_24h_pct":0.0,"known_roll_delta_pp":-0.03,"outgoing_return_pct":0.03,"outgoing_z":2.836,"roll_edge_z":2.836,"attention_rank":82.52,"rvol":0.157,"recent_trend_pct":0.03,"strength_pine":82.67,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":true,"setup_state":"FILTERED OUT","score":34.97,"liquidity_score":23.3,"magnet_score":13.5,"clean_score":26.0,"freshness_score":20.02,"cliff_score":5.1,"recent_1h_pct":0.01,"recent_4h_pct":0.02,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board -0.03pp next hour if flat (+0.0%\u2192+0.0%). Outgoing +0.03% (2.8z) edge 2.8z att 83p rvol 0.16x.","tags":["classic-raw","magnet +0%","classic-green-extreme","fail-shock","fail-edge","fail-rvol","zero-cross","imminent-cliff","high-attention"]},{"symbol":"UUSDT","venue":"binance-spot","side":"SHORT","price":1.0007,"next_drift_pp":-0.02,"roll_move_pct":0.02,"roll_volume":3905645.0,"roll_open_time":"2026-07-23 16:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":0.03,"ref_price":1.0004,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":0.01,"ref_price":1.0006,"step_drift_pp":-0.02},{"hours_ahead":2,"displayed_24h_pct":0.0,"ref_price":1.0007,"step_drift_pp":-0.01},{"hours_ahead":3,"displayed_24h_pct":0.01,"ref_price":1.0006,"step_drift_pp":0.01},{"hours_ahead":4,"displayed_24h_pct":0.0,"ref_price":1.0007,"step_drift_pp":-0.01},{"hours_ahead":5,"displayed_24h_pct":0.01,"ref_price":1.0006,"step_drift_pp":0.01},{"hours_ahead":6,"displayed_24h_pct":0.01,"ref_price":1.0006,"step_drift_pp":0.0},{"hours_ahead":7,"displayed_24h_pct":0.02,"ref_price":1.0005,"step_drift_pp":0.01},{"hours_ahead":8,"displayed_24h_pct":0.02,"ref_price":1.0005,"step_drift_pp":0.0},{"hours_ahead":9,"displayed_24h_pct":0.02,"ref_price":1.0005,"step_drift_pp":0.0},{"hours_ahead":10,"displayed_24h_pct":0.01,"ref_price":1.0006,"step_drift_pp":-0.01},{"hours_ahead":11,"displayed_24h_pct":0.02,"ref_price":1.0005,"step_drift_pp":0.01},{"hours_ahead":12,"displayed_24h_pct":0.02,"ref_price":1.0005,"step_drift_pp":0.0}],"cliff_pp":-0.02,"cliff_hour":1,"path_end_drift_pp":-0.01,"current_24h_pct":0.03,"projected_24h_at_cliff":0.01,"flat_next_24h_pct":0.01,"known_roll_delta_pp":-0.02,"outgoing_return_pct":0.02,"outgoing_z":2.68,"roll_edge_z":2.681,"attention_rank":91.68,"rvol":1.74,"recent_trend_pct":0.03,"strength_pine":80.88,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":false,"setup_state":"FILTERED OUT","score":35.52,"liquidity_score":31.0,"magnet_score":13.5,"clean_score":26.0,"freshness_score":20.04,"cliff_score":5.07,"recent_1h_pct":0.0,"recent_4h_pct":0.03,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board -0.02pp next hour if flat (+0.0%\u2192+0.0%). Outgoing +0.02% (2.7z) edge 2.7z att 92p rvol 1.74x.","tags":["classic-raw","magnet +0%","classic-green-extreme","fail-shock","fail-edge","imminent-cliff","high-attention","high-rvol"]},{"symbol":"CAKEUSDT","venue":"binance-spot","side":"SHORT","price":1.393,"next_drift_pp":-0.577,"roll_move_pct":0.577,"roll_volume":257538.0,"roll_open_time":"2026-07-23 16:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":0.5051,"ref_price":1.386,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":-0.0717,"ref_price":1.394,"step_drift_pp":-0.5768},{"hours_ahead":2,"displayed_24h_pct":0.5776,"ref_price":1.385,"step_drift_pp":0.6494},{"hours_ahead":3,"displayed_24h_pct":0.2158,"ref_price":1.39,"step_drift_pp":-0.3618},{"hours_ahead":4,"displayed_24h_pct":0.5051,"ref_price":1.386,"step_drift_pp":0.2892},{"hours_ahead":5,"displayed_24h_pct":0.3602,"ref_price":1.388,"step_drift_pp":-0.1448},{"hours_ahead":6,"displayed_24h_pct":0.6503,"ref_price":1.384,"step_drift_pp":0.2901},{"hours_ahead":7,"displayed_24h_pct":0.3602,"ref_price":1.388,"step_drift_pp":-0.2901},{"hours_ahead":8,"displayed_24h_pct":0.288,"ref_price":1.389,"step_drift_pp":-0.0723},{"hours_ahead":9,"displayed_24h_pct":0.3602,"ref_price":1.388,"step_drift_pp":0.0723},{"hours_ahead":10,"displayed_24h_pct":0.2158,"ref_price":1.39,"step_drift_pp":-0.1444},{"hours_ahead":11,"displayed_24h_pct":0.3602,"ref_price":1.388,"step_drift_pp":0.1444},{"hours_ahead":12,"displayed_24h_pct":0.0,"ref_price":1.393,"step_drift_pp":-0.3602}],"cliff_pp":0.649,"cliff_hour":2,"path_end_drift_pp":-0.505,"current_24h_pct":0.505,"projected_24h_at_cliff":0.578,"flat_next_24h_pct":-0.072,"known_roll_delta_pp":-0.577,"outgoing_return_pct":0.577,"outgoing_z":1.962,"roll_edge_z":1.96,"attention_rank":24.83,"rvol":0.706,"recent_trend_pct":-0.642,"strength_pine":50.72,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":true,"setup_state":"FILTERED OUT","score":24.05,"liquidity_score":21.62,"magnet_score":13.5,"clean_score":26.0,"freshness_score":19.55,"cliff_score":6.71,"recent_1h_pct":0.216,"recent_4h_pct":-0.358,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board -0.58pp next hour if flat (+0.5%\u2192-0.1%). Outgoing +0.58% (2.0z) edge 2.0z att 25p rvol 0.71x.","tags":["classic-raw","magnet +0%","classic-green-extreme","fail-shock","fail-attention","zero-cross","imminent-cliff"]},{"symbol":"DOTUSDT","venue":"binance-spot","side":"LONG","price":0.799,"next_drift_pp":0.605,"roll_move_pct":-0.613,"roll_volume":80530.0,"roll_open_time":"2026-07-23 16:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":-1.9632,"ref_price":0.815,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":-1.358,"ref_price":0.81,"step_drift_pp":0.6052},{"hours_ahead":2,"displayed_24h_pct":-0.9913,"ref_price":0.807,"step_drift_pp":0.3667},{"hours_ahead":3,"displayed_24h_pct":-2.0833,"ref_price":0.816,"step_drift_pp":-1.092},{"hours_ahead":4,"displayed_24h_pct":-2.0833,"ref_price":0.816,"step_drift_pp":0.0},{"hours_ahead":5,"displayed_24h_pct":-2.2032,"ref_price":0.817,"step_drift_pp":-0.1198},{"hours_ahead":6,"displayed_24h_pct":-2.2032,"ref_price":0.817,"step_drift_pp":0.0},{"hours_ahead":7,"displayed_24h_pct":-2.2032,"ref_price":0.817,"step_drift_pp":0.0},{"hours_ahead":8,"displayed_24h_pct":-1.9632,"ref_price":0.815,"step_drift_pp":0.24},{"hours_ahead":9,"displayed_24h_pct":-2.0833,"ref_price":0.816,"step_drift_pp":-0.1201},{"hours_ahead":10,"displayed_24h_pct":-2.2032,"ref_price":0.817,"step_drift_pp":-0.1198},{"hours_ahead":11,"displayed_24h_pct":-1.8428,"ref_price":0.814,"step_drift_pp":0.3604},{"hours_ahead":12,"displayed_24h_pct":-1.9632,"ref_price":0.815,"step_drift_pp":-0.1204}],"cliff_pp":-1.092,"cliff_hour":3,"path_end_drift_pp":0.0,"current_24h_pct":-1.963,"projected_24h_at_cliff":-2.083,"flat_next_24h_pct":-1.358,"known_roll_delta_pp":0.605,"outgoing_return_pct":-0.613,"outgoing_z":1.392,"roll_edge_z":1.373,"attention_rank":54.92,"rvol":1.386,"recent_trend_pct":-0.991,"strength_pine":43.21,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":false,"setup_state":"FILTERED OUT","score":20.36,"liquidity_score":16.66,"magnet_score":0.0,"clean_score":26.0,"freshness_score":20.12,"cliff_score":2.32,"recent_1h_pct":0.251,"recent_4h_pct":-0.622,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board +0.61pp next hour if flat (-2.0%\u2192-1.4%). Outgoing -0.61% (1.4z) edge 1.4z att 55p rvol 1.39x.","tags":["classic-raw","classic-red-extreme","fail-shock"]}]}</script>
+<script id="payload" type="application/json">{"meta":{"generated_at":"2026-07-24 15:53:36 UTC","venue":"binance-spot","elapsed_s":7.09,"n_ideas":6,"n_adaptive":1,"n_classic_raw":6,"herd":{"bias":"broad-long-board","long_share":1.0,"short_share":0.0,"n":1,"n_adaptive":1,"note":"Many boards set to look better \u2014 idiot bid may lift weak alts broadly."},"top_score":47.04,"median_score":34.86,"venue_label":"Binance spot USDT","horizon":12,"mode":"adaptive"},"ideas":[{"symbol":"DEXEUSDT","venue":"binance-spot","side":"LONG","price":2.952,"next_drift_pp":24.996,"roll_move_pct":-18.295,"roll_volume":3610119.0,"roll_open_time":"2026-07-23 16:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":11.8606,"ref_price":2.639,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":36.8567,"ref_price":2.157,"step_drift_pp":24.9962},{"hours_ahead":2,"displayed_24h_pct":40.3709,"ref_price":2.103,"step_drift_pp":3.5142},{"hours_ahead":3,"displayed_24h_pct":34.365,"ref_price":2.197,"step_drift_pp":-6.0059},{"hours_ahead":4,"displayed_24h_pct":34.3039,"ref_price":2.198,"step_drift_pp":-0.0611},{"hours_ahead":5,"displayed_24h_pct":37.9439,"ref_price":2.14,"step_drift_pp":3.64},{"hours_ahead":6,"displayed_24h_pct":37.7508,"ref_price":2.143,"step_drift_pp":-0.1931},{"hours_ahead":7,"displayed_24h_pct":52.0866,"ref_price":1.941,"step_drift_pp":14.3357},{"hours_ahead":8,"displayed_24h_pct":76.9784,"ref_price":1.668,"step_drift_pp":24.8919},{"hours_ahead":9,"displayed_24h_pct":78.1533,"ref_price":1.657,"step_drift_pp":1.1749},{"hours_ahead":10,"displayed_24h_pct":54.3933,"ref_price":1.912,"step_drift_pp":-23.76},{"hours_ahead":11,"displayed_24h_pct":72.5307,"ref_price":1.711,"step_drift_pp":18.1374},{"hours_ahead":12,"displayed_24h_pct":62.9139,"ref_price":1.812,"step_drift_pp":-9.6168}],"cliff_pp":24.996,"cliff_hour":1,"path_end_drift_pp":51.053,"current_24h_pct":11.861,"projected_24h_at_cliff":36.857,"flat_next_24h_pct":36.857,"known_roll_delta_pp":24.996,"outgoing_return_pct":-18.264,"outgoing_z":2.741,"roll_edge_z":3.751,"attention_rank":77.53,"rvol":1.031,"recent_trend_pct":2.004,"strength_pine":82.92,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":true,"zero_cross":false,"setup_state":"LONG READY","score":47.04,"liquidity_score":29.5,"magnet_score":5.69,"clean_score":26.0,"freshness_score":0,"cliff_score":28,"recent_1h_pct":9.01,"recent_4h_pct":5.693,"already_moved_with_flow":true,"reason":"[LONG READY] Board +25.00pp next hour if flat (+11.9%\u2192+36.9%). Outgoing -18.26% (2.7z) edge 3.8z att 78p rvol 1.03x.","tags":["classic-raw","adaptive-pass","magnet +15%","magnet +20%","already-bid","classic-red-extreme","imminent-cliff","multi-hour-grind"]},{"symbol":"XUSDUSDT","venue":"binance-spot","side":"SHORT","price":1.0011,"next_drift_pp":-0.03,"roll_move_pct":0.02,"roll_volume":306249.0,"roll_open_time":"2026-07-23 16:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":0.03,"ref_price":1.0008,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":0.0,"ref_price":1.0011,"step_drift_pp":-0.03},{"hours_ahead":2,"displayed_24h_pct":0.01,"ref_price":1.001,"step_drift_pp":0.01},{"hours_ahead":3,"displayed_24h_pct":0.01,"ref_price":1.001,"step_drift_pp":0.0},{"hours_ahead":4,"displayed_24h_pct":0.01,"ref_price":1.001,"step_drift_pp":0.0},{"hours_ahead":5,"displayed_24h_pct":0.01,"ref_price":1.001,"step_drift_pp":0.0},{"hours_ahead":6,"displayed_24h_pct":0.02,"ref_price":1.0009,"step_drift_pp":0.01},{"hours_ahead":7,"displayed_24h_pct":0.02,"ref_price":1.0009,"step_drift_pp":0.0},{"hours_ahead":8,"displayed_24h_pct":0.02,"ref_price":1.0009,"step_drift_pp":0.0},{"hours_ahead":9,"displayed_24h_pct":0.0,"ref_price":1.0011,"step_drift_pp":-0.02},{"hours_ahead":10,"displayed_24h_pct":0.0,"ref_price":1.0011,"step_drift_pp":0.0},{"hours_ahead":11,"displayed_24h_pct":0.01,"ref_price":1.001,"step_drift_pp":0.01},{"hours_ahead":12,"displayed_24h_pct":0.02,"ref_price":1.0009,"step_drift_pp":0.01}],"cliff_pp":-0.03,"cliff_hour":1,"path_end_drift_pp":-0.01,"current_24h_pct":0.03,"projected_24h_at_cliff":0.0,"flat_next_24h_pct":0.0,"known_roll_delta_pp":-0.03,"outgoing_return_pct":0.03,"outgoing_z":2.836,"roll_edge_z":2.836,"attention_rank":82.52,"rvol":0.157,"recent_trend_pct":0.03,"strength_pine":82.67,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":true,"setup_state":"FILTERED OUT","score":34.97,"liquidity_score":23.3,"magnet_score":13.5,"clean_score":26.0,"freshness_score":20.02,"cliff_score":5.1,"recent_1h_pct":0.01,"recent_4h_pct":0.02,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board -0.03pp next hour if flat (+0.0%\u2192+0.0%). Outgoing +0.03% (2.8z) edge 2.8z att 83p rvol 0.16x.","tags":["classic-raw","magnet +0%","classic-green-extreme","fail-shock","fail-edge","fail-rvol","zero-cross","imminent-cliff","high-attention"]},{"symbol":"UUSDT","venue":"binance-spot","side":"SHORT","price":1.0006,"next_drift_pp":-0.02,"roll_move_pct":0.02,"roll_volume":3905645.0,"roll_open_time":"2026-07-23 16:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":0.02,"ref_price":1.0004,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":0.0,"ref_price":1.0006,"step_drift_pp":-0.02},{"hours_ahead":2,"displayed_24h_pct":-0.01,"ref_price":1.0007,"step_drift_pp":-0.01},{"hours_ahead":3,"displayed_24h_pct":0.0,"ref_price":1.0006,"step_drift_pp":0.01},{"hours_ahead":4,"displayed_24h_pct":-0.01,"ref_price":1.0007,"step_drift_pp":-0.01},{"hours_ahead":5,"displayed_24h_pct":0.0,"ref_price":1.0006,"step_drift_pp":0.01},{"hours_ahead":6,"displayed_24h_pct":0.0,"ref_price":1.0006,"step_drift_pp":0.0},{"hours_ahead":7,"displayed_24h_pct":0.01,"ref_price":1.0005,"step_drift_pp":0.01},{"hours_ahead":8,"displayed_24h_pct":0.01,"ref_price":1.0005,"step_drift_pp":0.0},{"hours_ahead":9,"displayed_24h_pct":0.01,"ref_price":1.0005,"step_drift_pp":0.0},{"hours_ahead":10,"displayed_24h_pct":0.0,"ref_price":1.0006,"step_drift_pp":-0.01},{"hours_ahead":11,"displayed_24h_pct":0.01,"ref_price":1.0005,"step_drift_pp":0.01},{"hours_ahead":12,"displayed_24h_pct":0.01,"ref_price":1.0005,"step_drift_pp":0.0}],"cliff_pp":-0.02,"cliff_hour":1,"path_end_drift_pp":-0.01,"current_24h_pct":0.02,"projected_24h_at_cliff":0.0,"flat_next_24h_pct":0.0,"known_roll_delta_pp":-0.02,"outgoing_return_pct":0.02,"outgoing_z":2.666,"roll_edge_z":2.666,"attention_rank":83.63,"rvol":1.748,"recent_trend_pct":0.02,"strength_pine":78.94,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":true,"setup_state":"FILTERED OUT","score":34.86,"liquidity_score":31.0,"magnet_score":13.5,"clean_score":26.0,"freshness_score":20.0,"cliff_score":5.07,"recent_1h_pct":-0.01,"recent_4h_pct":0.02,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board -0.02pp next hour if flat (+0.0%\u2192+0.0%). Outgoing +0.02% (2.7z) edge 2.7z att 84p rvol 1.75x.","tags":["classic-raw","magnet +0%","classic-green-extreme","fail-shock","fail-edge","zero-cross","imminent-cliff","high-attention","high-rvol"]},{"symbol":"CAKEUSDT","venue":"binance-spot","side":"SHORT","price":1.392,"next_drift_pp":-0.576,"roll_move_pct":0.577,"roll_volume":257538.0,"roll_open_time":"2026-07-23 16:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":0.4329,"ref_price":1.386,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":-0.1435,"ref_price":1.394,"step_drift_pp":-0.5764},{"hours_ahead":2,"displayed_24h_pct":0.5054,"ref_price":1.385,"step_drift_pp":0.6489},{"hours_ahead":3,"displayed_24h_pct":0.1439,"ref_price":1.39,"step_drift_pp":-0.3615},{"hours_ahead":4,"displayed_24h_pct":0.4329,"ref_price":1.386,"step_drift_pp":0.289},{"hours_ahead":5,"displayed_24h_pct":0.2882,"ref_price":1.388,"step_drift_pp":-0.1447},{"hours_ahead":6,"displayed_24h_pct":0.578,"ref_price":1.384,"step_drift_pp":0.2899},{"hours_ahead":7,"displayed_24h_pct":0.2882,"ref_price":1.388,"step_drift_pp":-0.2899},{"hours_ahead":8,"displayed_24h_pct":0.216,"ref_price":1.389,"step_drift_pp":-0.0722},{"hours_ahead":9,"displayed_24h_pct":0.2882,"ref_price":1.388,"step_drift_pp":0.0722},{"hours_ahead":10,"displayed_24h_pct":0.1439,"ref_price":1.39,"step_drift_pp":-0.1443},{"hours_ahead":11,"displayed_24h_pct":0.2882,"ref_price":1.388,"step_drift_pp":0.1443},{"hours_ahead":12,"displayed_24h_pct":-0.0718,"ref_price":1.393,"step_drift_pp":-0.36}],"cliff_pp":0.649,"cliff_hour":2,"path_end_drift_pp":-0.505,"current_24h_pct":0.433,"projected_24h_at_cliff":0.505,"flat_next_24h_pct":-0.143,"known_roll_delta_pp":-0.576,"outgoing_return_pct":0.577,"outgoing_z":1.963,"roll_edge_z":1.961,"attention_rank":21.08,"rvol":0.714,"recent_trend_pct":-0.713,"strength_pine":49.99,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":true,"setup_state":"FILTERED OUT","score":23.79,"liquidity_score":21.62,"magnet_score":22,"clean_score":26.0,"freshness_score":19.46,"cliff_score":6.71,"recent_1h_pct":0.144,"recent_4h_pct":-0.429,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board -0.58pp next hour if flat (+0.4%\u2192-0.1%). Outgoing +0.58% (2.0z) edge 2.0z att 21p rvol 0.71x.","tags":["classic-raw","magnet +0%","sign-flip","classic-green-extreme","fail-shock","fail-attention","zero-cross","imminent-cliff"]},{"symbol":"DOTUSDT","venue":"binance-spot","side":"LONG","price":0.799,"next_drift_pp":0.605,"roll_move_pct":-0.613,"roll_volume":80530.0,"roll_open_time":"2026-07-23 16:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":-1.9632,"ref_price":0.815,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":-1.358,"ref_price":0.81,"step_drift_pp":0.6052},{"hours_ahead":2,"displayed_24h_pct":-0.9913,"ref_price":0.807,"step_drift_pp":0.3667},{"hours_ahead":3,"displayed_24h_pct":-2.0833,"ref_price":0.816,"step_drift_pp":-1.092},{"hours_ahead":4,"displayed_24h_pct":-2.0833,"ref_price":0.816,"step_drift_pp":0.0},{"hours_ahead":5,"displayed_24h_pct":-2.2032,"ref_price":0.817,"step_drift_pp":-0.1198},{"hours_ahead":6,"displayed_24h_pct":-2.2032,"ref_price":0.817,"step_drift_pp":0.0},{"hours_ahead":7,"displayed_24h_pct":-2.2032,"ref_price":0.817,"step_drift_pp":0.0},{"hours_ahead":8,"displayed_24h_pct":-1.9632,"ref_price":0.815,"step_drift_pp":0.24},{"hours_ahead":9,"displayed_24h_pct":-2.0833,"ref_price":0.816,"step_drift_pp":-0.1201},{"hours_ahead":10,"displayed_24h_pct":-2.2032,"ref_price":0.817,"step_drift_pp":-0.1198},{"hours_ahead":11,"displayed_24h_pct":-1.8428,"ref_price":0.814,"step_drift_pp":0.3604},{"hours_ahead":12,"displayed_24h_pct":-1.9632,"ref_price":0.815,"step_drift_pp":-0.1204}],"cliff_pp":-1.092,"cliff_hour":3,"path_end_drift_pp":0.0,"current_24h_pct":-1.963,"projected_24h_at_cliff":-2.083,"flat_next_24h_pct":-1.358,"known_roll_delta_pp":0.605,"outgoing_return_pct":-0.613,"outgoing_z":1.392,"roll_edge_z":1.373,"attention_rank":54.92,"rvol":1.408,"recent_trend_pct":-0.991,"strength_pine":43.21,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":false,"setup_state":"FILTERED OUT","score":20.36,"liquidity_score":16.66,"magnet_score":0.0,"clean_score":26.0,"freshness_score":20.12,"cliff_score":2.32,"recent_1h_pct":0.251,"recent_4h_pct":-0.622,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board +0.61pp next hour if flat (-2.0%\u2192-1.4%). Outgoing -0.61% (1.4z) edge 1.4z att 55p rvol 1.41x.","tags":["classic-raw","classic-red-extreme","fail-shock"]},{"symbol":"ICPUSDT","venue":"binance-spot","side":"LONG","price":2.149,"next_drift_pp":0.506,"roll_move_pct":-0.508,"roll_volume":81648.0,"roll_open_time":"2026-07-23 16:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":-0.7849,"ref_price":2.166,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":-0.2784,"ref_price":2.155,"step_drift_pp":0.5064},{"hours_ahead":2,"displayed_24h_pct":0.0,"ref_price":2.149,"step_drift_pp":0.2784},{"hours_ahead":3,"displayed_24h_pct":-0.2321,"ref_price":2.154,"step_drift_pp":-0.2321},{"hours_ahead":4,"displayed_24h_pct":-0.3247,"ref_price":2.156,"step_drift_pp":-0.0925},{"hours_ahead":5,"displayed_24h_pct":-0.8306,"ref_price":2.167,"step_drift_pp":-0.506},{"hours_ahead":6,"displayed_24h_pct":-0.5553,"ref_price":2.161,"step_drift_pp":0.2753},{"hours_ahead":7,"displayed_24h_pct":-0.4171,"ref_price":2.158,"step_drift_pp":0.1382},{"hours_ahead":8,"displayed_24h_pct":-0.3709,"ref_price":2.157,"step_drift_pp":0.0462},{"hours_ahead":9,"displayed_24h_pct":-0.3247,"ref_price":2.156,"step_drift_pp":0.0462},{"hours_ahead":10,"displayed_24h_pct":-0.093,"ref_price":2.151,"step_drift_pp":0.2317},{"hours_ahead":11,"displayed_24h_pct":-0.093,"ref_price":2.151,"step_drift_pp":0.0},{"hours_ahead":12,"displayed_24h_pct":-0.9221,"ref_price":2.169,"step_drift_pp":-0.8291}],"cliff_pp":-0.829,"cliff_hour":12,"path_end_drift_pp":-0.137,"current_24h_pct":-0.785,"projected_24h_at_cliff":-0.922,"flat_next_24h_pct":-0.278,"known_roll_delta_pp":0.506,"outgoing_return_pct":-0.508,"outgoing_z":1.364,"roll_edge_z":1.36,"attention_rank":25.1,"rvol":1.177,"recent_trend_pct":-0.739,"strength_pine":36.8,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":false,"setup_state":"FILTERED OUT","score":18.2,"liquidity_score":18.02,"magnet_score":0.0,"clean_score":26.0,"freshness_score":20.0,"cliff_score":0.65,"recent_1h_pct":0.047,"recent_4h_pct":-0.093,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board +0.51pp next hour if flat (-0.8%\u2192-0.3%). Outgoing -0.51% (1.4z) edge 1.4z att 25p rvol 1.18x.","tags":["classic-raw","classic-red-extreme","fail-shock","fail-attention"]}],"potato":[{"symbol":"DEXEUSDT","venue":"binance-spot","side":"LONG","price":2.952,"next_drift_pp":24.996,"roll_move_pct":-18.295,"roll_volume":3610119.0,"roll_open_time":"2026-07-23 16:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":11.8606,"ref_price":2.639,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":36.8567,"ref_price":2.157,"step_drift_pp":24.9962},{"hours_ahead":2,"displayed_24h_pct":40.3709,"ref_price":2.103,"step_drift_pp":3.5142},{"hours_ahead":3,"displayed_24h_pct":34.365,"ref_price":2.197,"step_drift_pp":-6.0059},{"hours_ahead":4,"displayed_24h_pct":34.3039,"ref_price":2.198,"step_drift_pp":-0.0611},{"hours_ahead":5,"displayed_24h_pct":37.9439,"ref_price":2.14,"step_drift_pp":3.64},{"hours_ahead":6,"displayed_24h_pct":37.7508,"ref_price":2.143,"step_drift_pp":-0.1931},{"hours_ahead":7,"displayed_24h_pct":52.0866,"ref_price":1.941,"step_drift_pp":14.3357},{"hours_ahead":8,"displayed_24h_pct":76.9784,"ref_price":1.668,"step_drift_pp":24.8919},{"hours_ahead":9,"displayed_24h_pct":78.1533,"ref_price":1.657,"step_drift_pp":1.1749},{"hours_ahead":10,"displayed_24h_pct":54.3933,"ref_price":1.912,"step_drift_pp":-23.76},{"hours_ahead":11,"displayed_24h_pct":72.5307,"ref_price":1.711,"step_drift_pp":18.1374},{"hours_ahead":12,"displayed_24h_pct":62.9139,"ref_price":1.812,"step_drift_pp":-9.6168}],"cliff_pp":24.996,"cliff_hour":1,"path_end_drift_pp":51.053,"current_24h_pct":11.861,"projected_24h_at_cliff":36.857,"flat_next_24h_pct":36.857,"known_roll_delta_pp":24.996,"outgoing_return_pct":-18.264,"outgoing_z":2.741,"roll_edge_z":3.751,"attention_rank":77.53,"rvol":1.031,"recent_trend_pct":2.004,"strength_pine":82.92,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":true,"zero_cross":false,"setup_state":"LONG READY","score":47.04,"liquidity_score":29.5,"magnet_score":5.69,"clean_score":26.0,"freshness_score":0,"cliff_score":28,"recent_1h_pct":9.01,"recent_4h_pct":5.693,"already_moved_with_flow":true,"reason":"[LONG READY] Board +25.00pp next hour if flat (+11.9%\u2192+36.9%). Outgoing -18.26% (2.7z) edge 3.8z att 78p rvol 1.03x.","tags":["classic-raw","adaptive-pass","magnet +15%","magnet +20%","already-bid","classic-red-extreme","imminent-cliff","multi-hour-grind"]},{"symbol":"XUSDUSDT","venue":"binance-spot","side":"SHORT","price":1.0011,"next_drift_pp":-0.03,"roll_move_pct":0.02,"roll_volume":306249.0,"roll_open_time":"2026-07-23 16:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":0.03,"ref_price":1.0008,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":0.0,"ref_price":1.0011,"step_drift_pp":-0.03},{"hours_ahead":2,"displayed_24h_pct":0.01,"ref_price":1.001,"step_drift_pp":0.01},{"hours_ahead":3,"displayed_24h_pct":0.01,"ref_price":1.001,"step_drift_pp":0.0},{"hours_ahead":4,"displayed_24h_pct":0.01,"ref_price":1.001,"step_drift_pp":0.0},{"hours_ahead":5,"displayed_24h_pct":0.01,"ref_price":1.001,"step_drift_pp":0.0},{"hours_ahead":6,"displayed_24h_pct":0.02,"ref_price":1.0009,"step_drift_pp":0.01},{"hours_ahead":7,"displayed_24h_pct":0.02,"ref_price":1.0009,"step_drift_pp":0.0},{"hours_ahead":8,"displayed_24h_pct":0.02,"ref_price":1.0009,"step_drift_pp":0.0},{"hours_ahead":9,"displayed_24h_pct":0.0,"ref_price":1.0011,"step_drift_pp":-0.02},{"hours_ahead":10,"displayed_24h_pct":0.0,"ref_price":1.0011,"step_drift_pp":0.0},{"hours_ahead":11,"displayed_24h_pct":0.01,"ref_price":1.001,"step_drift_pp":0.01},{"hours_ahead":12,"displayed_24h_pct":0.02,"ref_price":1.0009,"step_drift_pp":0.01}],"cliff_pp":-0.03,"cliff_hour":1,"path_end_drift_pp":-0.01,"current_24h_pct":0.03,"projected_24h_at_cliff":0.0,"flat_next_24h_pct":0.0,"known_roll_delta_pp":-0.03,"outgoing_return_pct":0.03,"outgoing_z":2.836,"roll_edge_z":2.836,"attention_rank":82.52,"rvol":0.157,"recent_trend_pct":0.03,"strength_pine":82.67,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":true,"setup_state":"FILTERED OUT","score":34.97,"liquidity_score":23.3,"magnet_score":13.5,"clean_score":26.0,"freshness_score":20.02,"cliff_score":5.1,"recent_1h_pct":0.01,"recent_4h_pct":0.02,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board -0.03pp next hour if flat (+0.0%\u2192+0.0%). Outgoing +0.03% (2.8z) edge 2.8z att 83p rvol 0.16x.","tags":["classic-raw","magnet +0%","classic-green-extreme","fail-shock","fail-edge","fail-rvol","zero-cross","imminent-cliff","high-attention"]},{"symbol":"UUSDT","venue":"binance-spot","side":"SHORT","price":1.0006,"next_drift_pp":-0.02,"roll_move_pct":0.02,"roll_volume":3905645.0,"roll_open_time":"2026-07-23 16:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":0.02,"ref_price":1.0004,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":0.0,"ref_price":1.0006,"step_drift_pp":-0.02},{"hours_ahead":2,"displayed_24h_pct":-0.01,"ref_price":1.0007,"step_drift_pp":-0.01},{"hours_ahead":3,"displayed_24h_pct":0.0,"ref_price":1.0006,"step_drift_pp":0.01},{"hours_ahead":4,"displayed_24h_pct":-0.01,"ref_price":1.0007,"step_drift_pp":-0.01},{"hours_ahead":5,"displayed_24h_pct":0.0,"ref_price":1.0006,"step_drift_pp":0.01},{"hours_ahead":6,"displayed_24h_pct":0.0,"ref_price":1.0006,"step_drift_pp":0.0},{"hours_ahead":7,"displayed_24h_pct":0.01,"ref_price":1.0005,"step_drift_pp":0.01},{"hours_ahead":8,"displayed_24h_pct":0.01,"ref_price":1.0005,"step_drift_pp":0.0},{"hours_ahead":9,"displayed_24h_pct":0.01,"ref_price":1.0005,"step_drift_pp":0.0},{"hours_ahead":10,"displayed_24h_pct":0.0,"ref_price":1.0006,"step_drift_pp":-0.01},{"hours_ahead":11,"displayed_24h_pct":0.01,"ref_price":1.0005,"step_drift_pp":0.01},{"hours_ahead":12,"displayed_24h_pct":0.01,"ref_price":1.0005,"step_drift_pp":0.0}],"cliff_pp":-0.02,"cliff_hour":1,"path_end_drift_pp":-0.01,"current_24h_pct":0.02,"projected_24h_at_cliff":0.0,"flat_next_24h_pct":0.0,"known_roll_delta_pp":-0.02,"outgoing_return_pct":0.02,"outgoing_z":2.666,"roll_edge_z":2.666,"attention_rank":83.63,"rvol":1.748,"recent_trend_pct":0.02,"strength_pine":78.94,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":true,"setup_state":"FILTERED OUT","score":34.86,"liquidity_score":31.0,"magnet_score":13.5,"clean_score":26.0,"freshness_score":20.0,"cliff_score":5.07,"recent_1h_pct":-0.01,"recent_4h_pct":0.02,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board -0.02pp next hour if flat (+0.0%\u2192+0.0%). Outgoing +0.02% (2.7z) edge 2.7z att 84p rvol 1.75x.","tags":["classic-raw","magnet +0%","classic-green-extreme","fail-shock","fail-edge","zero-cross","imminent-cliff","high-attention","high-rvol"]},{"symbol":"CAKEUSDT","venue":"binance-spot","side":"SHORT","price":1.392,"next_drift_pp":-0.576,"roll_move_pct":0.577,"roll_volume":257538.0,"roll_open_time":"2026-07-23 16:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":0.4329,"ref_price":1.386,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":-0.1435,"ref_price":1.394,"step_drift_pp":-0.5764},{"hours_ahead":2,"displayed_24h_pct":0.5054,"ref_price":1.385,"step_drift_pp":0.6489},{"hours_ahead":3,"displayed_24h_pct":0.1439,"ref_price":1.39,"step_drift_pp":-0.3615},{"hours_ahead":4,"displayed_24h_pct":0.4329,"ref_price":1.386,"step_drift_pp":0.289},{"hours_ahead":5,"displayed_24h_pct":0.2882,"ref_price":1.388,"step_drift_pp":-0.1447},{"hours_ahead":6,"displayed_24h_pct":0.578,"ref_price":1.384,"step_drift_pp":0.2899},{"hours_ahead":7,"displayed_24h_pct":0.2882,"ref_price":1.388,"step_drift_pp":-0.2899},{"hours_ahead":8,"displayed_24h_pct":0.216,"ref_price":1.389,"step_drift_pp":-0.0722},{"hours_ahead":9,"displayed_24h_pct":0.2882,"ref_price":1.388,"step_drift_pp":0.0722},{"hours_ahead":10,"displayed_24h_pct":0.1439,"ref_price":1.39,"step_drift_pp":-0.1443},{"hours_ahead":11,"displayed_24h_pct":0.2882,"ref_price":1.388,"step_drift_pp":0.1443},{"hours_ahead":12,"displayed_24h_pct":-0.0718,"ref_price":1.393,"step_drift_pp":-0.36}],"cliff_pp":0.649,"cliff_hour":2,"path_end_drift_pp":-0.505,"current_24h_pct":0.433,"projected_24h_at_cliff":0.505,"flat_next_24h_pct":-0.143,"known_roll_delta_pp":-0.576,"outgoing_return_pct":0.577,"outgoing_z":1.963,"roll_edge_z":1.961,"attention_rank":21.08,"rvol":0.714,"recent_trend_pct":-0.713,"strength_pine":49.99,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":true,"setup_state":"FILTERED OUT","score":23.79,"liquidity_score":21.62,"magnet_score":22,"clean_score":26.0,"freshness_score":19.46,"cliff_score":6.71,"recent_1h_pct":0.144,"recent_4h_pct":-0.429,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board -0.58pp next hour if flat (+0.4%\u2192-0.1%). Outgoing +0.58% (2.0z) edge 2.0z att 21p rvol 0.71x.","tags":["classic-raw","magnet +0%","sign-flip","classic-green-extreme","fail-shock","fail-attention","zero-cross","imminent-cliff"]},{"symbol":"DOTUSDT","venue":"binance-spot","side":"LONG","price":0.799,"next_drift_pp":0.605,"roll_move_pct":-0.613,"roll_volume":80530.0,"roll_open_time":"2026-07-23 16:00 UTC","path":[{"hours_ahead":0,"displayed_24h_pct":-1.9632,"ref_price":0.815,"step_drift_pp":0.0},{"hours_ahead":1,"displayed_24h_pct":-1.358,"ref_price":0.81,"step_drift_pp":0.6052},{"hours_ahead":2,"displayed_24h_pct":-0.9913,"ref_price":0.807,"step_drift_pp":0.3667},{"hours_ahead":3,"displayed_24h_pct":-2.0833,"ref_price":0.816,"step_drift_pp":-1.092},{"hours_ahead":4,"displayed_24h_pct":-2.0833,"ref_price":0.816,"step_drift_pp":0.0},{"hours_ahead":5,"displayed_24h_pct":-2.2032,"ref_price":0.817,"step_drift_pp":-0.1198},{"hours_ahead":6,"displayed_24h_pct":-2.2032,"ref_price":0.817,"step_drift_pp":0.0},{"hours_ahead":7,"displayed_24h_pct":-2.2032,"ref_price":0.817,"step_drift_pp":0.0},{"hours_ahead":8,"displayed_24h_pct":-1.9632,"ref_price":0.815,"step_drift_pp":0.24},{"hours_ahead":9,"displayed_24h_pct":-2.0833,"ref_price":0.816,"step_drift_pp":-0.1201},{"hours_ahead":10,"displayed_24h_pct":-2.2032,"ref_price":0.817,"step_drift_pp":-0.1198},{"hours_ahead":11,"displayed_24h_pct":-1.8428,"ref_price":0.814,"step_drift_pp":0.3604},{"hours_ahead":12,"displayed_24h_pct":-1.9632,"ref_price":0.815,"step_drift_pp":-0.1204}],"cliff_pp":-1.092,"cliff_hour":3,"path_end_drift_pp":0.0,"current_24h_pct":-1.963,"projected_24h_at_cliff":-2.083,"flat_next_24h_pct":-1.358,"known_roll_delta_pp":0.605,"outgoing_return_pct":-0.613,"outgoing_z":1.392,"roll_edge_z":1.373,"attention_rank":54.92,"rvol":1.408,"recent_trend_pct":-0.991,"strength_pine":43.21,"is_window_extreme":true,"classic_raw":true,"adaptive_pass":false,"zero_cross":false,"setup_state":"FILTERED OUT","score":20.36,"liquidity_score":16.66,"magnet_score":0.0,"clean_score":26.0,"freshness_score":20.12,"cliff_score":2.32,"recent_1h_pct":0.251,"recent_4h_pct":-0.622,"already_moved_with_flow":false,"reason":"[FILTERED OUT] Board +0.61pp next hour if flat (-2.0%\u2192-1.4%). Outgoing -0.61% (1.4z) edge 1.4z att 55p rvol 1.41x.","tags":["classic-raw","classic-red-extreme","fail-shock"]}]}</script>
 <script>
 const DATA = JSON.parse(document.getElementById('payload').textContent);
 let selected = 0;
@@ -1466,11 +1658,11 @@ const LIVE = {
 };
 
 function fmt(n, d=2) {
-  if (n === undefined || n === null || Number.isNaN(+n)) return '—';
+  if (n === undefined || n === null || Number.isNaN(+n)) return 'ΓÇö';
   return Number(n).toFixed(d);
 }
 function fmtVol(v) {
-  if (v == null) return '—';
+  if (v == null) return 'ΓÇö';
   const av = Math.abs(v);
   const sign = v < 0 ? '-' : (v > 0 ? '+' : '');
   if (av >= 1e9) return sign + '$' + (av/1e9).toFixed(2) + 'B';
@@ -1642,7 +1834,7 @@ function listForRank() {
 }
 
 function fmtPrice(p) {
-  if (p == null || Number.isNaN(+p)) return '—';
+  if (p == null || Number.isNaN(+p)) return 'ΓÇö';
   const n = Number(p);
   if (n >= 1000) return n.toLocaleString(undefined, { maximumFractionDigits: 2 });
   if (n >= 1) return n.toFixed(4);
@@ -1659,14 +1851,14 @@ function renderHero(i) {
   if (!i) {
     el.innerHTML = '<div class="blob-lbl">Primary signal</div><div class="empty" style="padding:8px;font-size:0.8rem">No signals this scan.</div>';
     document.getElementById('pathChart').innerHTML = '<div class="empty">No path</div>';
-    document.getElementById('pathTarget').textContent = '—';
+    document.getElementById('pathTarget').textContent = 'ΓÇö';
     renderTeardown(null);
     return;
   }
   const str = i.strength_pine || i.score || 0;
-  const side = i.side || '—';
+  const side = i.side || 'ΓÇö';
   const conv = conviction(str);
-  const arrow = side === 'SHORT' ? '↓' : '↑';
+  const arrow = side === 'SHORT' ? 'Γåô' : 'Γåæ';
   const L = liveFor(i.symbol);
   const px = L ? L.price : i.price;
   const chg = L && L.chgPct != null ? L.chgPct : i.current_24h_pct;
@@ -1685,7 +1877,7 @@ function renderHero(i) {
   // Live-adjusted board path: reprice current 24h from live last vs scan ref
   const pathHint = livePathHint(i);
   document.getElementById('pathTarget').textContent = pathHint ||
-    `${fmt(i.current_24h_pct)}% → ${fmt(i.flat_next_24h_pct)}%  (Δ ${fmt(i.known_roll_delta_pp)}pp)`;
+    `${fmt(i.current_24h_pct)}% ΓåÆ ${fmt(i.flat_next_24h_pct)}%  (╬ö ${fmt(i.known_roll_delta_pp)}pp)`;
   renderTeardown(i);
 }
 
@@ -1693,23 +1885,23 @@ function livePathHint(i) {
   const L = liveFor(i.symbol);
   if (!L || !i.path || !i.path.length) return null;
   const ref0 = i.path[0] && i.path[0].ref_price;
-  if (!ref0) return `${fmt(L.chgPct)}% live · Δ ${fmt(i.known_roll_delta_pp)}pp cliff`;
+  if (!ref0) return `${fmt(L.chgPct)}% live ┬╖ ╬ö ${fmt(i.known_roll_delta_pp)}pp cliff`;
   const livePct = ((L.price / ref0) - 1) * 100;
   const next = livePct + (i.known_roll_delta_pp || 0);
-  return `${fmt(livePct)}% → ${fmt(next)}%  (Δ ${fmt(i.known_roll_delta_pp)}pp · live)`;
+  return `${fmt(livePct)}% ΓåÆ ${fmt(next)}%  (╬ö ${fmt(i.known_roll_delta_pp)}pp ┬╖ live)`;
 }
 
 function renderTeardown(i) {
   if (!i) {
-    document.getElementById('tdSym').textContent = '—';
-    document.getElementById('tdSide').textContent = '—';
+    document.getElementById('tdSym').textContent = 'ΓÇö';
+    document.getElementById('tdSide').textContent = 'ΓÇö';
     document.getElementById('tdList').innerHTML = '';
-    document.getElementById('tdConv').textContent = '—';
+    document.getElementById('tdConv').textContent = 'ΓÇö';
     document.getElementById('radar').innerHTML = '';
     return;
   }
   const str = i.strength_pine || i.score || 0;
-  const side = i.side || '—';
+  const side = i.side || 'ΓÇö';
   document.getElementById('tdSym').textContent = baseSym(i.symbol) + ' /USDT';
   const sideEl = document.getElementById('tdSide');
   sideEl.textContent = side;
@@ -1752,7 +1944,7 @@ function renderRanked() {
     if (i.known_roll_delta_pp != null && Math.abs(i.roll_volume || 0) < 1) {
       flow = (i.known_roll_delta_pp >= 0 ? '+' : '') + fmt(i.known_roll_delta_pp) + 'pp';
     }
-    const arrow = side === 'SHORT' ? '↓' : '↑';
+    const arrow = side === 'SHORT' ? 'Γåô' : 'Γåæ';
     const L = liveFor(i.symbol);
     const px = L ? L.price : i.price;
     const chg = L && L.chgPct != null ? L.chgPct : i.current_24h_pct;
@@ -1827,7 +2019,7 @@ function renderTable() {
   const rows = filteredIdeas();
   const tb = document.getElementById('tbody');
   if (!rows.length) {
-    tb.innerHTML = '<tr><td colspan="12" class="empty">No rows match these filters. Try “All states”.</td></tr>';
+    tb.innerHTML = '<tr><td colspan="12" class="empty">No rows match these filters. Try ΓÇ£All statesΓÇ¥.</td></tr>';
     return;
   }
   tb.innerHTML = rows.map(i => `
@@ -1861,9 +2053,9 @@ document.getElementById('apply').onclick = renderTable;
   document.getElementById(id).addEventListener('change', renderTable);
 });
 
-/* ═══════════════════════════════════════════
-   REAL-TIME — Binance miniTicker WS + REST
-   ═══════════════════════════════════════════ */
+/* ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+   REAL-TIME ΓÇö Binance miniTicker WS + REST
+   ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ */
 function allSymbols() {
   const s = new Set();
   (DATA.ideas || []).forEach(i => i.symbol && s.add(i.symbol));
@@ -1901,7 +2093,7 @@ function applyTick(sym, price, chgPct) {
   };
   LIVE.lastTick = Date.now();
 
-  // Board tokens — surgical DOM update (no full re-render)
+  // Board tokens ΓÇö surgical DOM update (no full re-render)
   document.querySelectorAll(`.token[data-sym="${sym}"]`).forEach(card => {
     const pxEl = card.querySelector('[data-live-px]');
     const chEl = card.querySelector('[data-live-chg]');
@@ -1916,7 +2108,7 @@ function applyTick(sym, price, chgPct) {
     }
   });
 
-  // Hero — only if selected
+  // Hero ΓÇö only if selected
   const list = listForRank();
   const cur = list[selected];
   if (cur && cur.symbol === sym) {
@@ -2059,7 +2251,7 @@ function tickClock() {
   if (!el) return;
   const d = new Date();
   const pad = n => String(n).padStart(2, '0');
-  // Local wall clock (browser TZ) — feels live
+  // Local wall clock (browser TZ) ΓÇö feels live
   el.textContent =
     d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' +
     pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
@@ -2073,8 +2265,139 @@ function tickClock() {
       ? (h + 'H ' + String(m % 60).padStart(2, '0') + 'M ' + String(s).padStart(2, '0') + 'S')
       : (m + 'M ' + String(s).padStart(2, '0') + 'S');
     const stale = LIVE.lastTick && (Date.now() - LIVE.lastTick > 15000);
-    up.textContent = 'Uptime · ' + body + (stale && LIVE.status === 'live' ? ' · stale' : '');
+    up.textContent = 'Uptime ┬╖ ' + body + (stale && LIVE.status === 'live' ? ' ┬╖ stale' : '');
   }
+}
+
+/* ΓöÇΓöÇ Photon-FSQ style fingerprint (numeric board ΓåÆ discrete tokens) ΓöÇΓöÇ */
+const FSQ_LEVELS = [-1, -0.5, 0, 0.5, 1];
+const PHOTON_KEY = 'ifb_photon_fp_v1';
+
+function quantizeFSQ(x) {
+  // map continuous score in [-1,1] to nearest Photon level
+  let best = 0, bestD = Infinity;
+  for (let i = 0; i < FSQ_LEVELS.length; i++) {
+    const d = Math.abs(x - FSQ_LEVELS[i]);
+    if (d < bestD) { bestD = d; best = i; }
+  }
+  return best; // 0..4
+}
+
+function clamp01(x) { return Math.max(0, Math.min(1, x)); }
+
+function ideaToToken(i) {
+  // Side-signed strength + edge shock ΓåÆ one discrete level
+  const str = (+i.strength_pine || +i.score || 0) / 100;
+  const edge = Math.min(1, Math.abs(+i.outgoing_z || 0) / 4);
+  const att = clamp01((+i.attention_rank || 50) / 100);
+  const rvol = Math.min(1, (+i.rvol || 0) / 2);
+  const signed = (i.side === 'LONG' ? 1 : -1) * (0.55 * str + 0.25 * edge + 0.12 * att + 0.08 * rvol);
+  // squash to [-1,1]
+  const x = Math.tanh(signed * 1.4);
+  return quantizeFSQ(x);
+}
+
+function buildPhotonGrid() {
+  const ideas = (DATA.ideas || []).slice().sort((a, b) =>
+    Math.abs(b.strength_pine || b.score || 0) - Math.abs(a.strength_pine || a.score || 0)
+  );
+  const cols = 24;
+  const rows = 8;
+  const n = cols * rows;
+  const tokens = new Array(n).fill(2); // neutral L0
+  // Place top ideas; fill rest with herd-biased noise from meta
+  const herd = (DATA.meta && DATA.meta.herd) || {};
+  const longBias = (+herd.long_share || 0.5) - 0.5; // -0.5..0.5
+  for (let k = 0; k < n; k++) {
+    if (k < ideas.length) {
+      tokens[k] = ideaToToken(ideas[k]);
+    } else {
+      // ambient lattice from regime + position
+      const t = (k / n) * 2 - 1;
+      const amb = Math.tanh(longBias * 1.6 + t * 0.15);
+      tokens[k] = quantizeFSQ(amb + ((k * 17) % 5 - 2) * 0.08);
+    }
+  }
+  return { tokens, cols, rows, n, ideas: ideas.slice(0, Math.min(ideas.length, n)) };
+}
+
+function levelClass(idx) {
+  return ['L-2', 'L-1', 'L0', 'L1', 'L2'][idx] || 'L0';
+}
+
+function simpleHash(arr) {
+  let h = 2166136261;
+  for (let i = 0; i < arr.length; i++) {
+    h ^= arr[i] + 1;
+    h = Math.imul(h, 16777619);
+  }
+  return ('00000000' + (h >>> 0).toString(16)).slice(-8);
+}
+
+function entropyBits(tokens) {
+  const counts = [0, 0, 0, 0, 0];
+  tokens.forEach(t => { counts[t] = (counts[t] || 0) + 1; });
+  const n = tokens.length || 1;
+  let H = 0;
+  counts.forEach(c => {
+    if (!c) return;
+    const p = c / n;
+    H -= p * Math.log2(p);
+  });
+  return H;
+}
+
+function renderPhoton() {
+  const lattice = document.getElementById('photonLattice');
+  if (!lattice) return;
+  const { tokens, n, ideas } = buildPhotonGrid();
+  let prev = null;
+  try { prev = JSON.parse(localStorage.getItem(PHOTON_KEY) || 'null'); } catch (_) {}
+
+  let changed = 0;
+  const prevTok = prev && Array.isArray(prev.tokens) ? prev.tokens : null;
+  lattice.innerHTML = tokens.map((t, i) => {
+    const delta = prevTok && prevTok[i] !== t;
+    if (delta) changed++;
+    const tip = ideas[i]
+      ? (ideas[i].symbol + ' ' + ideas[i].side + ' ┬╖ L' + FSQ_LEVELS[t])
+      : ('ambient ┬╖ L' + FSQ_LEVELS[t]);
+    return `<div class="photon-cell ${levelClass(t)}${delta ? ' delta' : ''}" title="${tip}"></div>`;
+  }).join('');
+
+  const deltaPct = prevTok ? Math.round(100 * changed / n) : 0;
+  const H = entropyBits(tokens);
+  const maxH = Math.log2(5);
+  const longN = tokens.filter(t => t >= 3).length;
+  const shortN = tokens.filter(t => t <= 1).length;
+  const hash = simpleHash(tokens);
+
+  const el = id => document.getElementById(id);
+  if (el('phTokens')) el('phTokens').textContent = n + ' ┬╖ 5 levels ┬╖ dim 1';
+  if (el('phDelta')) {
+    el('phDelta').textContent = prevTok
+      ? (changed + ' cells ┬╖ ' + deltaPct + '%')
+      : 'first scan in this browser';
+  }
+  if (el('phDeltaBar')) el('phDeltaBar').style.width = (prevTok ? deltaPct : 8) + '%';
+  if (el('phSideMass')) {
+    el('phSideMass').innerHTML =
+      '<span class="lime">' + longN + ' long</span> / <span class="mag">' + shortN + ' short</span>';
+  }
+  if (el('phEntropy')) {
+    el('phEntropy').textContent =
+      H.toFixed(2) + ' / ' + maxH.toFixed(2) + ' bits ┬╖ ' + Math.round(100 * (1 - H / maxH)) + '% ordered';
+  }
+  if (el('phHash')) el('phHash').textContent = 'fsq_' + hash;
+
+  try {
+    localStorage.setItem(PHOTON_KEY, JSON.stringify({
+      tokens,
+      t: Date.now(),
+      generated_at: (DATA.meta && DATA.meta.generated_at) || null,
+      hash: 'fsq_' + hash,
+    }));
+  } catch (_) {}
 }
 
 // Seed from scan snapshot so UI is never empty before first tick
@@ -2095,6 +2418,7 @@ renderRanked();
 const hasReady = (DATA.ideas || []).some(i => (i.setup_state || '').includes('READY'));
 if (!hasReady) document.getElementById('stateFilter').value = 'ALL';
 renderTable();
+renderPhoton();
 
 tickClock();
 setInterval(tickClock, 1000);
