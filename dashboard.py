@@ -77,7 +77,8 @@ def build_dashboard(
 <title>Idiot Flow Bourse</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Big+Shoulders+Display:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=Outfit:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<meta name="ifb-type" content="billboard-v2"/>
 <style>
 :root {{
   --metal-0: #2a2d33;
@@ -101,8 +102,10 @@ def build_dashboard(
   --short: #d4572a;
   --long: #1a8f7a;
   --line: rgba(26,29,34,0.12);
-  --sans: "IBM Plex Sans", system-ui, sans-serif;
-  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --sans: "Outfit", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: "Instrument Serif", "Times New Roman", Georgia, serif;
+  --mono: "Azeret Mono", ui-monospace, "SF Mono", monospace;
   --safe-t: env(safe-area-inset-top, 0px);
   --safe-b: env(safe-area-inset-bottom, 0px);
 }}
@@ -110,9 +113,13 @@ def build_dashboard(
 html, body {{ margin: 0; padding: 0; }}
 body {{
   font-family: var(--sans);
+  font-weight: 400;
+  font-feature-settings: "ss01" 1, "kern" 1;
+  letter-spacing: 0.01em;
   color: var(--ink);
   min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   background:
     radial-gradient(ellipse 80% 50% at 50% 0%, #3a3f48 0%, transparent 55%),
     radial-gradient(ellipse 60% 40% at 100% 100%, rgba(46,200,240,0.08), transparent 50%),
@@ -175,20 +182,34 @@ button, select, input {{ font: inherit; color: inherit; }}
 }}
 .brand-block h1 {{
   margin: 0;
-  font-size: clamp(1.35rem, 3vw, 1.85rem);
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
   text-transform: uppercase;
+  line-height: 0.82;
   color: var(--ink);
   text-shadow: 0 1px 0 rgba(255,255,255,0.35);
+  font-stretch: condensed;
+}}
+.brand-block h1 span {{
+  display: block;
+  background: linear-gradient(100deg, var(--ink) 10%, #0a7a96 55%, var(--ink) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }}
 .brand-block .sub {{
-  margin: 2px 0 0;
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  margin: 8px 0 0;
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--muted);
-  font-weight: 500;
+  font-weight: 400;
+  max-width: 28rem;
+  line-height: 1.3;
 }}
 .meta-rail {{
   display: flex;
@@ -205,17 +226,23 @@ button, select, input {{ font: inherit; color: inherit; }}
 }}
 .chip .k {{
   display: block;
-  font-size: 0.55rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--serif);
+  font-size: 0.82rem;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--muted);
 }}
 .chip .v {{
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  font-weight: 600;
+  font-family: var(--display);
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
   color: var(--ink);
+  text-transform: uppercase;
+  font-stretch: condensed;
 }}
 .chip .v.cyan {{ color: #0a7a96; }}
 .chip .v.ok {{ color: var(--ok); }}
@@ -236,24 +263,31 @@ button, select, input {{ font: inherit; color: inherit; }}
   padding: 12px;
 }}
 .regime .lbl {{
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--muted);
   margin-bottom: 6px;
 }}
 .regime h2 {{
   margin: 0 0 8px;
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
   text-transform: uppercase;
-  line-height: 1.2;
+  line-height: 0.92;
+  font-stretch: condensed;
+  color: #0a7a96;
 }}
 .regime p {{
   margin: 0;
-  font-size: 0.78rem;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-style: italic;
   line-height: 1.4;
   color: var(--ink2);
 }}
@@ -267,17 +301,22 @@ button, select, input {{ font: inherit; color: inherit; }}
   padding: 8px 10px;
 }}
 .metric-tile .k {{
-  font-size: 0.55rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: var(--serif);
+  font-size: 0.82rem;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--muted);
 }}
 .metric-tile .v {{
-  font-family: var(--mono);
-  font-size: 0.95rem;
-  font-weight: 600;
+  font-family: var(--display);
+  font-size: 1.45rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
   margin-top: 2px;
+  font-variant-numeric: tabular-nums;
+  font-stretch: condensed;
 }}
 .metric-tile .v.neg {{ color: var(--short); }}
 .metric-tile .v.pos {{ color: var(--long); }}
@@ -315,11 +354,13 @@ button, select, input {{ font: inherit; color: inherit; }}
 }}
 .ring.r3::after {{
   content: "IFB";
-  font-size: 2.4rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: rgba(80,90,100,0.18);
+  font-family: var(--display);
+  font-size: 3.4rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: rgba(80,90,100,0.22);
   text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+  font-stretch: condensed;
 }}
 .fiber {{
   position: absolute;
@@ -339,37 +380,48 @@ button, select, input {{ font: inherit; color: inherit; }}
   text-align: center;
 }}
 .hero-card .eyebrow {{
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--muted);
 }}
 .hero-card .sym {{
-  margin: 4px 0 2px;
-  font-size: 1.55rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  margin: 6px 0 4px;
+  font-family: var(--display);
+  font-size: clamp(2.1rem, 5vw, 2.8rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
   color: var(--ink);
+  text-transform: uppercase;
+  font-stretch: condensed;
+  line-height: 0.9;
 }}
 .hero-card .sym small {{
-  font-size: 0.55em;
-  font-weight: 600;
+  font-family: var(--mono);
+  font-size: 0.42em;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   color: var(--muted);
+  text-transform: none;
 }}
 .pill {{
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 0.62rem;
-  font-weight: 700;
+  font-family: var(--display);
+  font-size: 0.85rem;
+  font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 3px 8px;
+  padding: 4px 10px;
   border-radius: 999px;
   border: 1px solid var(--line);
   background: rgba(255,255,255,0.65);
   color: var(--muted);
+  font-stretch: condensed;
 }}
 .pill.SHORT, .pill.short {{ color: var(--short); border-color: rgba(212,87,42,0.35); background: rgba(212,87,42,0.1); }}
 .pill.LONG, .pill.long {{ color: var(--long); border-color: rgba(26,143,122,0.35); background: rgba(26,143,122,0.1); }}
@@ -386,22 +438,29 @@ button, select, input {{ font: inherit; color: inherit; }}
 }}
 .hero-scores div {{ text-align: center; }}
 .hero-scores .k {{
-  font-size: 0.55rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--serif);
+  font-size: 0.85rem;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--muted);
 }}
 .hero-scores .v {{
-  font-family: var(--mono);
-  font-size: 1.15rem;
-  font-weight: 600;
+  font-family: var(--display);
+  font-size: 1.75rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
   color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  font-stretch: condensed;
 }}
 .hero-thesis {{
   margin: 10px 0 0;
-  font-size: 0.72rem;
-  line-height: 1.35;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.4;
   color: var(--ink2);
   text-align: left;
 }}
@@ -409,27 +468,34 @@ button, select, input {{ font: inherit; color: inherit; }}
 /* right column path */
 .path-panel {{ padding: 12px; }}
 .path-panel .lbl {{
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--muted);
   margin-bottom: 6px;
 }}
 .path-panel .psym {{
-  font-weight: 700;
-  font-size: 0.85rem;
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 1.25rem;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
   margin-bottom: 6px;
+  font-stretch: condensed;
 }}
 .path-chart {{ height: 140px; }}
 .path-chart svg {{ width: 100%; height: 100%; }}
 .path-foot {{
   margin-top: 8px;
   font-family: var(--mono);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
   color: var(--muted);
 }}
-.path-foot b {{ color: var(--ink); }}
+.path-foot b {{ color: var(--ink); font-family: var(--display); font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; }}
 
 /* gauges */
 .gauges {{
@@ -442,10 +508,12 @@ button, select, input {{ font: inherit; color: inherit; }}
   padding: 8px 10px;
 }}
 .gauge .k {{
-  font-size: 0.55rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--serif);
+  font-size: 0.85rem;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--muted);
 }}
 .gauge-track {{
@@ -487,11 +555,14 @@ button, select, input {{ font: inherit; color: inherit; }}
   color: var(--muted);
 }}
 .sat .rsym {{
-  font-weight: 700;
-  font-size: 0.88rem;
-  letter-spacing: -0.02em;
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 1.15rem;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  font-stretch: condensed;
 }}
-.sat .rsym small {{ color: var(--muted); font-size: 0.7em; }}
+.sat .rsym small {{ color: var(--muted); font-size: 0.6em; font-family: var(--mono); font-weight: 500; text-transform: none; }}
 .sat-mid {{
   display: flex;
   align-items: center;
@@ -532,17 +603,21 @@ button, select, input {{ font: inherit; color: inherit; }}
 }}
 .photon-head h3 {{
   margin: 0;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-family: var(--display);
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
+  font-stretch: condensed;
 }}
 .photon-head h3 em {{ font-style: normal; color: #0a7a96; }}
 .photon-head .hint {{
-  font-size: 0.68rem;
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-style: italic;
   color: var(--muted);
   max-width: 40rem;
-  line-height: 1.35;
+  line-height: 1.4;
 }}
 .photon-body {{
   display: grid;
@@ -576,17 +651,22 @@ button, select, input {{ font: inherit; color: inherit; }}
   border: 1px solid rgba(255,255,255,0.6);
 }}
 .ph-stat .k {{
-  font-size: 0.55rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--serif);
+  font-size: 0.82rem;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--muted);
 }}
 .ph-stat .v {{
-  font-family: var(--mono);
-  font-size: 0.82rem;
-  font-weight: 600;
+  font-family: var(--display);
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
   margin-top: 2px;
+  font-variant-numeric: tabular-nums;
+  font-stretch: condensed;
 }}
 .ph-bar {{
   height: 5px;
@@ -618,10 +698,12 @@ button, select, input {{ font: inherit; color: inherit; }}
 }}
 .audit-head h3 {{
   margin: 0;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-family: var(--display);
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
+  font-stretch: condensed;
 }}
 .toolbar {{
   display: flex;
@@ -629,7 +711,8 @@ button, select, input {{ font: inherit; color: inherit; }}
   gap: 6px;
 }}
 .toolbar select, .toolbar input, .toolbar button {{
-  font-size: 0.72rem;
+  font-family: var(--sans);
+  font-size: 0.78rem;
   padding: 6px 8px;
   border-radius: 6px;
   border: 1px solid rgba(0,0,0,0.12);
@@ -639,27 +722,33 @@ button, select, input {{ font: inherit; color: inherit; }}
   background: var(--ink);
   color: #fff;
   border-color: var(--ink);
-  font-weight: 600;
+  font-family: var(--display);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   cursor: pointer;
 }}
 .table-wrap {{ overflow-x: auto; border-radius: 8px; }}
 table {{
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.74rem;
+  font-family: var(--sans);
+  font-size: 0.78rem;
   background: rgba(255,255,255,0.5);
 }}
 th {{
   text-align: left;
   padding: 8px 9px;
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-family: var(--display);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--muted);
   border-bottom: 1px solid var(--line);
   white-space: nowrap;
   background: rgba(255,255,255,0.35);
+  font-stretch: condensed;
 }}
 td {{
   padding: 8px 9px;
@@ -667,15 +756,26 @@ td {{
   white-space: nowrap;
   color: var(--ink2);
   vertical-align: middle;
+  font-variant-numeric: tabular-nums;
 }}
 tr:hover td {{ background: rgba(46,200,240,0.06); }}
 td.score {{
-  font-family: var(--mono);
-  font-weight: 700;
-  font-size: 0.9rem;
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 1.2rem;
+  letter-spacing: -0.03em;
   color: var(--ink);
+  font-stretch: condensed;
 }}
-td.sym {{ font-weight: 700; color: var(--ink); }}
+td.sym {{
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--ink);
+  font-stretch: condensed;
+}}
 .pos {{ color: var(--long); font-weight: 600; }}
 .neg {{ color: var(--short); font-weight: 600; }}
 .bars {{ display: inline-flex; gap: 2px; }}
@@ -692,25 +792,38 @@ td.sym {{ font-weight: 700; color: var(--ink); }}
   margin-top: 12px;
   padding-top: 10px;
   border-top: 1px solid rgba(0,0,0,0.1);
-  font-size: 0.62rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
   color: var(--muted);
 }}
 .foot .live {{
-  font-weight: 600;
+  font-family: var(--display);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: #0a7a96;
 }}
 .foot .live.offline {{ color: var(--short); }}
 .foot .brand-mark {{
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-family: var(--display);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--ink);
+}}
+.inspire {{
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1rem;
 }}
 .inspire a {{ color: #0a7a96; }}
 .empty {{
   padding: 20px;
   text-align: center;
+  font-family: var(--serif);
+  font-style: italic;
   color: var(--muted);
-  font-size: 0.85rem;
+  font-size: 1.1rem;
 }}
 
 /* stream tube decoration */
@@ -740,7 +853,7 @@ td.sym {{ font-weight: 700; color: var(--ink); }}
 
     <header class="topline">
       <div class="brand-block">
-        <h1>Idiot Flow Bourse</h1>
+        <h1><span>Idiot Flow</span> Bourse</h1>
         <p class="sub">Live adaptive market scanner</p>
       </div>
       <div class="meta-rail">
@@ -930,7 +1043,7 @@ function bigPath(path) {{
     const val = pts.max - t * pts.span;
     const y = padT + t * (h - padT - padB);
     return `<line x1="${{padL}}" y1="${{y}}" x2="${{w-padR}}" y2="${{y}}" stroke="rgba(0,0,0,0.06)"/>
-      <text x="${{padL-4}}" y="${{y+3}}" text-anchor="end" fill="#5c6370" font-size="8" font-family="IBM Plex Mono,monospace">${{val.toFixed(1)}}</text>`;
+      <text x="${{padL-4}}" y="${{y+3}}" text-anchor="end" fill="#5c6370" font-size="8" font-family="Azeret Mono,ui-monospace,monospace">${{val.toFixed(1)}}</text>`;
   }}).join('');
   return `<svg viewBox="0 0 ${{w}} ${{h}}" preserveAspectRatio="none">
     ${{ticks}}
