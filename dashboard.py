@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Generate Idiot Flow Lab HTML — style matched to I IMAGE.png
-(Industrial glass · brushed metal · cyan fiber optics · circular hero stage).
+Generate Idiot Flow Lab HTML — Nocturne Tape edition.
+Dark void · acid lime/magenta · magazine command layout · billboard type.
 """
 
 from __future__ import annotations
@@ -60,6 +60,8 @@ def build_dashboard(
     short_share = float(herd.get("short_share") or 0.5)
     horizon = meta.get("horizon", 12)
     elapsed = meta.get("elapsed_s", 0)
+    long_pct = int(round(long_share * 100))
+    short_pct = int(round(short_share * 100))
 
     try:
         es = float(elapsed)
@@ -68,912 +70,1036 @@ def build_dashboard(
     except (TypeError, ValueError):
         uptime = "—"
 
-    html = f"""<!DOCTYPE html>
+    html = TEMPLATE
+    for key, val in {
+        "@@DATA_JSON@@": data_json,
+        "@@VENUE@@": venue,
+        "@@MODE@@": mode,
+        "@@N_AD@@": str(n_ad),
+        "@@N_RAW@@": str(n_raw),
+        "@@N_IDEAS@@": str(n_ideas),
+        "@@GENERATED@@": generated,
+        "@@HERD_BIAS@@": herd_bias,
+        "@@HERD_NOTE@@": herd_note,
+        "@@HORIZON@@": str(horizon),
+        "@@LONG_PCT@@": str(long_pct),
+        "@@SHORT_PCT@@": str(short_pct),
+        "@@UPTIME@@": uptime,
+    }.items():
+        html = html.replace(key, val)
+
+    out_path = Path(out_path)
+    out_path.write_text(html, encoding="utf-8")
+    return out_path
+
+
+TEMPLATE = r"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-<meta name="theme-color" content="#1a1c20"/>
-<title>Idiot Flow Bourse</title>
+<meta name="theme-color" content="#050608"/>
+<meta name="ifb-type" content="nocturne-tape-v1"/>
+<title>Idiot Flow · Nocturne Tape</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Big+Shoulders+Display:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=Outfit:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet"/>
-<meta name="ifb-type" content="billboard-v2"/>
 <style>
-:root {{
-  --metal-0: #2a2d33;
-  --metal-1: #3a3e46;
-  --metal-2: #4a4f58;
-  --plate: #c5c8ce;
-  --plate-dk: #9ea3ab;
-  --glass: rgba(232, 236, 242, 0.78);
-  --glass-edge: rgba(255,255,255,0.55);
-  --glass-shadow: rgba(0,0,0,0.35);
-  --ink: #1a1d22;
-  --ink2: #3a3f48;
-  --muted: #5c6370;
-  --cyan: #2ec8f0;
-  --cyan-hot: #6ae4ff;
-  --cyan-dim: rgba(46,200,240,0.18);
-  --cyan-glow: rgba(46,200,240,0.55);
-  --amber: #e8a23a;
-  --amber-soft: rgba(232,162,58,0.15);
-  --ok: #2f9e6b;
-  --short: #d4572a;
-  --long: #1a8f7a;
-  --line: rgba(26,29,34,0.12);
+:root {
+  --bg: #050608;
+  --bg2: #0b0d12;
+  --panel: rgba(255,255,255,0.035);
+  --panel2: rgba(255,255,255,0.06);
+  --stroke: rgba(255,255,255,0.09);
+  --stroke2: rgba(255,255,255,0.16);
+  --ink: #f4f0e6;
+  --ink2: #c8c2b4;
+  --muted: #8a8478;
+  --muted2: #5c574e;
+  --lime: #c8f23a;
+  --lime-hot: #e8ff6a;
+  --lime-dim: rgba(200,242,58,0.14);
+  --lime-glow: rgba(200,242,58,0.45);
+  --mag: #ff2d8a;
+  --mag-dim: rgba(255,45,138,0.14);
+  --mag-glow: rgba(255,45,138,0.4);
+  --gold: #e0b84a;
+  --long: var(--lime);
+  --short: var(--mag);
   --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
-  --sans: "Outfit", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --serif: "Instrument Serif", "Times New Roman", Georgia, serif;
-  --mono: "Azeret Mono", ui-monospace, "SF Mono", monospace;
+  --sans: "Outfit", system-ui, sans-serif;
+  --serif: "Instrument Serif", Georgia, serif;
+  --mono: "Azeret Mono", ui-monospace, monospace;
   --safe-t: env(safe-area-inset-top, 0px);
   --safe-b: env(safe-area-inset-bottom, 0px);
-}}
-*, *::before, *::after {{ box-sizing: border-box; }}
-html, body {{ margin: 0; padding: 0; }}
-body {{
+  --pad: clamp(14px, 2.8vw, 36px);
+  --max: 1320px;
+  --r: 16px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+html, body { margin: 0; padding: 0; }
+body {
   font-family: var(--sans);
   font-weight: 400;
-  font-feature-settings: "ss01" 1, "kern" 1;
-  letter-spacing: 0.01em;
   color: var(--ink);
   min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   background:
-    radial-gradient(ellipse 80% 50% at 50% 0%, #3a3f48 0%, transparent 55%),
-    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(46,200,240,0.08), transparent 50%),
-    linear-gradient(165deg, #1e2127 0%, #15171b 45%, #0e1013 100%);
-}}
-a {{ color: var(--cyan); text-decoration: none; }}
-button, select, input {{ font: inherit; color: inherit; }}
+    radial-gradient(ellipse 70% 45% at 12% -10%, rgba(200,242,58,0.12), transparent 55%),
+    radial-gradient(ellipse 55% 40% at 100% 0%, rgba(255,45,138,0.1), transparent 50%),
+    radial-gradient(ellipse 60% 50% at 50% 110%, rgba(200,242,58,0.05), transparent 55%),
+    linear-gradient(180deg, #0a0c10 0%, var(--bg) 40%, #040506 100%);
+  background-attachment: fixed;
+}
+a { color: var(--lime); text-decoration: none; }
+button, select, input { font: inherit; color: inherit; }
+.pos { color: var(--lime); font-weight: 600; }
+.neg { color: var(--mag); font-weight: 600; }
 
-/* ── chassis plate ── */
-.chassis {{
-  max-width: 1280px;
+/* shell */
+.shell {
+  width: 100%;
+  max-width: var(--max);
   margin: 0 auto;
-  padding: calc(14px + var(--safe-t)) 14px calc(24px + var(--safe-b));
-}}
-.plate {{
-  position: relative;
-  border-radius: 18px;
-  padding: 16px 16px 18px;
-  background:
-    linear-gradient(145deg, #d8 rec 0%, #b8bcc4 38%, #a8adb6 72%, #9aa0aa 100%);
-  background:
-    linear-gradient(145deg, #d4d8df 0%, #b6bbc4 40%, #a4aab4 100%);
-  box-shadow:
-    0 1px 0 rgba(255,255,255,0.45) inset,
-    0 -1px 0 rgba(0,0,0,0.12) inset,
-    0 24px 48px rgba(0,0,0,0.45),
-    0 0 0 1px rgba(0,0,0,0.25);
-  overflow: hidden;
-}}
-.plate::before {{
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: 0.07;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}}
-.plate > * {{ position: relative; z-index: 1; }}
+  padding: calc(18px + var(--safe-t)) var(--pad) calc(36px + var(--safe-b));
+}
 
-/* glass card */
-.glass {{
-  background: var(--glass);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--glass-edge);
-  border-radius: 10px;
-  box-shadow:
-    0 1px 0 rgba(255,255,255,0.65) inset,
-    0 8px 20px var(--glass-shadow);
-}}
-
-/* header */
-.topline {{
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 14px;
-}}
-.brand-block h1 {{
+/* ── masthead ── */
+.mast {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px 24px;
+  align-items: end;
+  margin-bottom: 18px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--stroke);
+}
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.brand-mark .pulse {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 12px var(--lime-glow);
+  animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.mast h1 {
   margin: 0;
   font-family: var(--display);
-  font-size: clamp(2.4rem, 6vw, 3.6rem);
   font-weight: 900;
+  font-size: clamp(2.8rem, 8vw, 5.2rem);
+  line-height: 0.8;
   letter-spacing: -0.04em;
   text-transform: uppercase;
-  line-height: 0.82;
-  color: var(--ink);
-  text-shadow: 0 1px 0 rgba(255,255,255,0.35);
   font-stretch: condensed;
-}}
-.brand-block h1 span {{
+}
+.mast h1 em {
+  font-style: normal;
   display: block;
-  background: linear-gradient(100deg, var(--ink) 10%, #0a7a96 55%, var(--ink) 100%);
+  background: linear-gradient(105deg, var(--ink) 0%, var(--lime-hot) 45%, var(--mag) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-}}
-.brand-block .sub {{
-  margin: 8px 0 0;
-  font-family: var(--serif);
-  font-size: 1.15rem;
-  font-style: italic;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--muted);
-  font-weight: 400;
-  max-width: 28rem;
-  line-height: 1.3;
-}}
-.meta-rail {{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}}
-.chip {{
-  min-width: 72px;
-  padding: 6px 10px;
-  border-radius: 8px;
-  background: rgba(255,255,255,0.55);
-  border: 1px solid rgba(255,255,255,0.7);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.5) inset, 0 2px 6px rgba(0,0,0,0.08);
-}}
-.chip .k {{
-  display: block;
-  font-family: var(--serif);
-  font-size: 0.82rem;
-  font-weight: 400;
-  font-style: italic;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--muted);
-}}
-.chip .v {{
-  font-family: var(--display);
-  font-size: 1.05rem;
-  font-weight: 900;
-  letter-spacing: -0.03em;
-  font-variant-numeric: tabular-nums;
-  color: var(--ink);
-  text-transform: uppercase;
-  font-stretch: condensed;
-}}
-.chip .v.cyan {{ color: #0a7a96; }}
-.chip .v.ok {{ color: var(--ok); }}
-
-/* main stage grid */
-.stage {{
-  display: grid;
-  grid-template-columns: 200px 1fr 220px;
-  gap: 12px;
-  margin-bottom: 12px;
-}}
-@media (max-width: 980px) {{
-  .stage {{ grid-template-columns: 1fr; }}
-}}
-
-/* regime plaque */
-.regime {{
-  padding: 12px;
-}}
-.regime .lbl {{
-  font-family: var(--serif);
-  font-size: 0.95rem;
-  font-weight: 400;
-  font-style: italic;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--muted);
-  margin-bottom: 6px;
-}}
-.regime h2 {{
-  margin: 0 0 8px;
-  font-family: var(--display);
-  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
-  font-weight: 900;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-  line-height: 0.92;
-  font-stretch: condensed;
-  color: #0a7a96;
-}}
-.regime p {{
-  margin: 0;
-  font-family: var(--serif);
-  font-size: 1.05rem;
-  font-style: italic;
-  line-height: 1.4;
-  color: var(--ink2);
-}}
-.metric-stack {{
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 10px;
-}}
-.metric-tile {{
-  padding: 8px 10px;
-}}
-.metric-tile .k {{
-  font-family: var(--serif);
-  font-size: 0.82rem;
-  font-weight: 400;
-  font-style: italic;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--muted);
-}}
-.metric-tile .v {{
-  font-family: var(--display);
-  font-size: 1.45rem;
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  margin-top: 2px;
-  font-variant-numeric: tabular-nums;
-  font-stretch: condensed;
-}}
-.metric-tile .v.neg {{ color: var(--short); }}
-.metric-tile .v.pos {{ color: var(--long); }}
-
-/* center arena */
-.arena {{
-  position: relative;
-  min-height: 340px;
-  display: grid;
-  place-items: center;
-  padding: 12px;
-}}
-.ring {{
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.35);
-  box-shadow:
-    0 0 0 1px rgba(0,0,0,0.08),
-    inset 0 0 30px rgba(46,200,240,0.08),
-    0 0 40px rgba(46,200,240,0.12);
-  pointer-events: none;
-}}
-.ring.r1 {{ width: min(92%, 420px); aspect-ratio: 1; }}
-.ring.r2 {{ width: min(72%, 320px); aspect-ratio: 1; border-color: rgba(46,200,240,0.25); }}
-.ring.r3 {{
-  width: min(48%, 210px); aspect-ratio: 1;
-  background: radial-gradient(circle at 40% 35%, #e8ecf2, #b8c0cc 70%, #9aa3b0);
-  box-shadow:
-    inset 0 2px 8px rgba(255,255,255,0.7),
-    inset 0 -4px 12px rgba(0,0,0,0.15),
-    0 0 24px rgba(46,200,240,0.25);
-  border: 1px solid rgba(255,255,255,0.5);
-  display: grid;
-  place-items: center;
-}}
-.ring.r3::after {{
-  content: "IFB";
-  font-family: var(--display);
-  font-size: 3.4rem;
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  color: rgba(80,90,100,0.22);
-  text-shadow: 0 1px 0 rgba(255,255,255,0.4);
-  font-stretch: condensed;
-}}
-.fiber {{
-  position: absolute;
-  inset: 8% 6%;
-  pointer-events: none;
-  opacity: 0.55;
-  background:
-    radial-gradient(ellipse 40% 8% at 20% 70%, var(--cyan-glow), transparent 70%),
-    radial-gradient(ellipse 35% 6% at 80% 40%, rgba(46,200,240,0.35), transparent 70%);
-  filter: blur(0.5px);
-}}
-.hero-card {{
-  position: relative;
-  z-index: 3;
-  width: min(280px, 88%);
-  padding: 14px 16px 12px;
-  text-align: center;
-}}
-.hero-card .eyebrow {{
-  font-family: var(--serif);
-  font-size: 0.95rem;
-  font-weight: 400;
-  font-style: italic;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--muted);
-}}
-.hero-card .sym {{
-  margin: 6px 0 4px;
-  font-family: var(--display);
-  font-size: clamp(2.1rem, 5vw, 2.8rem);
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  color: var(--ink);
-  text-transform: uppercase;
-  font-stretch: condensed;
-  line-height: 0.9;
-}}
-.hero-card .sym small {{
-  font-family: var(--mono);
-  font-size: 0.42em;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  color: var(--muted);
-  text-transform: none;
-}}
-.pill {{
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-family: var(--display);
-  font-size: 0.85rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,0.65);
-  color: var(--muted);
-  font-stretch: condensed;
-}}
-.pill.SHORT, .pill.short {{ color: var(--short); border-color: rgba(212,87,42,0.35); background: rgba(212,87,42,0.1); }}
-.pill.LONG, .pill.long {{ color: var(--long); border-color: rgba(26,143,122,0.35); background: rgba(26,143,122,0.1); }}
-.pill.ready {{ color: var(--short); border-color: rgba(212,87,42,0.35); background: rgba(212,87,42,0.1); }}
-.pill.filtered {{ color: var(--muted); }}
-.pill.cleared {{ color: var(--ok); border-color: rgba(47,158,107,0.35); background: rgba(47,158,107,0.1); }}
-.hero-scores {{
-  display: flex;
-  justify-content: center;
-  gap: 18px;
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid var(--line);
-}}
-.hero-scores div {{ text-align: center; }}
-.hero-scores .k {{
-  font-family: var(--serif);
-  font-size: 0.85rem;
-  font-weight: 400;
-  font-style: italic;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--muted);
-}}
-.hero-scores .v {{
-  font-family: var(--display);
-  font-size: 1.75rem;
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  color: var(--ink);
-  font-variant-numeric: tabular-nums;
-  font-stretch: condensed;
-}}
-.hero-thesis {{
+}
+.mast .tag {
   margin: 10px 0 0;
   font-family: var(--serif);
-  font-size: 1.05rem;
   font-style: italic;
-  line-height: 1.4;
+  font-size: 1.15rem;
   color: var(--ink2);
-  text-align: left;
-}}
-
-/* right column path */
-.path-panel {{ padding: 12px; }}
-.path-panel .lbl {{
-  font-family: var(--serif);
-  font-size: 0.95rem;
-  font-weight: 400;
-  font-style: italic;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--muted);
-  margin-bottom: 6px;
-}}
-.path-panel .psym {{
+  max-width: 28rem;
+  line-height: 1.35;
+}
+.mast-meta {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+.live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-family: var(--display);
-  font-weight: 900;
-  font-size: 1.25rem;
-  letter-spacing: -0.03em;
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  margin-bottom: 6px;
-  font-stretch: condensed;
-}}
-.path-chart {{ height: 140px; }}
-.path-chart svg {{ width: 100%; height: 100%; }}
-.path-foot {{
-  margin-top: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(200,242,58,0.35);
+  background: var(--lime-dim);
+  color: var(--lime);
+}
+.live-pill.offline {
+  color: var(--mag);
+  border-color: rgba(255,45,138,0.35);
+  background: var(--mag-dim);
+}
+.asof {
   font-family: var(--mono);
   font-size: 0.72rem;
-  font-variant-numeric: tabular-nums;
   color: var(--muted);
-}}
-.path-foot b {{ color: var(--ink); font-family: var(--display); font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; }}
+  font-variant-numeric: tabular-nums;
+}
 
-/* gauges */
-.gauges {{
+/* ── ticker strip ── */
+.ticker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+.chip {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 88px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+  backdrop-filter: blur(8px);
+}
+.chip .k {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.chip .v {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  font-stretch: condensed;
+  font-variant-numeric: tabular-nums;
+}
+.chip .v.lime { color: var(--lime); }
+.chip .v.mag { color: var(--mag); }
+
+/* ── command stage ── */
+.stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.85fr);
+  gap: 14px;
+  margin-bottom: 14px;
+}
+@media (max-width: 900px) {
+  .mast { grid-template-columns: 1fr; }
+  .mast-meta { align-items: flex-start; text-align: left; }
+  .stage { grid-template-columns: 1fr; }
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+  border-radius: var(--r);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+}
+
+/* regime banner inside stage left top */
+.regime-banner {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 16px 28px;
+  align-items: center;
+  padding: 18px 22px;
+  margin-bottom: 14px;
+  border-radius: var(--r);
+  background:
+    linear-gradient(120deg, rgba(200,242,58,0.08), transparent 45%),
+    linear-gradient(300deg, rgba(255,45,138,0.07), transparent 40%),
+    var(--panel);
+  border: 1px solid var(--stroke2);
+  position: relative;
+  overflow: hidden;
+}
+.regime-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--lime), var(--mag));
+}
+.regime-banner .lbl {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--muted);
+}
+.regime-banner h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: clamp(2.4rem, 6vw, 3.8rem);
+  letter-spacing: -0.03em;
+  line-height: 0.88;
+  text-transform: uppercase;
+  font-stretch: condensed;
+  color: var(--lime);
+  text-shadow: 0 0 40px var(--lime-glow);
+}
+.regime-banner p {
+  margin: 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--ink2);
+  line-height: 1.4;
+  max-width: 36rem;
+}
+.side-split {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-top: 10px;
-}}
-.gauge {{
-  padding: 8px 10px;
-}}
-.gauge .k {{
-  font-family: var(--serif);
-  font-size: 0.85rem;
-  font-weight: 400;
-  font-style: italic;
-  letter-spacing: 0;
-  text-transform: none;
+  min-width: 140px;
+}
+.side-split .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--mono);
+  font-size: 0.68rem;
   color: var(--muted);
-}}
-.gauge-track {{
-  margin-top: 6px;
-  height: 8px;
+}
+.side-split .row b { color: var(--ink); font-family: var(--display); font-size: 1rem; font-weight: 800; }
+.track {
+  height: 6px;
   border-radius: 99px;
-  background: rgba(0,0,0,0.08);
+  background: rgba(255,255,255,0.06);
   overflow: hidden;
-}}
-.gauge-track > i {{
+}
+.track > i {
   display: block;
   height: 100%;
   border-radius: 99px;
-  background: linear-gradient(90deg, var(--cyan), var(--cyan-hot));
-  box-shadow: 0 0 8px var(--cyan-glow);
-}}
+  background: linear-gradient(90deg, var(--lime), var(--lime-hot));
+  box-shadow: 0 0 10px var(--lime-glow);
+}
+.track.short > i {
+  background: linear-gradient(90deg, var(--mag), #ff6aad);
+  box-shadow: 0 0 10px var(--mag-glow);
+}
 
-/* ranked orbit cards */
-.orbit {{
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 8px;
-  margin: 12px 0;
-}}
-.sat {{
-  padding: 10px;
-  cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.15s;
+/* hero card */
+.hero {
+  padding: 22px 24px 20px;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
   position: relative;
-}}
-.sat:hover {{ transform: translateY(-2px); }}
-.sat.active {{
-  box-shadow: 0 0 0 2px var(--cyan), 0 8px 20px var(--glass-shadow);
-}}
-.sat .idx {{
-  font-family: var(--mono);
-  font-size: 0.62rem;
-  font-weight: 600;
-  color: var(--muted);
-}}
-.sat .rsym {{
-  font-family: var(--display);
-  font-weight: 900;
-  font-size: 1.15rem;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-  font-stretch: condensed;
-}}
-.sat .rsym small {{ color: var(--muted); font-size: 0.6em; font-family: var(--mono); font-weight: 500; text-transform: none; }}
-.sat-mid {{
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin: 6px 0;
-}}
-.sat-mid .spark {{ flex: 1; height: 28px; }}
-.sat-mid .spark svg {{ width: 100%; height: 100%; }}
-.sat-foot {{
-  display: flex;
-  justify-content: space-between;
-  font-family: var(--mono);
-  font-size: 0.62rem;
-  color: var(--muted);
-  border-top: 1px solid var(--line);
-  padding-top: 6px;
-}}
-.sat-foot b {{ color: var(--ink); }}
-.dot {{
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--cyan);
-  box-shadow: 0 0 8px var(--cyan-glow);
-  flex-shrink: 0;
-}}
-
-/* photon */
-.photon {{
-  margin: 12px 0;
-  padding: 12px;
-}}
-.photon-head {{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 10px;
-}}
-.photon-head h3 {{
-  margin: 0;
-  font-family: var(--display);
-  font-size: 1.25rem;
-  font-weight: 900;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  font-stretch: condensed;
-}}
-.photon-head h3 em {{ font-style: normal; color: #0a7a96; }}
-.photon-head .hint {{
-  font-family: var(--serif);
-  font-size: 1rem;
-  font-style: italic;
-  color: var(--muted);
-  max-width: 40rem;
-  line-height: 1.4;
-}}
-.photon-body {{
-  display: grid;
-  grid-template-columns: 1.5fr 0.9fr;
-  gap: 10px;
-}}
-@media (max-width: 720px) {{ .photon-body {{ grid-template-columns: 1fr; }} }}
-.photon-lattice {{
-  display: grid;
-  grid-template-columns: repeat(24, 1fr);
-  gap: 2px;
-  padding: 10px;
-  border-radius: 8px;
-  background: rgba(20,24,30,0.88);
-  border: 1px solid rgba(46,200,240,0.2);
-  box-shadow: inset 0 0 20px rgba(46,200,240,0.08);
-  min-height: 120px;
-}}
-.photon-cell {{ aspect-ratio: 1; border-radius: 1px; }}
-.photon-cell.L-2 {{ background: #d4572a; }}
-.photon-cell.L-1 {{ background: #b86a4a; opacity: 0.85; }}
-.photon-cell.L0 {{ background: rgba(255,255,255,0.12); }}
-.photon-cell.L1 {{ background: #3aa88a; opacity: 0.9; }}
-.photon-cell.L2 {{ background: var(--cyan-hot); box-shadow: 0 0 6px var(--cyan-glow); }}
-.photon-cell.delta {{ outline: 1px solid var(--amber); }}
-.ph-stats {{ display: flex; flex-direction: column; gap: 6px; }}
-.ph-stat {{
-  padding: 8px 10px;
-  border-radius: 8px;
-  background: rgba(255,255,255,0.45);
-  border: 1px solid rgba(255,255,255,0.6);
-}}
-.ph-stat .k {{
-  font-family: var(--serif);
-  font-size: 0.82rem;
-  font-weight: 400;
-  font-style: italic;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--muted);
-}}
-.ph-stat .v {{
-  font-family: var(--display);
-  font-size: 1.1rem;
-  font-weight: 900;
-  letter-spacing: -0.03em;
-  margin-top: 2px;
-  font-variant-numeric: tabular-nums;
-  font-stretch: condensed;
-}}
-.ph-bar {{
-  height: 5px;
-  border-radius: 99px;
-  background: rgba(0,0,0,0.08);
-  margin-top: 5px;
   overflow: hidden;
-}}
-.ph-bar > b {{
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg, var(--short), var(--amber), var(--cyan));
-  width: 0%;
-  transition: width 0.5s ease;
-}}
-
-/* audit table */
-.audit {{
-  padding: 12px;
-  margin-top: 4px;
-}}
-.audit-head {{
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 8px;
-}}
-.audit-head h3 {{
-  margin: 0;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 280px; height: 280px;
+  right: -80px; top: -80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,242,58,0.12), transparent 65%);
+  pointer-events: none;
+}
+.hero .eyebrow {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+  position: relative;
+  z-index: 1;
+}
+.hero .sym {
   font-family: var(--display);
-  font-size: 1.25rem;
   font-weight: 900;
-  letter-spacing: 0.02em;
+  font-size: clamp(2.8rem, 7vw, 4.2rem);
+  letter-spacing: -0.04em;
+  line-height: 0.88;
   text-transform: uppercase;
   font-stretch: condensed;
-}}
-.toolbar {{
+  position: relative;
+  z-index: 1;
+}
+.hero .sym small {
+  font-family: var(--mono);
+  font-size: 0.28em;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-left: 8px;
+  text-transform: none;
+  vertical-align: super;
+}
+.hero-pills {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-}}
-.toolbar select, .toolbar input, .toolbar button {{
-  font-family: var(--sans);
-  font-size: 0.78rem;
-  padding: 6px 8px;
-  border-radius: 6px;
-  border: 1px solid rgba(0,0,0,0.12);
-  background: rgba(255,255,255,0.7);
-}}
-.toolbar button {{
-  background: var(--ink);
-  color: #fff;
-  border-color: var(--ink);
+  gap: 8px;
+  margin: 12px 0 16px;
+  position: relative;
+  z-index: 1;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
   font-family: var(--display);
   font-weight: 800;
-  letter-spacing: 0.05em;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  cursor: pointer;
-}}
-.table-wrap {{ overflow-x: auto; border-radius: 8px; }}
-table {{
-  width: 100%;
-  border-collapse: collapse;
-  font-family: var(--sans);
-  font-size: 0.78rem;
-  background: rgba(255,255,255,0.5);
-}}
-th {{
-  text-align: left;
-  padding: 8px 9px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--stroke2);
+  background: var(--panel2);
+  color: var(--muted);
+  font-stretch: condensed;
+}
+.pill.LONG, .pill.long {
+  color: var(--lime);
+  border-color: rgba(200,242,58,0.4);
+  background: var(--lime-dim);
+  box-shadow: 0 0 16px rgba(200,242,58,0.12);
+}
+.pill.SHORT, .pill.short {
+  color: var(--mag);
+  border-color: rgba(255,45,138,0.4);
+  background: var(--mag-dim);
+  box-shadow: 0 0 16px rgba(255,45,138,0.12);
+}
+.pill.ready {
+  color: var(--lime);
+  border-color: rgba(200,242,58,0.4);
+  background: var(--lime-dim);
+}
+.pill.filtered { color: var(--muted); }
+.pill.cleared {
+  color: var(--gold);
+  border-color: rgba(224,184,74,0.4);
+  background: rgba(224,184,74,0.1);
+}
+.hero-scores {
+  display: flex;
+  gap: 28px;
+  padding: 14px 0;
+  border-top: 1px solid var(--stroke);
+  border-bottom: 1px solid var(--stroke);
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+}
+.hero-scores .k {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.hero-scores .v {
   font-family: var(--display);
-  font-size: 0.85rem;
+  font-weight: 900;
+  font-size: 2.2rem;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-stretch: condensed;
+  font-variant-numeric: tabular-nums;
+}
+.hero-thesis {
+  margin: 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.08rem;
+  line-height: 1.45;
+  color: var(--ink2);
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+.hero-px {
+  margin-top: 14px;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  position: relative;
+  z-index: 1;
+}
+
+/* side column: path + stream */
+.side-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.path-panel {
+  padding: 16px 18px;
+  flex: 1;
+}
+.path-panel .lbl {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+.path-panel .psym {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin: 4px 0 10px;
+  font-stretch: condensed;
+}
+.path-chart { height: 160px; }
+.path-chart svg { width: 100%; height: 100%; }
+.path-foot {
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+.path-foot b {
+  color: var(--ink);
+  font-family: var(--display);
   font-weight: 800;
   letter-spacing: 0.03em;
   text-transform: uppercase;
+}
+.stream-box {
+  padding: 14px 18px;
+}
+.stream-box .k {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.9rem;
   color: var(--muted);
-  border-bottom: 1px solid var(--line);
-  white-space: nowrap;
-  background: rgba(255,255,255,0.35);
+}
+.stream-box .v {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 4px;
+  color: var(--lime);
+}
+
+/* metric rail */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 22px;
+}
+@media (max-width: 1100px) {
+  .metrics { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 560px) {
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+}
+.metric {
+  padding: 14px 14px 12px;
+  border-radius: 14px;
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+}
+.metric .k {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.metric .v {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 1.35rem;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
   font-stretch: condensed;
-}}
-td {{
-  padding: 8px 9px;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
+  font-variant-numeric: tabular-nums;
+}
+
+/* section heads */
+.sec-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 8px 0 12px;
+}
+.sec-head h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 1.35rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-stretch: condensed;
+}
+.sec-head h3 em { font-style: normal; color: var(--lime); }
+.sec-head .hint {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+/* tape — horizontal ranked cards */
+.tape-wrap {
+  margin-bottom: 28px;
+}
+.tape {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 4px 2px 16px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(200,242,58,0.3) transparent;
+}
+.sat {
+  flex: 0 0 min(220px, 78vw);
+  scroll-snap-align: start;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+.sat:hover {
+  transform: translateY(-3px);
+  border-color: var(--stroke2);
+}
+.sat.active {
+  border-color: rgba(200,242,58,0.55);
+  box-shadow: 0 0 0 1px rgba(200,242,58,0.25), 0 16px 40px rgba(0,0,0,0.4);
+  background: linear-gradient(165deg, rgba(200,242,58,0.08), var(--panel));
+}
+.sat .idx {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--muted2);
+  margin-bottom: 4px;
+}
+.sat .rsym {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 1.45rem;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  font-stretch: condensed;
+  line-height: 1;
+}
+.sat .rsym small {
+  font-family: var(--mono);
+  font-size: 0.55em;
+  font-weight: 500;
+  color: var(--muted);
+  margin-left: 4px;
+  text-transform: none;
+}
+.sat-pills { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+.sat-mid {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 12px;
+}
+.sat-mid .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 10px var(--lime-glow);
+  flex-shrink: 0;
+}
+.sat.SHORT .dot, .sat[data-side="SHORT"] .dot {
+  background: var(--mag);
+  box-shadow: 0 0 10px var(--mag-glow);
+}
+.sat-mid .spark { flex: 1; height: 32px; }
+.sat-mid .spark svg { width: 100%; height: 100%; }
+.sat-foot {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--muted);
+  border-top: 1px solid var(--stroke);
+  padding-top: 10px;
+}
+.sat-foot b {
+  color: var(--ink);
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+}
+
+/* photon */
+.photon {
+  padding: 18px 20px;
+  margin-bottom: 18px;
+}
+.photon-body {
+  display: grid;
+  grid-template-columns: 1.5fr 0.9fr;
+  gap: 14px;
+}
+@media (max-width: 720px) {
+  .photon-body { grid-template-columns: 1fr; }
+}
+.photon-lattice {
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  gap: 3px;
+  padding: 14px;
+  border-radius: 12px;
+  background: #080a0e;
+  border: 1px solid rgba(200,242,58,0.15);
+  box-shadow: inset 0 0 30px rgba(200,242,58,0.04);
+  min-height: 130px;
+}
+.photon-cell { aspect-ratio: 1; border-radius: 2px; }
+.photon-cell.L-2 { background: var(--mag); }
+.photon-cell.L-1 { background: #b84a78; opacity: 0.85; }
+.photon-cell.L0 { background: rgba(255,255,255,0.08); }
+.photon-cell.L1 { background: #7aaa30; opacity: 0.9; }
+.photon-cell.L2 { background: var(--lime-hot); box-shadow: 0 0 8px var(--lime-glow); }
+.photon-cell.delta { outline: 1px solid var(--gold); outline-offset: 0; }
+.ph-stats { display: flex; flex-direction: column; gap: 8px; }
+.ph-stat {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid var(--stroke);
+}
+.ph-stat .k {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+.ph-stat .v {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: -0.02em;
+  margin-top: 2px;
+  font-stretch: condensed;
+  font-variant-numeric: tabular-nums;
+}
+.ph-bar {
+  height: 5px;
+  border-radius: 99px;
+  background: rgba(255,255,255,0.06);
+  margin-top: 6px;
+  overflow: hidden;
+}
+.ph-bar > b {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--mag), var(--gold), var(--lime));
+  width: 0%;
+  transition: width 0.5s ease;
+}
+
+/* audit */
+.audit {
+  padding: 18px 20px;
+  margin-bottom: 18px;
+}
+.audit-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.audit-head h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 1.35rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-stretch: condensed;
+}
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.toolbar select, .toolbar input, .toolbar button {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--stroke2);
+  background: rgba(0,0,0,0.35);
+  color: var(--ink);
+  min-height: 40px;
+}
+.toolbar button {
+  font-family: var(--display);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--lime);
+  color: #0a0b0e;
+  border-color: var(--lime);
+  cursor: pointer;
+}
+.toolbar button:active { transform: scale(0.98); }
+.table-wrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid var(--stroke);
+  background: rgba(0,0,0,0.25);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  min-width: 760px;
+}
+th {
+  text-align: left;
+  padding: 12px 12px;
+  font-family: var(--display);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--stroke);
   white-space: nowrap;
+  background: rgba(0,0,0,0.3);
+  font-stretch: condensed;
+}
+td {
+  padding: 12px;
+  border-bottom: 1px solid var(--stroke);
   color: var(--ink2);
+  white-space: nowrap;
   vertical-align: middle;
   font-variant-numeric: tabular-nums;
-}}
-tr:hover td {{ background: rgba(46,200,240,0.06); }}
-td.score {{
+}
+tr:hover td { background: rgba(200,242,58,0.04); }
+td.score {
   font-family: var(--display);
   font-weight: 900;
   font-size: 1.2rem;
   letter-spacing: -0.03em;
-  color: var(--ink);
+  color: var(--lime);
   font-stretch: condensed;
-}}
-td.sym {{
+}
+td.sym {
   font-family: var(--display);
-  font-weight: 900;
+  font-weight: 800;
   font-size: 1rem;
   letter-spacing: -0.02em;
   text-transform: uppercase;
   color: var(--ink);
   font-stretch: condensed;
-}}
-.pos {{ color: var(--long); font-weight: 600; }}
-.neg {{ color: var(--short); font-weight: 600; }}
-.bars {{ display: inline-flex; gap: 2px; }}
-.bars i {{ width: 6px; height: 9px; border-radius: 1px; background: rgba(0,0,0,0.1); }}
-.bars i.on {{ background: var(--cyan); box-shadow: 0 0 4px var(--cyan-glow); }}
-.path-cell svg {{ width: 64px; height: 24px; display: block; }}
+}
+.bars { display: inline-flex; gap: 2px; vertical-align: middle; }
+.bars i {
+  width: 6px; height: 11px;
+  border-radius: 1px;
+  background: rgba(255,255,255,0.1);
+  display: inline-block;
+}
+.bars i.on {
+  background: var(--lime);
+  box-shadow: 0 0 6px var(--lime-glow);
+}
+.path-cell svg { width: 64px; height: 24px; display: block; }
 
 /* footer */
-.foot {{
+.foot {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 8px;
-  margin-top: 12px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(0,0,0,0.1);
+  gap: 12px 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--stroke);
   font-family: var(--mono);
   font-size: 0.72rem;
-  color: var(--muted);
-}}
-.foot .live {{
+  color: var(--muted2);
+}
+.foot .brand {
   font-family: var(--display);
   font-weight: 900;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #0a7a96;
-}}
-.foot .live.offline {{ color: var(--short); }}
-.foot .brand-mark {{
-  font-family: var(--display);
-  font-weight: 900;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--ink);
-}}
-.inspire {{
+  color: var(--ink2);
+  font-size: 0.95rem;
+}
+.inspire {
   font-family: var(--serif);
   font-style: italic;
-  font-size: 1rem;
-}}
-.inspire a {{ color: #0a7a96; }}
-.empty {{
-  padding: 20px;
+  font-size: 0.98rem;
+  color: var(--muted);
+  max-width: 36rem;
+  line-height: 1.4;
+}
+.inspire a { color: var(--lime); }
+.empty {
+  padding: 28px 16px;
   text-align: center;
   font-family: var(--serif);
   font-style: italic;
   color: var(--muted);
   font-size: 1.1rem;
-}}
+}
 
-/* stream tube decoration */
-.tubes {{
-  position: absolute;
-  right: 8px;
-  top: 80px;
-  width: 28px;
-  height: 120px;
-  pointer-events: none;
-  opacity: 0.7;
-  background:
-    repeating-linear-gradient(
-      180deg,
-      transparent 0 6px,
-      rgba(46,200,240,0.15) 6px 8px
-    );
-  border-radius: 4px;
-  box-shadow: 0 0 12px rgba(46,200,240,0.2);
-}}
+@media (prefers-reduced-motion: reduce) {
+  .brand-mark .pulse, .live-pill .pulse { animation: none; }
+}
 </style>
 </head>
 <body>
-<div class="chassis">
-  <div class="plate">
-    <div class="tubes" aria-hidden="true"></div>
+<div class="shell">
 
-    <header class="topline">
-      <div class="brand-block">
-        <h1><span>Idiot Flow</span> Bourse</h1>
-        <p class="sub">Live adaptive market scanner</p>
-      </div>
-      <div class="meta-rail">
-        <div class="chip"><span class="k">Venue</span><span class="v">{venue}</span></div>
-        <div class="chip"><span class="k">Mode</span><span class="v">{mode}</span></div>
-        <div class="chip"><span class="k">Ready</span><span class="v ok">{n_ad}</span></div>
-        <div class="chip"><span class="k">Classic raw</span><span class="v">{n_raw}</span></div>
-        <div class="chip"><span class="k">Ideas</span><span class="v cyan">{n_ideas}</span></div>
-        <div class="chip"><span class="k">As of</span><span class="v" id="scanTime">{generated}</span></div>
-      </div>
-    </header>
+  <header class="mast">
+    <div>
+      <div class="brand-mark"><span class="pulse" aria-hidden="true"></span> Idiot Flow · Lab</div>
+      <h1>Idiot Flow <em>Bourse</em></h1>
+      <p class="tag">Nocturne tape for the 24h roll-off edge — live adaptive scan across the board.</p>
+    </div>
+    <div class="mast-meta">
+      <div class="live-pill offline" id="streamLabel">stream offline</div>
+      <div class="asof">as of <span id="scanTime">@@GENERATED@@</span> · scan @@UPTIME@@</div>
+    </div>
+  </header>
 
-    <div class="stage">
-      <div>
-        <div class="glass regime">
-          <div class="lbl">Regime</div>
-          <h2 id="regimeTitle">{herd_bias}</h2>
-          <p id="regimeCopy">{herd_note}</p>
-        </div>
-        <div class="metric-stack" id="heroMetrics"></div>
-      </div>
+  <div class="ticker">
+    <div class="chip"><span class="k">Venue</span><span class="v">@@VENUE@@</span></div>
+    <div class="chip"><span class="k">Mode</span><span class="v">@@MODE@@</span></div>
+    <div class="chip"><span class="k">Ready</span><span class="v lime">@@N_AD@@</span></div>
+    <div class="chip"><span class="k">Classic raw</span><span class="v">@@N_RAW@@</span></div>
+    <div class="chip"><span class="k">Ideas</span><span class="v lime">@@N_IDEAS@@</span></div>
+  </div>
 
-      <div class="arena">
-        <div class="fiber" aria-hidden="true"></div>
-        <div class="ring r1" aria-hidden="true"></div>
-        <div class="ring r2" aria-hidden="true"></div>
-        <div class="ring r3" aria-hidden="true"></div>
-        <div class="glass hero-card" id="heroSignal">
-          <div class="empty">No signals this scan.</div>
-        </div>
-      </div>
+  <div class="regime-banner">
+    <div>
+      <div class="lbl">Regime</div>
+      <h2 id="regimeTitle">@@HERD_BIAS@@</h2>
+    </div>
+    <p id="regimeCopy">@@HERD_NOTE@@</p>
+    <div class="side-split">
+      <div class="row"><span>Long board</span><b>@@LONG_PCT@@%</b></div>
+      <div class="track"><i id="gLong" style="width:@@LONG_PCT@@%"></i></div>
+      <div class="row"><span>Short board</span><b>@@SHORT_PCT@@%</b></div>
+      <div class="track short"><i id="gShort" style="width:@@SHORT_PCT@@%"></i></div>
+    </div>
+  </div>
 
-      <div>
-        <div class="glass path-panel">
-          <div class="lbl">Projected {horizon}h path</div>
-          <div class="psym" id="pathSym">—</div>
-          <div class="path-chart" id="pathChart"></div>
-          <div class="path-foot">Board · <b id="pathTarget">—</b></div>
-        </div>
-        <div class="gauges">
-          <div class="glass gauge">
-            <div class="k">Long-board share</div>
-            <div class="gauge-track"><i id="gLong" style="width:{int(round(long_share*100))}%"></i></div>
-          </div>
-          <div class="glass gauge">
-            <div class="k">Short-board share</div>
-            <div class="gauge-track"><i id="gShort" style="width:{int(round(short_share*100))}%;background:linear-gradient(90deg,#d4572a,#e8a23a)"></i></div>
-          </div>
-          <div class="glass gauge">
-            <div class="k">Stream</div>
-            <div class="v" style="font-family:var(--mono);font-size:0.78rem;margin-top:4px" id="streamStatus">connecting…</div>
-          </div>
-        </div>
+  <div class="stage">
+    <div class="panel hero" id="heroSignal">
+      <div class="empty">No signals this scan.</div>
+    </div>
+    <div class="side-col">
+      <div class="panel path-panel">
+        <div class="lbl">Projected @@HORIZON@@h path</div>
+        <div class="psym" id="pathSym">—</div>
+        <div class="path-chart" id="pathChart"></div>
+        <div class="path-foot">Board · <b id="pathTarget">—</b></div>
+      </div>
+      <div class="panel stream-box">
+        <div class="k">Live stream</div>
+        <div class="v" id="streamStatus">connecting…</div>
       </div>
     </div>
-
-    <div class="orbit" id="ranked" role="list"></div>
-
-    <section class="glass photon" id="photon">
-      <div class="photon-head">
-        <h3>Photon <em>FSQ</em> fingerprint</h3>
-        <p class="hint">Board quantized to levels −1…+1 · gold = Δ vs last scan in this browser</p>
-      </div>
-      <div class="photon-body">
-        <div class="photon-lattice" id="photonLattice"></div>
-        <div class="ph-stats">
-          <div class="ph-stat"><span class="k">Tokens</span><div class="v" id="phTokens">—</div></div>
-          <div class="ph-stat"><span class="k">Δ vs last scan</span><div class="v" id="phDelta">—</div><div class="ph-bar"><b id="phDeltaBar"></b></div></div>
-          <div class="ph-stat"><span class="k">Long / short mass</span><div class="v" id="phSideMass">—</div></div>
-          <div class="ph-stat"><span class="k">Entropy</span><div class="v" id="phEntropy">—</div></div>
-          <div class="ph-stat"><span class="k">Hash</span><div class="v" id="phHash" style="font-size:0.7rem;word-break:break-all">—</div></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="glass audit" id="audit">
-      <div class="audit-head">
-        <h3>Full-board audit</h3>
-        <div class="toolbar">
-          <select id="sideFilter"><option value="ALL">All sides</option><option value="LONG">Longs</option><option value="SHORT">Shorts</option></select>
-          <select id="stateFilter"><option value="ALL">All states</option><option value="READY" selected>Ready</option><option value="FILTERED">Filtered</option><option value="PATH">Path</option></select>
-          <select id="sortBy"><option value="score">Score</option><option value="strength">Strength</option><option value="delta">|Δ|</option><option value="outz">Z-out</option><option value="att">Attention</option><option value="vol">Volume</option></select>
-          <input id="minStr" type="number" value="0" placeholder="Min str"/>
-          <input id="minVol" type="number" value="0" placeholder="Min vol"/>
-          <button type="button" id="apply">Apply</button>
-        </div>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Score</th><th>Strength</th><th>State</th><th>Symbol</th><th>Side</th>
-              <th>Δ (1h)</th><th>Z-out</th><th>Edge</th><th>Att / RVOL</th><th>Volume</th><th>Path</th>
-            </tr>
-          </thead>
-          <tbody id="tbody"></tbody>
-        </table>
-      </div>
-    </section>
-
-    <footer class="foot">
-      <div>
-        <span class="brand-mark">IFB</span>
-        · scan {uptime}
-        · <span class="live offline" id="streamLabel">stream offline</span>
-      </div>
-      <div class="inspire">
-        Inspired by
-        <a href="https://robotjames.substack.com/p/a-truly-idiotic-crypto-trade" target="_blank" rel="noopener">Robot James — A truly idiotic crypto trade</a>
-        · not affiliated · not financial advice
-      </div>
-    </footer>
   </div>
+
+  <div class="metrics" id="heroMetrics"></div>
+
+  <div class="tape-wrap">
+    <div class="sec-head">
+      <h3>Ranked <em>tape</em></h3>
+      <span class="hint">Tap a card to load the hero signal</span>
+    </div>
+    <div class="tape" id="ranked" role="list"></div>
+  </div>
+
+  <section class="panel photon" id="photon">
+    <div class="sec-head">
+      <h3>Photon <em>FSQ</em> fingerprint</h3>
+      <span class="hint">Board quantized −1…+1 · gold = Δ vs last scan</span>
+    </div>
+    <div class="photon-body">
+      <div class="photon-lattice" id="photonLattice"></div>
+      <div class="ph-stats">
+        <div class="ph-stat"><span class="k">Tokens</span><div class="v" id="phTokens">—</div></div>
+        <div class="ph-stat"><span class="k">Δ vs last scan</span><div class="v" id="phDelta">—</div><div class="ph-bar"><b id="phDeltaBar"></b></div></div>
+        <div class="ph-stat"><span class="k">Long / short mass</span><div class="v" id="phSideMass">—</div></div>
+        <div class="ph-stat"><span class="k">Entropy</span><div class="v" id="phEntropy">—</div></div>
+        <div class="ph-stat"><span class="k">Hash</span><div class="v" id="phHash" style="font-size:0.75rem;word-break:break-all">—</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel audit" id="audit">
+    <div class="audit-head">
+      <h3>Full-board audit</h3>
+      <div class="toolbar">
+        <select id="sideFilter"><option value="ALL">All sides</option><option value="LONG">Longs</option><option value="SHORT">Shorts</option></select>
+        <select id="stateFilter"><option value="ALL">All states</option><option value="READY" selected>Ready</option><option value="FILTERED">Filtered</option><option value="PATH">Path</option></select>
+        <select id="sortBy"><option value="score">Score</option><option value="strength">Strength</option><option value="delta">|Δ|</option><option value="outz">Z-out</option><option value="att">Attention</option><option value="vol">Volume</option></select>
+        <input id="minStr" type="number" value="0" placeholder="Min str"/>
+        <input id="minVol" type="number" value="0" placeholder="Min vol"/>
+        <button type="button" id="apply">Apply</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Score</th><th>Strength</th><th>State</th><th>Symbol</th><th>Side</th>
+            <th>Δ (1h)</th><th>Z-out</th><th>Edge</th><th>Att / RVOL</th><th>Volume</th><th>Path</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div><span class="brand">IFB</span> · nocturne tape · not financial advice</div>
+    <div class="inspire">
+      Inspired by
+      <a href="https://robotjames.substack.com/p/a-truly-idiotic-crypto-trade" target="_blank" rel="noopener">Robot James — A truly idiotic crypto trade</a>
+      · not affiliated
+    </div>
+  </footer>
 </div>
 
-<script id="payload" type="application/json">{data_json}</script>
+<script id="payload" type="application/json">@@DATA_JSON@@</script>
 <script>
 const DATA = JSON.parse(document.getElementById('payload').textContent);
 let selected = 0;
-const LIVE = {{ prices: {{}}, status: 'offline', ws: null, bootAt: Date.now(), lastTick: 0 }};
+const LIVE = { prices: {}, status: 'offline', ws: null, bootAt: Date.now(), lastTick: 0 };
 const REST_HOSTS = [
   'https://data-api.binance.vision',
   'https://api.binance.com',
@@ -983,161 +1109,176 @@ const WS_HOSTS = [
   'wss://stream.binance.com:9443/ws',
 ];
 let restHostIdx = 0, wsHostIdx = 0;
+const C_LIME = '#c8f23a';
+const C_MAG = '#ff2d8a';
+const C_MUTED = '#8a8478';
 
-function fmt(n, d=2) {{
+function fmt(n, d=2) {
   if (n === undefined || n === null || Number.isNaN(+n)) return '—';
   return Number(n).toFixed(d);
-}}
-function fmtVol(v) {{
+}
+function fmtVol(v) {
   if (v == null) return '—';
   if (v >= 1e6) return (v/1e6).toFixed(2) + 'M';
   if (v >= 1e3) return (v/1e3).toFixed(1) + 'K';
   return String(Math.round(v));
-}}
-function cls(n) {{ return n >= 0 ? 'pos' : 'neg'; }}
-function baseSym(s) {{ return (s || '').replace('-USDT-SWAP','').replace('USDT',''); }}
-function statePill(s) {{
+}
+function cls(n) { return n >= 0 ? 'pos' : 'neg'; }
+function baseSym(s) { return (s || '').replace('-USDT-SWAP','').replace('USDT',''); }
+function statePill(s) {
   if (!s) return '';
-  if (String(s).includes('READY')) return `<span class="pill ready">${{s}}</span>`;
-  if (String(s).includes('FILTERED')) return `<span class="pill filtered">${{s}}</span>`;
-  return `<span class="pill">${{s}}</span>`;
-}}
-function strengthBars(str) {{
+  if (String(s).includes('READY')) return `<span class="pill ready">${s}</span>`;
+  if (String(s).includes('FILTERED')) return `<span class="pill filtered">${s}</span>`;
+  return `<span class="pill">${s}</span>`;
+}
+function strengthBars(str) {
   const n = Math.max(0, Math.min(5, Math.round((str || 0) / 20)));
   let h = '';
-  for (let i = 0; i < 5; i++) h += `<i class="${{i < n ? 'on' : ''}}"></i>`;
-  return `<span class="bars">${{h}}</span>`;
-}}
-function pathPoints(path) {{
+  for (let i = 0; i < 5; i++) h += `<i class="${i < n ? 'on' : ''}"></i>`;
+  return `<span class="bars">${h}</span>`;
+}
+function pathPoints(path) {
   if (!path || path.length < 2) return null;
   const ys = path.map(p => p.displayed_24h_pct);
   const min = Math.min(...ys), max = Math.max(...ys);
-  return {{ path, min, max, span: (max - min) || 1 }};
-}}
-function sparkStep(path, w, h, color) {{
+  return { path, min, max, span: (max - min) || 1 };
+}
+function sparkStep(path, w, h, color) {
   const pts = pathPoints(path);
   if (!pts) return '';
   const pad = 3, n = pts.path.length;
-  const coords = pts.path.map((p, i) => {{
+  const coords = pts.path.map((p, i) => {
     const x = pad + (i / (n - 1)) * (w - pad * 2);
     const y = pad + (1 - (p.displayed_24h_pct - pts.min) / pts.span) * (h - pad * 2);
     return [x, y];
-  }});
-  let d = `M${{coords[0][0]}},${{coords[0][1]}}`;
-  for (let i = 1; i < coords.length; i++) d += ` H${{coords[i][0]}} V${{coords[i][1]}}`;
-  return `<svg viewBox="0 0 ${{w}} ${{h}}" preserveAspectRatio="none"><path d="${{d}}" fill="none" stroke="${{color}}" stroke-width="1.8" stroke-linejoin="round"/></svg>`;
-}}
-function bigPath(path) {{
+  });
+  let d = `M${coords[0][0]},${coords[0][1]}`;
+  for (let i = 1; i < coords.length; i++) d += ` H${coords[i][0]} V${coords[i][1]}`;
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><path d="${d}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linejoin="round"/></svg>`;
+}
+function bigPath(path, side) {
   const pts = pathPoints(path);
   if (!pts) return '<div class="empty">No path</div>';
-  const w = 280, h = 140, padL = 36, padR = 8, padT = 10, padB = 22;
+  const stroke = side === 'SHORT' ? C_MAG : C_LIME;
+  const w = 320, h = 160, padL = 36, padR = 10, padT = 12, padB = 24;
   const n = pts.path.length;
-  const coords = pts.path.map((p, i) => {{
+  const coords = pts.path.map((p, i) => {
     const x = padL + (i / (n - 1)) * (w - padL - padR);
     const y = padT + (1 - (p.displayed_24h_pct - pts.min) / pts.span) * (h - padT - padB);
     return [x, y];
-  }});
-  let d = `M${{coords[0][0]}},${{coords[0][1]}}`;
-  for (let i = 1; i < coords.length; i++) d += ` H${{coords[i][0]}} V${{coords[i][1]}}`;
-  const ticks = [0, 0.5, 1].map(t => {{
+  });
+  let d = `M${coords[0][0]},${coords[0][1]}`;
+  for (let i = 1; i < coords.length; i++) {
+    const mx = (coords[i-1][0] + coords[i][0]) / 2;
+    d += ` C${mx},${coords[i-1][1]} ${mx},${coords[i][1]} ${coords[i][0]},${coords[i][1]}`;
+  }
+  const area = `${d} L${coords.at(-1)[0]},${h-padB} L${coords[0][0]},${h-padB} Z`;
+  const ticks = [0, 0.5, 1].map(t => {
     const val = pts.max - t * pts.span;
     const y = padT + t * (h - padT - padB);
-    return `<line x1="${{padL}}" y1="${{y}}" x2="${{w-padR}}" y2="${{y}}" stroke="rgba(0,0,0,0.06)"/>
-      <text x="${{padL-4}}" y="${{y+3}}" text-anchor="end" fill="#5c6370" font-size="8" font-family="Azeret Mono,ui-monospace,monospace">${{val.toFixed(1)}}</text>`;
-  }}).join('');
-  return `<svg viewBox="0 0 ${{w}} ${{h}}" preserveAspectRatio="none">
-    ${{ticks}}
-    <path d="${{d}}" fill="none" stroke="#2ec8f0" stroke-width="2.2" stroke-linejoin="round"/>
-    <circle cx="${{coords.at(-1)[0]}}" cy="${{coords.at(-1)[1]}}" r="3.5" fill="#2ec8f0"/>
+    return `<line x1="${padL}" y1="${y}" x2="${w-padR}" y2="${y}" stroke="rgba(255,255,255,0.06)"/>
+      <text x="${padL-4}" y="${y+3}" text-anchor="end" fill="${C_MUTED}" font-size="9" font-family="Azeret Mono,ui-monospace,monospace">${val.toFixed(1)}</text>`;
+  }).join('');
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="pg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="${stroke}" stop-opacity="0.28"/>
+        <stop offset="100%" stop-color="${stroke}" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    ${ticks}
+    <path d="${area}" fill="url(#pg)"/>
+    <path d="${d}" fill="none" stroke="${stroke}" stroke-width="2.4" stroke-linejoin="round"/>
+    <circle cx="${coords.at(-1)[0]}" cy="${coords.at(-1)[1]}" r="4" fill="${stroke}"/>
   </svg>`;
-}}
+}
 
-function listForRank() {{
+function listForRank() {
   const pot = DATA.potato || [];
   if (pot.length) return pot;
   return (DATA.ideas || []).slice(0, 8);
-}}
-function liveFor(sym) {{ return LIVE.prices[sym] || null; }}
+}
+function liveFor(sym) { return LIVE.prices[sym] || null; }
 
-function renderHero(i) {{
+function renderHero(i) {
   const el = document.getElementById('heroSignal');
   const metrics = document.getElementById('heroMetrics');
-  if (!i) {{
+  if (!i) {
     el.innerHTML = '<div class="empty">No signals this scan.</div>';
     metrics.innerHTML = '';
     document.getElementById('pathChart').innerHTML = '<div class="empty">No path</div>';
     document.getElementById('pathSym').textContent = '—';
     document.getElementById('pathTarget').textContent = '—';
     return;
-  }}
+  }
   const str = i.strength_pine || i.score || 0;
   const live = liveFor(i.symbol);
   const px = live ? live.price : i.price;
   el.innerHTML = `
     <div class="eyebrow">01 · Hero signal</div>
-    <div class="sym">${{baseSym(i.symbol)}}<small>USDT</small></div>
-    <div style="margin:6px 0">${{statePill(i.setup_state)}} <span class="pill ${{i.side}}">${{i.side}}</span></div>
+    <div class="sym">${baseSym(i.symbol)}<small>USDT</small></div>
+    <div class="hero-pills">${statePill(i.setup_state)} <span class="pill ${i.side}">${i.side}</span></div>
     <div class="hero-scores">
-      <div><div class="k">Score</div><div class="v">${{fmt(i.score,1)}}</div></div>
-      <div><div class="k">Pine strength</div><div class="v">${{fmt(str,1)}}</div></div>
+      <div><div class="k">Score</div><div class="v">${fmt(i.score,1)}</div></div>
+      <div><div class="k">Pine strength</div><div class="v">${fmt(str,1)}</div></div>
     </div>
-    <p class="hero-thesis">${{i.reason || ''}}</p>
-    <div style="margin-top:8px;font-family:var(--mono);font-size:0.72rem;color:var(--muted)">
-      px ${{fmt(px, px < 1 ? 6 : 2)}}${{live ? ' · live' : ''}}
-    </div>
+    <p class="hero-thesis">${i.reason || ''}</p>
+    <div class="hero-px">px ${fmt(px, px < 1 ? 6 : 2)}${live ? ' · live' : ''}</div>
   `;
   metrics.innerHTML = `
-    <div class="glass metric-tile"><div class="k">Next drift (1h)</div><div class="v ${{cls(i.known_roll_delta_pp)}}">${{fmt(i.known_roll_delta_pp)}}pp</div></div>
-    <div class="glass metric-tile"><div class="k">Outgoing (last)</div><div class="v ${{cls(i.outgoing_return_pct)}}">${{fmt(i.outgoing_return_pct)}}%</div></div>
-    <div class="glass metric-tile"><div class="k">Z-out / edge</div><div class="v">${{fmt(i.outgoing_z,2)}} / ${{fmt(i.roll_edge_z,2)}}</div></div>
-    <div class="glass metric-tile"><div class="k">Attention / RVOL</div><div class="v">${{fmt(i.attention_rank,0)}}p / ${{fmt(i.rvol,2)}}x</div></div>
-    <div class="glass metric-tile"><div class="k">Board now → next</div><div class="v">${{fmt(i.current_24h_pct)}} → ${{fmt(i.flat_next_24h_pct)}}</div></div>
-    <div class="glass metric-tile"><div class="k">Cliff</div><div class="v">AT +${{i.cliff_hour}}H · ${{fmt(i.cliff_pp)}}pp</div></div>
+    <div class="metric"><div class="k">Next drift (1h)</div><div class="v ${cls(i.known_roll_delta_pp)}">${fmt(i.known_roll_delta_pp)}pp</div></div>
+    <div class="metric"><div class="k">Outgoing (last)</div><div class="v ${cls(i.outgoing_return_pct)}">${fmt(i.outgoing_return_pct)}%</div></div>
+    <div class="metric"><div class="k">Z-out / edge</div><div class="v">${fmt(i.outgoing_z,2)} / ${fmt(i.roll_edge_z,2)}</div></div>
+    <div class="metric"><div class="k">Attention / RVOL</div><div class="v">${fmt(i.attention_rank,0)}p / ${fmt(i.rvol,2)}x</div></div>
+    <div class="metric"><div class="k">Board now → next</div><div class="v">${fmt(i.current_24h_pct)} → ${fmt(i.flat_next_24h_pct)}</div></div>
+    <div class="metric"><div class="k">Cliff</div><div class="v">+${i.cliff_hour}H · ${fmt(i.cliff_pp)}pp</div></div>
   `;
   document.getElementById('pathSym').textContent = i.symbol;
-  document.getElementById('pathChart').innerHTML = bigPath(i.path);
+  document.getElementById('pathChart').innerHTML = bigPath(i.path, i.side);
   document.getElementById('pathTarget').textContent =
-    `${{fmt(i.current_24h_pct)}}% → ${{fmt(i.flat_next_24h_pct)}}% (Δ ${{fmt(i.known_roll_delta_pp)}}pp)`;
-}}
+    `${fmt(i.current_24h_pct)}% → ${fmt(i.flat_next_24h_pct)}% (Δ ${fmt(i.known_roll_delta_pp)}pp)`;
+}
 
-function renderRanked() {{
+function renderRanked() {
   const list = listForRank();
   const el = document.getElementById('ranked');
-  if (!list.length) {{
-    el.innerHTML = '<div class="empty" style="grid-column:1/-1">No ranked opportunities.</div>';
+  if (!list.length) {
+    el.innerHTML = '<div class="empty" style="min-width:100%">No ranked opportunities.</div>';
     return;
-  }}
-  el.innerHTML = list.map((i, idx) => `
-    <article class="glass sat ${{idx === selected ? 'active' : ''}}" data-idx="${{idx}}">
-      <div class="idx">${{String(idx + 1).padStart(2,'0')}}</div>
-      <div class="rsym">${{baseSym(i.symbol)}}<small>USDT</small></div>
-      <div style="margin:4px 0">${{statePill(i.setup_state)}} <span class="pill ${{i.side}}">${{i.side}}</span></div>
+  }
+  el.innerHTML = list.map((i, idx) => {
+    const color = i.side === 'SHORT' ? C_MAG : C_LIME;
+    return `
+    <article class="sat ${idx === selected ? 'active' : ''}" data-idx="${idx}" data-side="${i.side}">
+      <div class="idx">${String(idx + 1).padStart(2,'0')}</div>
+      <div class="rsym">${baseSym(i.symbol)}<small>USDT</small></div>
+      <div class="sat-pills">${statePill(i.setup_state)} <span class="pill ${i.side}">${i.side}</span></div>
       <div class="sat-mid">
         <span class="dot"></span>
-        <div class="spark">${{sparkStep(i.path, 80, 28, '#2ec8f0')}}</div>
+        <div class="spark">${sparkStep(i.path, 100, 32, color)}</div>
       </div>
       <div class="sat-foot">
-        <span>SC <b>${{fmt(i.score,0)}}</b></span>
-        <span>STR <b>${{fmt(i.strength_pine || 0,0)}}</b></span>
+        <span>SC <b>${fmt(i.score,0)}</b></span>
+        <span>STR <b>${fmt(i.strength_pine || 0,0)}</b></span>
       </div>
-    </article>
-  `).join('');
-  el.querySelectorAll('.sat').forEach(card => {{
-    card.addEventListener('click', () => {{
+    </article>`;
+  }).join('');
+  el.querySelectorAll('.sat').forEach(card => {
+    card.addEventListener('click', () => {
       selected = +card.dataset.idx;
       renderRanked();
       renderHero(list[selected]);
-    }});
-  }});
-}}
+    });
+  });
+}
 
-function filteredIdeas() {{
+function filteredIdeas() {
   const side = document.getElementById('sideFilter').value;
   const state = document.getElementById('stateFilter').value;
   const sortBy = document.getElementById('sortBy').value;
   const minStr = Number(document.getElementById('minStr').value || 0);
   const minVol = Number(document.getElementById('minVol').value || 0);
-  let rows = (DATA.ideas || []).filter(i => {{
+  let rows = (DATA.ideas || []).filter(i => {
     if ((i.strength_pine || 0) < minStr) return false;
     if ((i.roll_volume || 0) < minVol) return false;
     if (side !== 'ALL' && i.side !== side) return false;
@@ -1146,110 +1287,112 @@ function filteredIdeas() {{
     if (state === 'FILTERED' && !st.includes('FILTERED')) return false;
     if (state === 'PATH' && (st.includes('READY') || st.includes('FILTERED'))) return false;
     return true;
-  }});
-  const key = {{
+  });
+  const key = {
     score: i => i.score,
     strength: i => i.strength_pine || 0,
     delta: i => Math.abs(i.known_roll_delta_pp || 0),
     outz: i => i.outgoing_z || 0,
     att: i => i.attention_rank || 0,
     vol: i => i.roll_volume || 0,
-  }}[sortBy];
-  rows.sort((a, b) => {{
+  }[sortBy];
+  rows.sort((a, b) => {
     const ap = a.adaptive_pass ? 1 : 0, bp = b.adaptive_pass ? 1 : 0;
     if (bp !== ap) return bp - ap;
     return key(b) - key(a);
-  }});
+  });
   return rows;
-}}
+}
 
-function renderTable() {{
+function renderTable() {
   const rows = filteredIdeas();
   const tb = document.getElementById('tbody');
-  if (!rows.length) {{
+  if (!rows.length) {
     tb.innerHTML = '<tr><td colspan="11" class="empty">No rows — try All states.</td></tr>';
     return;
-  }}
-  tb.innerHTML = rows.map(i => `
+  }
+  tb.innerHTML = rows.map(i => {
+    const color = i.side === 'SHORT' ? C_MAG : C_LIME;
+    return `
     <tr>
-      <td class="score">${{Math.round(i.strength_pine || i.score || 0)}}</td>
-      <td>${{strengthBars(i.strength_pine || 0)}}</td>
-      <td>${{statePill(i.setup_state)}}</td>
-      <td class="sym">${{i.symbol}}</td>
-      <td><span class="pill ${{(i.side||'').toLowerCase()}}">${{i.side}}</span></td>
-      <td class="${{cls(i.known_roll_delta_pp)}}">${{fmt(i.known_roll_delta_pp)}}</td>
-      <td>${{fmt(i.outgoing_z,2)}}</td>
-      <td>${{fmt(i.roll_edge_z,2)}}</td>
-      <td>${{fmt(i.attention_rank,0)}}p / ${{fmt(i.rvol,2)}}x</td>
-      <td>${{fmtVol(i.roll_volume)}}</td>
-      <td class="path-cell">${{sparkStep(i.path, 64, 24, '#2ec8f0')}}</td>
-    </tr>
-  `).join('');
-}}
+      <td class="score">${Math.round(i.strength_pine || i.score || 0)}</td>
+      <td>${strengthBars(i.strength_pine || 0)}</td>
+      <td>${statePill(i.setup_state)}</td>
+      <td class="sym">${i.symbol}</td>
+      <td><span class="pill ${(i.side||'').toLowerCase()}">${i.side}</span></td>
+      <td class="${cls(i.known_roll_delta_pp)}">${fmt(i.known_roll_delta_pp)}</td>
+      <td>${fmt(i.outgoing_z,2)}</td>
+      <td>${fmt(i.roll_edge_z,2)}</td>
+      <td>${fmt(i.attention_rank,0)}p / ${fmt(i.rvol,2)}x</td>
+      <td>${fmtVol(i.roll_volume)}</td>
+      <td class="path-cell">${sparkStep(i.path, 64, 24, color)}</td>
+    </tr>`;
+  }).join('');
+}
 
 /* Photon FSQ */
 const FSQ_LEVELS = [-1, -0.5, 0, 0.5, 1];
 const PHOTON_KEY = 'ifb_photon_fp_v1';
-function quantizeFSQ(x) {{
+function quantizeFSQ(x) {
   let best = 0, bestD = Infinity;
-  for (let i = 0; i < FSQ_LEVELS.length; i++) {{
+  for (let i = 0; i < FSQ_LEVELS.length; i++) {
     const d = Math.abs(x - FSQ_LEVELS[i]);
-    if (d < bestD) {{ bestD = d; best = i; }}
-  }}
+    if (d < bestD) { bestD = d; best = i; }
+  }
   return best;
-}}
-function ideaToToken(i) {{
+}
+function ideaToToken(i) {
   const str = (+i.strength_pine || +i.score || 0) / 100;
   const edge = Math.min(1, Math.abs(+i.outgoing_z || 0) / 4);
   const att = Math.max(0, Math.min(1, (+i.attention_rank || 50) / 100));
   const rvol = Math.min(1, (+i.rvol || 0) / 2);
   const signed = (i.side === 'LONG' ? 1 : -1) * (0.55 * str + 0.25 * edge + 0.12 * att + 0.08 * rvol);
   return quantizeFSQ(Math.tanh(signed * 1.4));
-}}
-function buildPhotonGrid() {{
+}
+function buildPhotonGrid() {
   const ideas = (DATA.ideas || []).slice().sort((a, b) =>
     Math.abs(b.strength_pine || b.score || 0) - Math.abs(a.strength_pine || a.score || 0));
   const cols = 24, rows = 8, n = cols * rows;
   const tokens = new Array(n).fill(2);
-  const herd = (DATA.meta && DATA.meta.herd) || {{}};
+  const herd = (DATA.meta && DATA.meta.herd) || {};
   const longBias = (+herd.long_share || 0.5) - 0.5;
-  for (let k = 0; k < n; k++) {{
+  for (let k = 0; k < n; k++) {
     if (k < ideas.length) tokens[k] = ideaToToken(ideas[k]);
-    else {{
+    else {
       const t = (k / n) * 2 - 1;
       tokens[k] = quantizeFSQ(Math.tanh(longBias * 1.6 + t * 0.15) + ((k * 17) % 5 - 2) * 0.08);
-    }}
-  }}
-  return {{ tokens, n, ideas: ideas.slice(0, Math.min(ideas.length, n)) }};
-}}
-function levelClass(idx) {{ return ['L-2','L-1','L0','L1','L2'][idx] || 'L0'; }}
-function simpleHash(arr) {{
+    }
+  }
+  return { tokens, n, ideas: ideas.slice(0, Math.min(ideas.length, n)) };
+}
+function levelClass(idx) { return ['L-2','L-1','L0','L1','L2'][idx] || 'L0'; }
+function simpleHash(arr) {
   let h = 2166136261;
-  for (let i = 0; i < arr.length; i++) {{ h ^= arr[i] + 1; h = Math.imul(h, 16777619); }}
+  for (let i = 0; i < arr.length; i++) { h ^= arr[i] + 1; h = Math.imul(h, 16777619); }
   return ('00000000' + (h >>> 0).toString(16)).slice(-8);
-}}
-function entropyBits(tokens) {{
+}
+function entropyBits(tokens) {
   const counts = [0,0,0,0,0];
   tokens.forEach(t => counts[t]++);
   const n = tokens.length || 1;
   let H = 0;
-  counts.forEach(c => {{ if (c) {{ const p = c/n; H -= p * Math.log2(p); }} }});
+  counts.forEach(c => { if (c) { const p = c/n; H -= p * Math.log2(p); } });
   return H;
-}}
-function renderPhoton() {{
+}
+function renderPhoton() {
   const lattice = document.getElementById('photonLattice');
   if (!lattice) return;
-  const {{ tokens, n, ideas }} = buildPhotonGrid();
+  const { tokens, n, ideas } = buildPhotonGrid();
   let prev = null;
-  try {{ prev = JSON.parse(localStorage.getItem(PHOTON_KEY) || 'null'); }} catch (_) {{}}
+  try { prev = JSON.parse(localStorage.getItem(PHOTON_KEY) || 'null'); } catch (_) {}
   const prevTok = prev && Array.isArray(prev.tokens) ? prev.tokens : null;
   let changed = 0;
-  lattice.innerHTML = tokens.map((t, i) => {{
+  lattice.innerHTML = tokens.map((t, i) => {
     const delta = prevTok && prevTok[i] !== t;
     if (delta) changed++;
     const tip = ideas[i] ? (ideas[i].symbol + ' ' + ideas[i].side) : 'ambient';
-    return `<div class="photon-cell ${{levelClass(t)}}${{delta ? ' delta' : ''}}" title="${{tip}}"></div>`;
-  }}).join('');
+    return `<div class="photon-cell ${levelClass(t)}${delta ? ' delta' : ''}" title="${tip}"></div>`;
+  }).join('');
   const deltaPct = prevTok ? Math.round(100 * changed / n) : 0;
   const H = entropyBits(tokens);
   const longN = tokens.filter(t => t >= 3).length;
@@ -1261,125 +1404,112 @@ function renderPhoton() {{
   document.getElementById('phSideMass').textContent = longN + ' long / ' + shortN + ' short';
   document.getElementById('phEntropy').textContent = H.toFixed(2) + ' bits';
   document.getElementById('phHash').textContent = 'fsq_' + hash;
-  try {{
-    localStorage.setItem(PHOTON_KEY, JSON.stringify({{ tokens, t: Date.now(), hash: 'fsq_' + hash }}));
-  }} catch (_) {{}}
-}}
+  try {
+    localStorage.setItem(PHOTON_KEY, JSON.stringify({ tokens, t: Date.now(), hash: 'fsq_' + hash }));
+  } catch (_) {}
+}
 
 /* live stream */
-function allSymbols() {{
+function allSymbols() {
   const s = new Set();
   (DATA.ideas || []).forEach(i => i.symbol && s.add(i.symbol));
   (DATA.potato || []).forEach(i => i.symbol && s.add(i.symbol));
   return [...s];
-}}
-function setStreamStatus(state, label) {{
+}
+function setStreamStatus(state, label) {
   LIVE.status = state;
   const el = document.getElementById('streamStatus');
   const lab = document.getElementById('streamLabel');
   if (el) el.textContent = label || state;
-  if (lab) {{
+  if (lab) {
     lab.textContent = 'stream ' + state;
-    lab.className = 'live' + (state === 'live' ? '' : ' offline');
-  }}
-}}
-function applyTick(sym, price, chgPct) {{
+    lab.className = 'live-pill' + (state === 'live' ? '' : ' offline');
+  }
+}
+function applyTick(sym, price, chgPct) {
   if (!sym || !price) return;
-  LIVE.prices[sym] = {{ price, chgPct, t: Date.now() }};
+  LIVE.prices[sym] = { price, chgPct, t: Date.now() };
   LIVE.lastTick = Date.now();
   const list = listForRank();
   if (list[selected] && list[selected].symbol === sym) renderHero(list[selected]);
-}}
-function connectBinanceWS() {{
+}
+function connectBinanceWS() {
   const syms = allSymbols().filter(s => s.endsWith('USDT')).slice(0, 40);
-  if (!syms.length) {{ setStreamStatus('offline', 'no symbols'); return; }}
-  try {{
-    if (LIVE.ws) try {{ LIVE.ws.close(); }} catch (_) {{}}
+  if (!syms.length) { setStreamStatus('offline', 'no symbols'); return; }
+  try {
+    if (LIVE.ws) try { LIVE.ws.close(); } catch (_) {}
     const streams = syms.map(s => s.toLowerCase() + '@miniTicker').join('/');
     const host = WS_HOSTS[wsHostIdx % WS_HOSTS.length];
-    const url = host.includes('/ws') ? (host.replace(/\\/ws$/, '') + '/stream?streams=' + streams) : host;
-    const ws = new WebSocket(host.endsWith('/ws') ? (host.slice(0, -3) + '/stream?streams=' + streams) : url);
+    const ws = new WebSocket(host.endsWith('/ws') ? (host.slice(0, -3) + '/stream?streams=' + streams) : host);
     LIVE.ws = ws;
     setStreamStatus('connecting', 'connecting…');
     ws.onopen = () => setStreamStatus('live', 'live (ws)');
-    ws.onmessage = (ev) => {{
-      try {{
+    ws.onmessage = (ev) => {
+      try {
         const msg = JSON.parse(ev.data);
         const d = msg.data || msg;
         const sym = d.s;
-        if (sym) applyTick(sym, +d.c, +d.P);
-      }} catch (_) {{}}
-    }};
-    ws.onclose = () => {{
-      setStreamStatus('offline', 'reconnecting…');
+        const price = parseFloat(d.c);
+        const chg = parseFloat(d.P);
+        if (sym && price) applyTick(sym, price, chg);
+      } catch (_) {}
+    };
+    ws.onerror = () => {};
+    ws.onclose = () => {
+      setStreamStatus('offline', 'ws closed');
       wsHostIdx++;
-      setTimeout(connectBinanceWS, 4000);
-    }};
-    ws.onerror = () => ws.close();
-  }} catch (e) {{
-    setStreamStatus('offline', 'ws failed');
-    setTimeout(connectBinanceWS, 6000);
-  }}
-}}
-async function refreshRestTickers() {{
-  const syms = allSymbols();
+      setTimeout(connectBinanceWS, 2500);
+    };
+  } catch (_) {
+    setStreamStatus('offline', 'ws error');
+    setTimeout(connectBinanceWS, 4000);
+  }
+}
+async function refreshRestTickers() {
+  const syms = allSymbols().filter(s => s.endsWith('USDT')).slice(0, 40);
   if (!syms.length) return;
-  for (let i = 0; i < REST_HOSTS.length; i++) {{
-    const host = REST_HOSTS[(restHostIdx + i) % REST_HOSTS.length];
-    try {{
-      const res = await fetch(host + '/api/v3/ticker/24hr', {{ cache: 'no-store' }});
-      if (!res.ok) continue;
+  for (let attempt = 0; attempt < REST_HOSTS.length; attempt++) {
+    const host = REST_HOSTS[(restHostIdx + attempt) % REST_HOSTS.length];
+    try {
+      const url = host + '/api/v3/ticker/24hr?symbols=' + encodeURIComponent(JSON.stringify(syms));
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('http ' + res.status);
       const rows = await res.json();
-      const want = new Set(syms);
-      let n = 0;
-      for (const r of rows) {{
-        if (!want.has(r.symbol)) continue;
-        applyTick(r.symbol, +r.lastPrice, +r.priceChangePercent);
-        n++;
-      }}
-      if (n > 0) {{
-        restHostIdx = REST_HOSTS.indexOf(host);
-        if (LIVE.status !== 'live') setStreamStatus('live', 'live (rest)');
-        return;
-      }}
-    }} catch (_) {{}}
-  }}
-}}
+      (rows || []).forEach(r => {
+        const price = parseFloat(r.lastPrice);
+        const chg = parseFloat(r.priceChangePercent);
+        if (r.symbol && price) applyTick(r.symbol, price, chg);
+      });
+      restHostIdx = (restHostIdx + attempt) % REST_HOSTS.length;
+      if (LIVE.status !== 'live') setStreamStatus('live', 'live (rest)');
+      return;
+    } catch (_) {}
+  }
+}
 
-// seed prices
-(DATA.ideas || []).forEach(i => {{
-  if (i.symbol && i.price != null)
-    LIVE.prices[i.symbol] = {{ price: +i.price, chgPct: i.current_24h_pct, t: 0 }};
-}});
-
-const rankList = listForRank();
-renderHero(rankList[0]);
+/* boot */
+const rank = listForRank();
 renderRanked();
-const hasReady = (DATA.ideas || []).some(i => (i.setup_state || '').includes('READY'));
-if (!hasReady) document.getElementById('stateFilter').value = 'ALL';
+renderHero(rank[0] || null);
+document.getElementById('stateFilter').value = 'ALL';
 renderTable();
 renderPhoton();
 
 document.getElementById('apply').onclick = renderTable;
-['sideFilter','stateFilter','sortBy','minStr','minVol'].forEach(id => {{
+['sideFilter','stateFilter','sortBy','minStr','minVol'].forEach(id => {
   document.getElementById(id).addEventListener('change', renderTable);
-}});
+});
 
 connectBinanceWS();
 refreshRestTickers();
 setInterval(refreshRestTickers, 45000);
-document.addEventListener('visibilitychange', () => {{
-  if (document.visibilityState === 'visible') {{
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
     if (!LIVE.ws || LIVE.ws.readyState > 1) connectBinanceWS();
     refreshRestTickers();
-  }}
-}});
+  }
+});
 </script>
 </body>
 </html>
 """
-    # fix accidental space in gradient that might have slipped
-    html = html.replace("#d8 rec", "#d8dce4")
-    out_path = Path(out_path)
-    out_path.write_text(html, encoding="utf-8")
-    return out_path
