@@ -1,10 +1,11 @@
 # Rescan Binance USDT markets and republish the GitHub Pages board.
-# Cron: every 5 minutes (GitHub may delay under load; not a hard SLA).
+# Cron: every 15 minutes (GitHub may delay under load; not a hard SLA).
+# Live UI still overlays Binance WebSocket prices on the frozen scan payload.
 name: Refresh board
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "*/15 * * * *"
   workflow_dispatch: # manual "Run workflow" in Actions tab
 
 concurrency:
@@ -57,14 +58,77 @@ jobs:
           print("generated_at:", meta.get("generated_at"))
           print("n_ideas:", meta.get("n_ideas"), "n_adaptive:", meta.get("n_adaptive"))
           print("venue:", meta.get("venue"), "mode:", meta.get("mode"))
+          print("median_score:", meta.get("median_score"), "top_score:", meta.get("top_score"))
           PY
 
-      - name: Commit and push board
+      - name: Commit and push board (content-normalized)
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html idiot_flow_lab.html
+
+          # Only commit when the *ideas* change. Strip volatile timestamps so
+          # every-N-minute rescans with the same book do not spam main history.
+          python - <<'PY'
+          import json, re, pathlib, hashlib, sys
+
+          def payload_fingerprint(html: str) -> str:
+              m = re.search(
+                  r'<script id="payload" type="application/json">(.*?)</script>',
+                  html,
+                  re.S,
+              )
+              if not m:
+                  raise SystemExit("payload missing")
+              data = json.loads(m.group(1))
+              meta = dict(data.get("meta") or {})
+              # Volatile / non-decision fields
+              for k in ("generated_at", "elapsed_s"):
+                  meta.pop(k, None)
+              ideas = data.get("ideas") or []
+              # Stable idea keys for compare (prices move; structure is the board)
+              compact = []
+              for idea in ideas:
+                  compact.append(
+                      {
+                          "symbol": idea.get("symbol"),
+                          "side": idea.get("side"),
+                          "roll_open_time": idea.get("roll_open_time"),
+                          "setup_state": idea.get("setup_state"),
+                          "adaptive_pass": bool(idea.get("adaptive_pass")),
+                          "score_bin": round(float(idea.get("score") or 0), 1),
+                          "next_drift_bin": round(float(idea.get("next_drift_pp") or 0), 2),
+                      }
+                  )
+              compact.sort(key=lambda x: (x.get("symbol") or "", x.get("side") or ""))
+              blob = json.dumps(
+                  {"meta_mode": meta.get("mode"), "meta_venue": meta.get("venue"),
+                   "n_ideas": meta.get("n_ideas"), "n_adaptive": meta.get("n_adaptive"),
+                   "herd": meta.get("herd"), "ideas": compact},
+                  sort_keys=True,
+                  separators=(",", ":"),
+              )
+              return hashlib.sha256(blob.encode()).hexdigest()[:16]
+
+          new_html = pathlib.Path("index.html").read_text(encoding="utf-8")
+          new_fp = payload_fingerprint(new_html)
+          old_path = pathlib.Path(".board-fingerprint")
+          old_fp = old_path.read_text(encoding="utf-8").strip() if old_path.exists() else ""
+          print(f"fingerprint new={new_fp} old={old_fp or '(none)'}")
+          if new_fp == old_fp:
+              print("Board content unchanged (normalized) — skip commit.")
+              pathlib.Path(".skip-board-commit").write_text("1", encoding="utf-8")
+              sys.exit(0)
+          old_path.write_text(new_fp + "\n", encoding="utf-8")
+          print("Board content changed — will commit.")
+          PY
+
+          if [ -f .skip-board-commit ]; then
+            rm -f .skip-board-commit
+            exit 0
+          fi
+
+          git add index.html idiot_flow_lab.html .board-fingerprint
           if git diff --staged --quiet; then
             echo "No board changes to commit."
             exit 0

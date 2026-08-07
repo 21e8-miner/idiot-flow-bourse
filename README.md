@@ -7,7 +7,7 @@ with filters inspired by the Pine adaptive construction in
 ## Inspiration
 
 **Inspired by** Robot James — [*A truly idiotic crypto trade*](https://robotjames.substack.com/p/a-truly-idiotic-crypto-trade)
-(*RJ’s Trading for Dickheads*, Jul 2026).
+(*RJ's Trading for Dickheads*, Jul 2026).
 
 That essay describes how exchange-displayed **24h %** numbers have a
 predictable component (the reference price walks forward), and how
@@ -19,10 +19,15 @@ with Robot James or his newsletter.
 
 **→ [Open the Idiot Flow Lab](https://21e8-miner.github.io/idiot-flow-bourse/)**
 
-Public board auto-refreshes **about every 5 minutes** via GitHub Actions
+Public board auto-rescans **about every 15 minutes** via GitHub Actions
 (`.github/workflows/refresh-board.yml`). GitHub cron is best-effort — runs can
 slip under load. Use **Actions → Refresh board → Run workflow** for an
 immediate rescan.
+
+**Commit noise control:** the workflow only pushes when the *idea set*
+changes (normalized fingerprint: symbols, sides, setup states, score bins).
+Rescans with the same book skip the commit; live prices still update in the
+UI via Binance WebSocket / REST overlay.
 
 The UI also overlays **live Binance prices** (WebSocket miniTicker + REST
 fallback) on the latest scan payload when available.
