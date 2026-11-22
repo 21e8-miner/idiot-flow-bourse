@@ -60,8 +60,31 @@ Python 3.10+, **no pip deps**.
 | `scanner.py` | CLI, venues, watch mode |
 | `engine.py` | Pine math + board path + scoring |
 | `dashboard.py` | HTML lab generator |
+| `replay.py` | Zero-lookahead causal historical replay & filter ablation backtester |
+| `replay_report.html` | Self-contained Nocturne Tape HTML replay report |
+| `tests/test_engine_parity.py` | Pine ↔ Python math parity & engine unit tests |
+| `tests/test_replay.py` | Offline causality, fee math, and ablation unit tests |
 | `index.html` | GitHub Pages live board |
 | `RJ_24H_Roll_Off_Adaptive_v2.pine` | TradingView reference strategy |
+
+## Causal Replay & Filter Ablation
+
+Test whether the roll-off signal and each individual Pine adaptive filter actually hold up out-of-sample (strictly causal bar-by-bar evaluation, zero lookahead, gross vs net of 0 / 10 / 20 bps round-trip costs):
+
+```bash
+python3 replay.py --bars 1440 --html replay_report.html
+python3 replay.py --venue okx --bars 1000 --cooldown 6
+```
+
+Auto-falls back across public REST venues (`binance-spot` → `okx` → `coinbase` → `kraken`), drops the still-forming bar and any stale/delisted pairs, and evaluates `classic_raw`, `adaptive_full`, and single-filter ablations across `+1h / +4h / +12h / +24h` horizons with split-half stability diagnostics.
+
+## Tests
+
+```bash
+python3 -m unittest discover -s tests -v
+```
+
+Zero pip dependencies — verifies exact Pine ↔ Python parity (`ta.stdev` population stdev, `ta.percentrank` prior-bar window, roll-off algebra, filter gates, `strengthScore`) and proves zero-lookahead causality in `replay.py`.
 
 ## Modes
 

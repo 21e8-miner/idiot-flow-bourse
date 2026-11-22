@@ -151,16 +151,17 @@ def _clamp(x: float, lo: float, hi: float) -> float:
 
 
 def _stdev(xs: list[float]) -> float:
+    """Population stdev, matching TradingView Pine `ta.stdev(src, len)` (biased=true)."""
     if len(xs) < 2:
         return 0.0
     try:
-        return statistics.stdev(xs)
+        return statistics.pstdev(xs)
     except statistics.StatisticsError:
         return 0.0
 
 
 def _percentrank(series: list[float], value: float) -> float:
-    """Pine-like percentrank: % of lookback values <= value (0-100)."""
+    """Pine `ta.percentrank(src, len)`: % of prior lookback values <= value (0-100)."""
     if not series:
         return 50.0
     n = len(series)
@@ -360,8 +361,11 @@ def compute_pine_metrics(
     known_delta = flat_next - current_wr
     outgoing_ret = _safe_ret(c_out, c_roll)  # barReturn[23]
 
-    # Window bar returns currently inside the display window: rets[i-23 .. i]
-    # oldest = rets[i-(roll-1)] = outgoing
+    # Window bar returns currently inside the display window: rets[i-(roll-1) .. i].
+    # Note: RJ_24H_Roll_Off_Adaptive_v2.pine uses ta.highest(barReturn, rollBars)[outgoingOffset],
+    # which checks [i - 2*roll + 2 .. i - roll + 1] (whether the outgoing bar was a 24h extreme
+    # when it formed). The scanner intentionally checks the *current* 24h display window
+    # [i - roll + 1 .. i] so only the largest bar currently on the exchange board qualifies.
     w0 = i - (roll - 1)
     w1 = i
     if w0 < 1:
@@ -383,11 +387,13 @@ def compute_pine_metrics(
     outgoing_z = abs(outgoing_ret) / bar_vol if bar_vol > 0 else 0.0
     roll_edge_z = abs(known_delta) / bar_vol if bar_vol > 0 else 0.0
 
-    # --- attention: percentrank of |window return| over lookback ---
+    # --- attention: percentrank of |window return| over prior lookback ---
+    # Matches Pine ta.percentrank(abs(currentWindowReturn), attentionBars),
+    # which compares the current bar against the `att_n` strictly prior bars.
     att_n = min(cfg.attention_lookback_hours, i - roll)
     abs_windows: list[float] = []
     if att_n >= 50:
-        for j in range(i - att_n, i + 1):
+        for j in range(i - att_n, i):
             if j - roll < 0:
                 continue
             wr = abs(_safe_ret(closes[j], closes[j - roll]))
